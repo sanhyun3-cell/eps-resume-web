@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LGK(Let's Go Korea)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 수파베이스 연동을 위한 라이브러리 추가 -->
+    <!-- 수파베이스 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root { --eps-blue: #0b3d91; --eps-light-blue: #1e40af; }
@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-    <!-- 상단 네비게이션 바 (안내 문구 포함) -->
+    <!-- 상단 네비게이션 바 -->
     <nav class="bg-eps text-white shadow-md py-6 sm:py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
@@ -34,12 +34,12 @@
                             <img src="https://flagcdn.com/w40/vn.png" alt="Vietnam" class="w-8 sm:w-10 shadow-sm border border-gray-300">
                         </div>
                     </div>
-                    <!-- 파란색 영역 안의 안내 문구 -->
+                    <!-- 안내 문구 -->
                     <span class="text-sm sm:text-base font-medium text-blue-100 tracking-wide text-center sm:text-left mt-2 sm:mt-0" id="nav-desc">
                         This is the resume registration and download page for working in Korea.
                     </span>
                 </div>
-                <!-- 언어 선택 -->
+                <!-- 언어 선택 셀렉트 박스 -->
                 <div class="w-full sm:w-auto flex justify-center sm:justify-end">
                     <select id="lang-select" class="bg-white text-gray-900 text-sm sm:text-base rounded-md block w-full sm:w-auto p-2 font-medium shadow-sm" onchange="changeLanguage()">
                         <option value="en" selected>English</option>
@@ -53,7 +53,7 @@
         </div>
     </nav>
 
-    <!-- 메인 타이틀 슬로건 (파란 바탕 밖, 크고 검은 글씨) -->
+    <!-- 메인 타이틀 슬로건 -->
     <div class="max-w-4xl mx-auto mt-8 sm:mt-10 px-4 sm:px-6 text-center">
         <h1 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight leading-snug break-keep" id="main-slogan">
             Land of opportunity, more dreams and future, let's go to Korea together!
@@ -113,7 +113,7 @@
             </form>
         </div>
 
-        <!-- 3. 관리자(운영자) 로그인 화면 -->
+        <!-- 3. 관리자 로그인 화면 -->
         <div id="admin-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-gray-800 mt-8 sm:mt-10">
             <button onclick="showSelectionScreen()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1" id="btn-back-admin">
                 ← Back to Main
@@ -135,7 +135,7 @@
             </form>
         </div>
 
-        <!-- 고용24 바로가기 배너 -->
+        <!-- 고용24 배너 -->
         <div id="eps-banner" class="mt-12 sm:mt-16">
             <a href="https://www.eps.go.kr/index.jsp" target="_blank" class="group relative block w-full rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
                 <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition"></div>
@@ -148,18 +148,18 @@
         </div>
     </main>
 
-    <!-- 하단 관리자 로그인 접속 버튼 -->
+    <!-- 하단 관리자 접속 버튼 -->
     <footer class="mt-6 mb-10 text-center">
         <button onclick="showAdminForm()" class="text-xs sm:text-sm text-gray-400 hover:text-gray-600 transition p-2" id="btn-admin-access">
             🔒 Admin Access
         </button>
     </footer>
 
-    <!-- 스크립트 및 수파베이스 연동 로직 -->
+    <!-- 자바스크립트 통합 로직 -->
     <script>
-        // ⭐️ 아래 두 곳에 복사해 두신 수파베이스 정보를 입력해주세요!
-        const SUPABASE_URL = 'https://frrspurafirjskuscgmo.supabase.co';     
-        const SUPABASE_KEY = 'sb_publishable_FTE5dDXDEgNCn4CdRE07PA_EFEUnew-';
+        // ⭐️ 수파베이스 연결 정보 입력
+        const SUPABASE_URL = 'https://frrspurafirjskuscgmo.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_FTE5dDEXDeGNn4CdRE07PA_EFEUnew-';
 
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -190,75 +190,7 @@
             document.getElementById('admin-screen').classList.remove('hidden');
         }
 
-        // 이력서 제출 및 수파베이스 업로드 처리 함수
-        async function handleUpload(event) {
-            event.preventDefault();
-            
-            const submitBtn = document.getElementById('btn-submit');
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Submitting...";
-
-            const epsId = document.getElementById('eps-id').value;
-            const fullName = document.getElementById('full-name').value;
-            const phone = document.getElementById('phone').value;
-            const password = document.getElementById('upload-password').value;
-            const fileInput = document.getElementById('file-upload');
-            const file = fileInput.files[0];
-
-            if (!file) {
-                alert('Please select a resume file.');
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Submit Application";
-                return;
-            }
-
-            try {
-                // 1. 수파베이스 Storage에 파일 업로드
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${Date.now()}_${Math.random().toString(36.substring(2, 7))}.${fileExt}`;
-                const filePath = `${epsId}_${fileName}`;
-
-                const { data: uploadData, error: uploadError } = await supabaseClient.storage
-                    .from('resume_files')
-                    .upload(filePath, file);
-
-                if (uploadError) throw uploadError;
-
-                // 업로드된 파일의 공개 URL 가져오기
-                const { data: publicUrlData } = supabaseClient.storage
-                    .from('resume_files')
-                    .getPublicUrl(filePath);
-
-                const fileUrl = publicUrlData.publicUrl;
-
-                // 2. 수파베이스 Database (resumes 테이블)에 정보 저장
-                const { error: dbError } = await supabaseClient
-                    .from('resumes')
-                    .insert([
-                        { 
-                            eps_id: epsId, 
-                            full_name: fullName, 
-                            phone: phone, 
-                            password: password, 
-                            file_url: fileUrl 
-                        }
-                    ]);
-
-                if (dbError) throw dbError;
-
-                alert('Resume submitted successfully!');
-                document.getElementById('resume-form').reset();
-                showSelectionScreen();
-
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Submission failed: ' + error.message);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Submit Application";
-            }
-        }
-
+        // 다국어 번역 데이터 객체
         const translations = {
             en: {
                 navDesc: "This is the resume registration and download page for working in Korea.",
@@ -352,7 +284,77 @@
             document.getElementById('click-visit').innerText = t.clickVisit;
             document.getElementById('btn-admin-access').innerText = t.btnAdminAccess;
         }
+
+        // 수파베이스 파일 업로드 및 데이터 저장 처리 함수
+        async function handleUpload(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('btn-submit');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Submitting...";
+
+            const epsId = document.getElementById('eps-id').value;
+            const fullName = document.getElementById('full-name').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('upload-password').value;
+            const fileInput = document.getElementById('file-upload');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select a resume file.');
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Application";
+                return;
+            }
+
+            try {
+                // 1. 수파베이스 Storage에 파일 업로드
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
+                const filePath = `${epsId}_${fileName}`;
+
+                const { data: uploadData, error: uploadError } = await supabaseClient.storage
+                    .from('resume_files')
+                    .upload(filePath, file);
+
+                if (uploadError) throw uploadError;
+
+                // 공개 URL 획득
+                const { data: publicUrlData } = supabaseClient.storage
+                    .from('resume_files')
+                    .getPublicUrl(filePath);
+
+                const fileUrl = publicUrlData.publicUrl;
+
+                // 2. 수파베이스 Database (resumes 테이블)에 정보 저장
+                const { error: dbError } = await supabaseClient
+                    .from('resumes')
+                    .insert([
+                        { 
+                            eps_id: epsId, 
+                            full_name: fullName, 
+                            phone: phone, 
+                            password: password, 
+                            file_url: fileUrl 
+                        }
+                    ]);
+
+                if (dbError) throw dbError;
+
+                alert('Resume submitted successfully!');
+                document.getElementById('resume-form').reset();
+                showSelectionScreen();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Submission failed: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Application";
+            }
+        }
         
+        // 페이지 로딩 시 기본 언어 적용
         changeLanguage();
     </script>
 </body>
