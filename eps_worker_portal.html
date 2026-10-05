@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPS Worker Resume Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles to match the authoritative EPS feel */
+        :root {
+            --eps-blue: #0b3d91;
+            --eps-light-blue: #1e40af;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .bg-eps { background-color: var(--eps-blue); }
+        .text-eps { color: var(--eps-blue); }
+        .btn-eps { background-color: var(--eps-blue); color: white; transition: background-color 0.3s; }
+        .btn-eps:hover { background-color: var(--eps-light-blue); }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="bg-eps text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3">
+                    <!-- Fake Logo -->
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <span class="font-bold text-xl tracking-wide" id="nav-title">EPS Global Portal</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <select id="language-select" onchange="changeLanguage()" class="bg-white text-gray-800 text-sm rounded block w-full p-2 border-gray-300">
+                        <option value="en">English</option>
+                        <option value="my">မြန်မာ (Myanmar)</option>
+                        <option value="vi">Tiếng Việt (Vietnamese)</option>
+                        <option value="id">Bahasa Indonesia</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-white border-b">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl" id="hero-title">
+                Manage Your EPS Resume Easily
+            </h1>
+            <p class="mt-4 text-xl text-gray-500" id="hero-subtitle">
+                Download the official template, fill in your details, and upload it directly to employers.
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- Step 1: Download Card -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+                <div class="p-8">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-md bg-blue-100 text-eps mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2" id="step1-title">Step 1: Download Template</h3>
+                    <p class="text-gray-600 mb-6" id="step1-desc">Get the official standard resume form. Print it or fill it out digitally on your device.</p>
+                    
+                    <button class="w-full btn-eps font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline flex justify-center items-center gap-2" onclick="alert('Downloading PDF Template...')">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <span id="btn-download">Download Resume Form (.pdf)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Upload Card -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 border-t-4 border-t-blue-800">
+                <div class="p-8">
+                    <div class="flex items-center justify-center w-12 h-12 rounded-md bg-blue-100 text-eps mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2" id="step2-title">Step 2: Upload Completed Resume</h3>
+                    <p class="text-gray-600 mb-6" id="step2-desc">Enter your basic info and attach the completed resume file (Photo or PDF).</p>
+                    
+                    <form onsubmit="event.preventDefault(); alert('Resume successfully uploaded!');" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700" id="label-name">Full Name (English)</label>
+                            <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="e.g. LAXMI THAPA">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700" id="label-id">EPS-TOPIK ID</label>
+                            <input type="text" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="e.g. 0062022C51236406">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700" id="label-file">Attach File (JPG, PNG, PDF)</label>
+                            <input type="file" required class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-300 rounded-md">
+                        </div>
+                        <button type="submit" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline mt-4">
+                            <span id="btn-submit">Submit Resume</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-8 text-center text-sm">
+        <p>&copy; 2024 EPS Global Portal Prototype. All rights reserved.</p>
+    </footer>
+
+    <!-- Simple Dictionary for Language Switching -->
+    <script>
+        const dict = {
+            en: {
+                heroTitle: "Manage Your EPS Resume Easily",
+                heroSub: "Download the official template, fill in your details, and upload it directly to employers.",
+                s1Title: "Step 1: Download Template",
+                s1Desc: "Get the official standard resume form. Print it or fill it out digitally on your device.",
+                btnDown: "Download Resume Form (.pdf)",
+                s2Title: "Step 2: Upload Completed Resume",
+                s2Desc: "Enter your basic info and attach the completed resume file (Photo or PDF).",
+                lblNm: "Full Name (English)",
+                lblId: "EPS-TOPIK ID",
+                lblFile: "Attach File (JPG, PNG, PDF)",
+                btnSub: "Submit Resume"
+            },
+            vi: {
+                heroTitle: "Quản lý Sơ yếu lý lịch EPS dễ dàng",
+                heroSub: "Tải xuống biểu mẫu chính thức, điền thông tin của bạn và tải nó trực tiếp lên cho nhà tuyển dụng.",
+                s1Title: "Bước 1: Tải Biểu mẫu",
+                s1Desc: "Nhận biểu mẫu sơ yếu lý lịch chuẩn chính thức. In ra hoặc điền kỹ thuật số trên thiết bị của bạn.",
+                btnDown: "Tải Biểu mẫu Sơ yếu lý lịch (.pdf)",
+                s2Title: "Bước 2: Tải lên Sơ yếu lý lịch đã hoàn thành",
+                s2Desc: "Nhập thông tin cơ bản của bạn và đính kèm tệp sơ yếu lý lịch đã hoàn thành (Ảnh hoặc PDF).",
+                lblNm: "Họ và Tên (Tiếng Anh)",
+                lblId: "ID EPS-TOPIK",
+                lblFile: "Đính kèm tệp (JPG, PNG, PDF)",
+                btnSub: "Gửi Sơ yếu lý lịch"
+            },
+            id: {
+                heroTitle: "Kelola Resume EPS Anda dengan Mudah",
+                heroSub: "Unduh templat resmi, isi detail Anda, dan unggah langsung ke perusahaan.",
+                s1Title: "Langkah 1: Unduh Templat",
+                s1Desc: "Dapatkan formulir resume standar resmi. Cetak atau isi secara digital di perangkat Anda.",
+                btnDown: "Unduh Formulir Resume (.pdf)",
+                s2Title: "Langkah 2: Unggah Resume yang Selesai",
+                s2Desc: "Masukkan info dasar Anda dan lampirkan file resume yang sudah diisi (Foto atau PDF).",
+                lblNm: "Nama Lengkap (Bahasa Inggris)",
+                lblId: "ID EPS-TOPIK",
+                lblFile: "Lampirkan File (JPG, PNG, PDF)",
+                btnSub: "Kirim Resume"
+            },
+            my: {
+                heroTitle: "သင်၏ EPS ကိုယ်ရေးအကျဉ်းကို လွယ်ကူစွာ စီမံပါ။",
+                heroSub: "တရားဝင် ပုံစံကို ဒေါင်းလုဒ်လုပ်ပါ၊ သင်၏ အချက်အလက်များကို ဖြည့်စွက်ပြီး အလုပ်ရှင်များထံ တိုက်ရိုက် တင်ပါ။",
+                s1Title: "အဆင့် ၁: ပုံစံကို ဒေါင်းလုဒ်လုပ်ပါ",
+                s1Desc: "တရားဝင် ကိုယ်ရေးအကျဉ်း ပုံစံကို ရယူပါ။ ၎င်းကို ပရင့်ထုတ်ပါ သို့မဟုတ် သင့်စက်တွင် ဒစ်ဂျစ်တယ်စနစ်ဖြင့် ဖြည့်ပါ။",
+                btnDown: "ကိုယ်ရေးအကျဉ်း ပုံစံကို ဒေါင်းလုဒ်လုပ်ပါ (.pdf)",
+                s2Title: "အဆင့် ၂: ဖြည့်စွက်ထားသော ကိုယ်ရေးအကျဉ်းကို တင်ပါ",
+                s2Desc: "သင်၏ အခြေခံ အချက်အလက်များကို ထည့်သွင်းပြီး ဖြည့်စွက်ထားသော ကိုယ်ရေးအကျဉ်းဖိုင် (ဓာတ်ပုံ သို့မဟုတ် PDF) ကို ပူးတွဲပါ။",
+                lblNm: "အမည်အပြည့်အစုံ (အင်္ဂလိပ်)",
+                lblId: "EPS-TOPIK ID",
+                lblFile: "ဖိုင်ပူးတွဲပါ (JPG, PNG, PDF)",
+                btnSub: "ကိုယ်ရေးအကျဉ်း တင်သွင်းပါ"
+            }
+        };
+
+        function changeLanguage() {
+            const lang = document.getElementById('language-select').value;
+            const texts = dict[lang];
+
+            document.getElementById('hero-title').innerText = texts.heroTitle;
+            document.getElementById('hero-subtitle').innerText = texts.heroSub;
+            document.getElementById('step1-title').innerText = texts.s1Title;
+            document.getElementById('step1-desc').innerText = texts.s1Desc;
+            document.getElementById('btn-download').innerText = texts.btnDown;
+            document.getElementById('step2-title').innerText = texts.s2Title;
+            document.getElementById('step2-desc').innerText = texts.s2Desc;
+            document.getElementById('label-name').innerText = texts.lblNm;
+            document.getElementById('label-id').innerText = texts.lblId;
+            document.getElementById('label-file').innerText = texts.lblFile;
+            document.getElementById('btn-submit').innerText = texts.btnSub;
+        }
+    </script>
+</body>
+</html>
