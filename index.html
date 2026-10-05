@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LGK(Let's Go Korea)</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 수파베이스 연동을 위한 라이브러리 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root { --eps-blue: #0b3d91; --eps-light-blue: #1e40af; }
         body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
@@ -64,7 +66,7 @@
             <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Cheering People" class="w-full h-full object-cover">
         </div>
 
-        <!-- 1. 초기 선택 화면 (모바일에서는 위아래 배치, PC에서는 양옆 배치) -->
+        <!-- 1. 초기 선택 화면 -->
         <div id="selection-screen" class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8 sm:mt-10">
             <a href="eps_resume_template.pdf" download class="flex flex-col items-center justify-center p-8 sm:p-10 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
                 <div class="text-6xl sm:text-7xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform">📥</div>
@@ -84,7 +86,7 @@
                 ← Back to Selection
             </button>
             <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6" id="form-title">Submit Your Resume</h2>
-            <form id="resume-form" class="space-y-5 sm:space-y-6">
+            <form id="resume-form" class="space-y-5 sm:space-y-6" onsubmit="handleUpload(event)">
                 <div>
                     <label for="eps-id" class="block text-sm font-medium text-gray-700" id="label-eps">EPS-TOPIK ID</label>
                     <input type="text" id="eps-id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-base" required>
@@ -105,7 +107,7 @@
                     <label for="file-upload" class="block text-sm font-medium text-gray-700" id="label-file">Upload Completed Resume</label>
                     <input type="file" id="file-upload" accept=".pdf,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" required>
                 </div>
-                <button type="button" class="w-full btn-eps flex justify-center py-4 px-4 border border-transparent rounded-md shadow-md text-base sm:text-lg font-bold tracking-wide mt-4" id="btn-submit" onclick="alert('Submission system will be connected soon via Supabase!')">
+                <button type="submit" id="btn-submit" class="w-full btn-eps flex justify-center py-4 px-4 border border-transparent rounded-md shadow-md text-base sm:text-lg font-bold tracking-wide mt-4">
                     Submit Application
                 </button>
             </form>
@@ -133,7 +135,7 @@
             </form>
         </div>
 
-        <!-- 고용24 바로가기 배너 (모바일 비율 조정) -->
+        <!-- 고용24 바로가기 배너 -->
         <div id="eps-banner" class="mt-12 sm:mt-16">
             <a href="https://www.eps.go.kr/index.jsp" target="_blank" class="group relative block w-full rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
                 <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition"></div>
@@ -153,8 +155,14 @@
         </button>
     </footer>
 
-    <!-- 스크립트 -->
+    <!-- 스크립트 및 수파베이스 연동 로직 -->
     <script>
+        // ⭐️ 아래 두 곳에 복사해 두신 수파베이스 정보를 입력해주세요!
+        const SUPABASE_URL = 'https://frrspurafirjskuscgmo.supabase.co';     
+        const SUPABASE_KEY = 'sb_publishable_FTE5dDXDEgNCn4CdRE07PA_EFEUnew-';
+
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         function hideAllScreens() {
             document.getElementById('selection-screen').classList.add('hidden');
             document.getElementById('upload-screen').classList.add('hidden');
@@ -182,6 +190,75 @@
             document.getElementById('admin-screen').classList.remove('hidden');
         }
 
+        // 이력서 제출 및 수파베이스 업로드 처리 함수
+        async function handleUpload(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('btn-submit');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Submitting...";
+
+            const epsId = document.getElementById('eps-id').value;
+            const fullName = document.getElementById('full-name').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('upload-password').value;
+            const fileInput = document.getElementById('file-upload');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select a resume file.');
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Application";
+                return;
+            }
+
+            try {
+                // 1. 수파베이스 Storage에 파일 업로드
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${Date.now()}_${Math.random().toString(36.substring(2, 7))}.${fileExt}`;
+                const filePath = `${epsId}_${fileName}`;
+
+                const { data: uploadData, error: uploadError } = await supabaseClient.storage
+                    .from('resume_files')
+                    .upload(filePath, file);
+
+                if (uploadError) throw uploadError;
+
+                // 업로드된 파일의 공개 URL 가져오기
+                const { data: publicUrlData } = supabaseClient.storage
+                    .from('resume_files')
+                    .getPublicUrl(filePath);
+
+                const fileUrl = publicUrlData.publicUrl;
+
+                // 2. 수파베이스 Database (resumes 테이블)에 정보 저장
+                const { error: dbError } = await supabaseClient
+                    .from('resumes')
+                    .insert([
+                        { 
+                            eps_id: epsId, 
+                            full_name: fullName, 
+                            phone: phone, 
+                            password: password, 
+                            file_url: fileUrl 
+                        }
+                    ]);
+
+                if (dbError) throw dbError;
+
+                alert('Resume submitted successfully!');
+                document.getElementById('resume-form').reset();
+                showSelectionScreen();
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Submission failed: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Application";
+            }
+        }
+
         const translations = {
             en: {
                 navDesc: "This is the resume registration and download page for working in Korea.",
@@ -200,7 +277,7 @@
                 navDesc: "한국에서 일하기 위한 이력서 등록 및 다운로드 페이지 입니다.",
                 mainSlogan: "기회의 나라, 더 많은 꿈과 미래, 함께 한국으로 갑시다!",
                 btnDownloadMain: "이력서 다운로드", descDownload: "기본 양식 받기",
-                btnUploadMain: "이력서 업로드", descUpload: "작성된 양식 제출",
+                btnUploadMain: "이력서 업로드", descDownload: "작성된 양식 제출",
                 btnBackUpload: "← 이전 화면으로", btnBackAdmin: "← 메인으로", 
                 formTitle: "이력서 제출",
                 labelEps: "EPS-TOPIK ID", labelName: "성명", labelPhone: "전화번호", 
@@ -213,7 +290,7 @@
                 navDesc: "ကိုရီးယားတွင် အလုပ်လုပ်ရန်အတွက် ကိုယ်ရေးရာဇဝင် မှတ်ပုံတင်ခြင်းနှင့် ဒေါင်းလုဒ်စာမျက်နှာ ဖြစ်ပါသည်။",
                 mainSlogan: "အခွင့်အလမ်းများပြည့်နှက်နေသောနိုင်ငံ၊ ပိုမိုများပြားသောအိပ်မက်များနှင့် အနာဂတ်၊ ကိုရီးယားသို့ အတူတူသွားကြစို့!",
                 btnDownloadMain: "ကိုယ်ရေးရာဇဝင် ဒေါင်းလုဒ်လုပ်ပါ", descDownload: "ပုံမှန်ဖောင်ကို ရယူပါ",
-                btnUploadMain: "ကိုယ်ရေးရာဇဝင် အပ်လုဒ်လုပ်ပါ", descUpload: "ဖြည့်စွက်ထားသော ဖောင်ကို တင်ပါ",
+                btnUploadMain: "ကိုယ်ရေးရာဇဝင် အပ်လုဒ်လုပ်ပါ", descDownload: "ဖြည့်စွက်ထားသော ဖောင်ကို တင်ပါ",
                 btnBackUpload: "← နောက်သို့", btnBackAdmin: "← ပင်မစာမျက်နှာသို့", 
                 formTitle: "သင့်ကိုယ်ရေးရာဇဝင်ကို တင်သွင်းပါ",
                 labelEps: "EPS-TOPIK ID", labelName: "အမည်အပြည့်အစုံ", labelPhone: "ဖုန်းနံပါတ်", 
@@ -276,7 +353,6 @@
             document.getElementById('btn-admin-access').innerText = t.btnAdminAccess;
         }
         
-        // 처음 페이지 로딩 시 기본 언어(영어) 적용
         changeLanguage();
     </script>
 </body>
