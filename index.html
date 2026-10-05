@@ -19,12 +19,23 @@
     <nav class="bg-eps text-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <span class="font-bold text-lg sm:text-xl tracking-wide" id="nav-title">LGK(Let's Go Korea) 🇰🇷 🇮🇩 🇲🇲 🇻🇳</span>
+                <!-- 로고 및 국기 이미지 -->
+                <div class="flex items-center gap-3">
+                    <span class="font-bold text-lg sm:text-xl tracking-wide" id="nav-title">LGK(Let's Go Korea)</span>
+                    <div class="flex items-center gap-1">
+                        <img src="https://flagcdn.com/w20/us.png" alt="USA" class="w-6 shadow-sm border border-gray-300">
+                        <img src="https://flagcdn.com/w20/gb.png" alt="UK" class="w-6 shadow-sm border border-gray-300">
+                        <img src="https://flagcdn.com/w20/kr.png" alt="Korea" class="w-6 shadow-sm border border-gray-300">
+                        <img src="https://flagcdn.com/w20/id.png" alt="Indonesia" class="w-6 shadow-sm border border-gray-300">
+                        <img src="https://flagcdn.com/w20/mm.png" alt="Myanmar" class="w-6 shadow-sm border border-gray-300">
+                        <img src="https://flagcdn.com/w20/vn.png" alt="Vietnam" class="w-6 shadow-sm border border-gray-300">
+                    </div>
                 </div>
+                <!-- 언어 선택 -->
                 <div>
                     <select id="lang-select" class="bg-white text-gray-900 text-xs sm:text-sm rounded-md block p-1 sm:p-2" onchange="changeLanguage()">
-                        <option value="en">English</option>
+                        <option value="en" selected>English</option>
+                        <option value="ko">한국어</option>
                         <option value="my">မြန်မာ</option>
                         <option value="vi">Tiếng Việt</option>
                         <option value="id">Indonesia</option>
@@ -34,22 +45,20 @@
         </div>
     </nav>
 
-    <main class="max-w-3xl mx-auto mt-8 px-4 sm:px-6 pb-12">
-        <!-- 상단 환호하는 이미지 (고화질 플레이스홀더 적용) -->
+    <main class="max-w-3xl mx-auto mt-8 px-4 sm:px-6 pb-6">
+        <!-- 상단 환호하는 이미지 -->
         <div class="mb-8 rounded-xl overflow-hidden shadow-lg h-56 sm:h-72 bg-gray-200">
             <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Cheering People" class="w-full h-full object-cover">
         </div>
 
         <!-- 1. 초기 선택 화면 (다운로드 / 업로드 버튼) -->
         <div id="selection-screen" class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
-            <!-- 다운로드 버튼 (누르면 파일 다운로드 실행) -->
             <a href="eps_resume_template.pdf" download class="flex flex-col items-center justify-center p-8 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
                 <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📥</div>
                 <h3 class="text-xl font-bold text-gray-900" id="btn-download-main">Download Resume</h3>
                 <p class="text-sm text-gray-500 mt-2" id="desc-download">Get the standard form</p>
             </a>
 
-            <!-- 업로드 버튼 (누르면 화면 전환) -->
             <div onclick="showUploadForm()" class="flex flex-col items-center justify-center p-8 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
                 <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📤</div>
                 <h3 class="text-xl font-bold text-gray-900" id="btn-upload-main">Upload Resume</h3>
@@ -57,7 +66,7 @@
             </div>
         </div>
 
-        <!-- 2. 이력서 업로드 폼 화면 (초기엔 숨겨져 있음) -->
+        <!-- 2. 이력서 업로드 폼 화면 -->
         <div id="upload-screen" class="hidden bg-white shadow-lg rounded-lg p-6 sm:p-10 border-t-4 border-blue-800">
             <button onclick="showSelectionScreen()" class="mb-6 text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1" id="btn-back">
                 ← Back to Selection
@@ -91,11 +100,18 @@
                 </button>
             </form>
         </div>
+
+        <!-- 고용24 바로가기 링크 (하단) -->
+        <div class="mt-16 flex justify-center">
+            <a href="https://www.eps.go.kr/index.jsp" target="_blank" class="flex items-center gap-2 px-6 py-3 bg-white border border-gray-300 rounded-full shadow-sm hover:shadow-md hover:bg-gray-50 transition text-gray-700 font-medium text-sm sm:text-base">
+                <svg class="w-5 h-5 text-blue-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                <span id="link-eps">EPS(Employment Permit System) - Go to Work24</span>
+            </a>
+        </div>
     </main>
 
-    <!-- 스크립트: 다국어 번역 및 화면 전환 로직 -->
+    <!-- 스크립트 -->
     <script>
-        // 화면 전환 함수
         function showUploadForm() {
             document.getElementById('selection-screen').classList.add('hidden');
             document.getElementById('upload-screen').classList.remove('hidden');
@@ -106,39 +122,49 @@
             document.getElementById('selection-screen').classList.remove('hidden');
         }
 
-        // 다국어 데이터
         const translations = {
             en: {
                 btnDownloadMain: "Download Resume", descDownload: "Get the standard form",
                 btnUploadMain: "Upload Resume", descUpload: "Submit your filled form",
                 btnBack: "← Back to Selection", formTitle: "Submit Your Resume",
                 labelEps: "EPS-TOPIK ID", labelName: "Full Name", labelPhone: "Phone Number", 
-                labelFile: "Upload Completed Resume", btnSubmit: "Submit Application"
+                labelFile: "Upload Completed Resume", btnSubmit: "Submit Application",
+                linkEps: "EPS(Employment Permit System) - Go to Work24"
+            },
+            ko: {
+                btnDownloadMain: "이력서 다운로드", descDownload: "기본 양식 받기",
+                btnUploadMain: "이력서 업로드", descUpload: "작성된 양식 제출",
+                btnBack: "← 이전 화면으로", formTitle: "이력서 제출",
+                labelEps: "EPS-TOPIK ID", labelName: "성명", labelPhone: "전화번호", 
+                labelFile: "작성된 이력서 업로드", btnSubmit: "제출하기",
+                linkEps: "외국인고용관리시스템 - 고용24 바로가기"
             },
             my: {
                 btnDownloadMain: "ကိုယ်ရေးရာဇဝင် ဒေါင်းလုဒ်လုပ်ပါ", descDownload: "ပုံမှန်ဖောင်ကို ရယူပါ",
                 btnUploadMain: "ကိုယ်ရေးရာဇဝင် အပ်လုဒ်လုပ်ပါ", descUpload: "ဖြည့်စွက်ထားသော ဖောင်ကို တင်ပါ",
                 btnBack: "← နောက်သို့", formTitle: "သင့်ကိုယ်ရေးရာဇဝင်ကို တင်သွင်းပါ",
                 labelEps: "EPS-TOPIK ID", labelName: "အမည်အပြည့်အစုံ", labelPhone: "ဖုန်းနံပါတ်", 
-                labelFile: "ပြီးပြည့်စုံသော ကိုယ်ရေးရာဇဝင်ကို အပ်လုဒ်လုပ်ပါ", btnSubmit: "လျှောက်လွှာတင်သွင်းပါ"
+                labelFile: "ပြီးပြည့်စုံသော ကိုယ်ရေးရာဇဝင်ကို အပ်လုဒ်လုပ်ပါ", btnSubmit: "လျှောက်လွှာတင်သွင်းပါ",
+                linkEps: "EPS - Work24 သို့သွားရန်"
             },
             vi: {
                 btnDownloadMain: "Tải xuống Sơ yếu lý lịch", descDownload: "Nhận biểu mẫu chuẩn",
                 btnUploadMain: "Tải lên Sơ yếu lý lịch", descUpload: "Gửi biểu mẫu đã điền của bạn",
                 btnBack: "← Quay lại lựa chọn", formTitle: "Nộp sơ yếu lý lịch của bạn",
                 labelEps: "ID EPS-TOPIK", labelName: "Họ và tên", labelPhone: "Số điện thoại", 
-                labelFile: "Tải lên Sơ yếu lý lịch đã hoàn thành", btnSubmit: "Nộp đơn"
+                labelFile: "Tải lên Sơ yếu lý lịch đã hoàn thành", btnSubmit: "Nộp đơn",
+                linkEps: "Hệ thống EPS - Đi tới Work24"
             },
             id: {
                 btnDownloadMain: "Unduh Resume", descDownload: "Dapatkan formulir standar",
                 btnUploadMain: "Unggah Resume", descUpload: "Kirim formulir yang telah diisi",
                 btnBack: "← Kembali ke Pilihan", formTitle: "Kirimkan Resume Anda",
                 labelEps: "ID EPS-TOPIK", labelName: "Nama Lengkap", labelPhone: "Nomor Telepon", 
-                labelFile: "Unggah Resume yang Telah Diisi", btnSubmit: "Kirim Aplikasi"
+                labelFile: "Unggah Resume yang Telah Diisi", btnSubmit: "Kirim Aplikasi",
+                linkEps: "Sistem EPS - Pergi ke Work24"
             }
         };
 
-        // 언어 변경 함수
         function changeLanguage() {
             const lang = document.getElementById('lang-select').value;
             const t = translations[lang];
@@ -154,7 +180,12 @@
             document.getElementById('label-phone').innerText = t.labelPhone;
             document.getElementById('label-file').innerText = t.labelFile;
             document.getElementById('btn-submit').innerText = t.btnSubmit;
+            // 고용24 링크 번역
+            document.getElementById('link-eps').innerText = t.linkEps;
         }
+        
+        // 처음 페이지 로딩 시 기본 언어(영어) 적용
+        changeLanguage();
     </script>
 </body>
 </html>
