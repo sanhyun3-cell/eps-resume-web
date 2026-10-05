@@ -15,16 +15,15 @@
     </style>
 </head>
 <body>
-    <!-- 상단 네비게이션 바 (크기 2배 확대 및 슬로건 추가) -->
+    <!-- 상단 네비게이션 바 -->
     <nav class="bg-eps text-white shadow-md py-6 sm:py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
-                <!-- 로고, 국기, 슬로건 영역 -->
+                <!-- 로고, 국기, 슬로건 -->
                 <div class="flex flex-col items-center sm:items-start gap-3">
                     <div class="flex flex-col sm:flex-row items-center gap-4">
                         <span class="font-extrabold text-3xl sm:text-4xl tracking-wide" id="nav-title">LGK(Let's Go Korea)</span>
                         <div class="flex items-center gap-2 mt-2 sm:mt-0">
-                            <!-- 국기 사이즈를 w-10으로 확대 -->
                             <img src="https://flagcdn.com/w40/us.png" alt="USA" class="w-10 shadow-sm border border-gray-300">
                             <img src="https://flagcdn.com/w40/gb.png" alt="UK" class="w-10 shadow-sm border border-gray-300">
                             <img src="https://flagcdn.com/w40/kr.png" alt="Korea" class="w-10 shadow-sm border border-gray-300">
@@ -33,7 +32,6 @@
                             <img src="https://flagcdn.com/w40/vn.png" alt="Vietnam" class="w-10 shadow-sm border border-gray-300">
                         </div>
                     </div>
-                    <!-- 영문 슬로건 -->
                     <span class="text-sm sm:text-lg font-medium text-blue-200 italic tracking-wide" id="nav-subtitle">
                         Land of opportunity, more dreams and future, let's go to Korea together!
                     </span>
@@ -52,20 +50,19 @@
         </div>
     </nav>
 
-    <main class="max-w-4xl mx-auto mt-8 px-4 sm:px-6 pb-12">
+    <main class="max-w-4xl mx-auto mt-8 px-4 sm:px-6 pb-4">
         <!-- 상단 환호하는 이미지 -->
-        <div class="mb-8 rounded-xl overflow-hidden shadow-lg h-64 sm:h-80 bg-gray-200">
+        <div id="main-image" class="mb-8 rounded-xl overflow-hidden shadow-lg h-64 sm:h-80 bg-gray-200">
             <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Cheering People" class="w-full h-full object-cover">
         </div>
 
-        <!-- 1. 초기 선택 화면 (다운로드 / 업로드 버튼) -->
+        <!-- 1. 초기 선택 화면 -->
         <div id="selection-screen" class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
             <a href="eps_resume_template.pdf" download class="flex flex-col items-center justify-center p-10 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
                 <div class="text-7xl mb-6 group-hover:scale-110 transition-transform">📥</div>
                 <h3 class="text-2xl font-bold text-gray-900" id="btn-download-main">Download Resume</h3>
                 <p class="text-base text-gray-500 mt-2" id="desc-download">Get the standard form</p>
             </a>
-
             <div onclick="showUploadForm()" class="flex flex-col items-center justify-center p-10 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
                 <div class="text-7xl mb-6 group-hover:scale-110 transition-transform">📤</div>
                 <h3 class="text-2xl font-bold text-gray-900" id="btn-upload-main">Upload Resume</h3>
@@ -73,49 +70,67 @@
             </div>
         </div>
 
-        <!-- 2. 이력서 업로드 폼 화면 -->
+        <!-- 2. 이력서 업로드 폼 화면 (비밀번호 추가됨) -->
         <div id="upload-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-blue-800 mt-10">
-            <button onclick="showSelectionScreen()" class="mb-6 text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1" id="btn-back">
+            <button onclick="showSelectionScreen()" class="mb-6 text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1" id="btn-back-upload">
                 ← Back to Selection
             </button>
-            
             <h2 class="text-2xl font-bold text-gray-900 mb-6" id="form-title">Submit Your Resume</h2>
-            
             <form id="resume-form" class="space-y-6">
                 <div>
                     <label for="eps-id" class="block text-sm font-medium text-gray-700" id="label-eps">EPS-TOPIK ID</label>
                     <input type="text" id="eps-id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" required>
                 </div>
-                
                 <div>
                     <label for="full-name" class="block text-sm font-medium text-gray-700" id="label-name">Full Name</label>
                     <input type="text" id="full-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" required>
                 </div>
-
                 <div>
                     <label for="phone" class="block text-sm font-medium text-gray-700" id="label-phone">Phone Number</label>
                     <input type="tel" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" placeholder="010-XXXX-XXXX" required>
                 </div>
-
+                <!-- 사용자 비밀번호 설정 (본인 확인용) -->
+                <div>
+                    <label for="upload-password" class="block text-sm font-medium text-gray-700" id="label-password">Set a Password (To protect your resume)</label>
+                    <input type="password" id="upload-password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" placeholder="****" required>
+                </div>
                 <div>
                     <label for="file-upload" class="block text-sm font-medium text-gray-700" id="label-file">Upload Completed Resume</label>
                     <input type="file" id="file-upload" accept=".pdf,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" required>
                 </div>
-
-                <button type="button" class="w-full btn-eps flex justify-center py-4 px-4 border border-transparent rounded-md shadow-md text-base font-bold tracking-wide" id="btn-submit" onclick="alert('Submission system will be connected soon!')">
+                <button type="button" class="w-full btn-eps flex justify-center py-4 px-4 border border-transparent rounded-md shadow-md text-base font-bold tracking-wide" id="btn-submit" onclick="alert('Submission system will be connected soon via Supabase!')">
                     Submit Application
                 </button>
             </form>
         </div>
 
-        <!-- 고용24 바로가기 이미지 배너 -->
-        <div class="mt-16">
+        <!-- 3. 관리자(운영자) 로그인 화면 -->
+        <div id="admin-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-gray-800 mt-10">
+            <button onclick="showSelectionScreen()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1" id="btn-back-admin">
+                ← Back to Main
+            </button>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Administrator Login</h2>
+            <p class="text-sm text-gray-500 mb-6">Only authorized personnel (sanhyun, kinam, seongsoo) can access.</p>
+            <form id="admin-form" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Admin ID</label>
+                    <input type="text" id="admin-id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-gray-500 focus:border-gray-500" placeholder="Enter ID" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="admin-password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-gray-500 focus:border-gray-500" required>
+                </div>
+                <button type="button" class="w-full bg-gray-800 hover:bg-gray-900 text-white flex justify-center py-4 px-4 rounded-md shadow-md text-base font-bold tracking-wide" onclick="alert('Admin dashboard connection will be built next!')">
+                    Login to Dashboard
+                </button>
+            </form>
+        </div>
+
+        <!-- 고용24 바로가기 배너 -->
+        <div id="eps-banner" class="mt-16">
             <a href="https://www.eps.go.kr/index.jsp" target="_blank" class="group relative block w-full rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
-                <!-- 어두운 배경 오버레이 (글씨가 잘 보이게 함) -->
                 <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition"></div>
-                <!-- 열심히 일하는 사무실 이미지 -->
                 <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Working in office" class="w-full h-48 sm:h-64 object-cover">
-                <!-- 텍스트 영역 -->
                 <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
                     <span class="text-xl sm:text-3xl font-bold mb-3 text-center drop-shadow-md" id="link-eps">EPS(Employment Permit System) - Go to Work24</span>
                     <span class="text-sm font-semibold bg-blue-600 bg-opacity-90 px-5 py-2 rounded-full backdrop-blur-sm group-hover:bg-blue-500 transition" id="click-visit">Click to visit</span>
@@ -124,16 +139,39 @@
         </div>
     </main>
 
+    <!-- 하단 관리자 로그인 접속 버튼 (작게 배치) -->
+    <footer class="mt-8 mb-12 text-center">
+        <button onclick="showAdminForm()" class="text-xs text-gray-400 hover:text-gray-600 transition" id="btn-admin-access">
+            🔒 Admin Access
+        </button>
+    </footer>
+
     <!-- 스크립트 -->
     <script>
-        function showUploadForm() {
+        // 화면 전환 로직
+        function hideAllScreens() {
             document.getElementById('selection-screen').classList.add('hidden');
-            document.getElementById('upload-screen').classList.remove('hidden');
+            document.getElementById('upload-screen').classList.add('hidden');
+            document.getElementById('admin-screen').classList.add('hidden');
+            document.getElementById('main-image').classList.add('hidden');
+            document.getElementById('eps-banner').classList.add('hidden');
         }
 
         function showSelectionScreen() {
-            document.getElementById('upload-screen').classList.add('hidden');
+            hideAllScreens();
             document.getElementById('selection-screen').classList.remove('hidden');
+            document.getElementById('main-image').classList.remove('hidden');
+            document.getElementById('eps-banner').classList.remove('hidden');
+        }
+
+        function showUploadForm() {
+            hideAllScreens();
+            document.getElementById('upload-screen').classList.remove('hidden');
+        }
+
+        function showAdminForm() {
+            hideAllScreens();
+            document.getElementById('admin-screen').classList.remove('hidden');
         }
 
         const translations = {
@@ -141,51 +179,61 @@
                 navSubtitle: "Land of opportunity, more dreams and future, let's go to Korea together!",
                 btnDownloadMain: "Download Resume", descDownload: "Get the standard form",
                 btnUploadMain: "Upload Resume", descUpload: "Submit your filled form",
-                btnBack: "← Back to Selection", formTitle: "Submit Your Resume",
+                btnBackUpload: "← Back to Selection", btnBackAdmin: "← Back to Main", 
+                formTitle: "Submit Your Resume",
                 labelEps: "EPS-TOPIK ID", labelName: "Full Name", labelPhone: "Phone Number", 
+                labelPassword: "Set a Password (To protect your resume)",
                 labelFile: "Upload Completed Resume", btnSubmit: "Submit Application",
-                linkEps: "EPS(Employment Permit System) - Go to Work24",
-                clickVisit: "Click to visit"
+                linkEps: "EPS(Employment Permit System) - Go to Work24", clickVisit: "Click to visit",
+                btnAdminAccess: "🔒 Admin Access"
             },
             ko: {
                 navSubtitle: "기회의 나라, 더 많은 꿈과 미래, 함께 한국으로 갑시다!",
                 btnDownloadMain: "이력서 다운로드", descDownload: "기본 양식 받기",
                 btnUploadMain: "이력서 업로드", descUpload: "작성된 양식 제출",
-                btnBack: "← 이전 화면으로", formTitle: "이력서 제출",
+                btnBackUpload: "← 이전 화면으로", btnBackAdmin: "← 메인으로", 
+                formTitle: "이력서 제출",
                 labelEps: "EPS-TOPIK ID", labelName: "성명", labelPhone: "전화번호", 
+                labelPassword: "비밀번호 설정 (내 이력서 보호용)",
                 labelFile: "작성된 이력서 업로드", btnSubmit: "제출하기",
-                linkEps: "외국인고용관리시스템 - 고용24 바로가기",
-                clickVisit: "클릭하여 방문하기"
+                linkEps: "외국인고용관리시스템 - 고용24 바로가기", clickVisit: "클릭하여 방문하기",
+                btnAdminAccess: "🔒 관리자 접속"
             },
             my: {
                 navSubtitle: "အခွင့်အလမ်းများပြည့်နှက်နေသောနိုင်ငံ၊ ပိုမိုများပြားသောအိပ်မက်များနှင့် အနာဂတ်၊ ကိုရီးယားသို့ အတူတူသွားကြစို့!",
                 btnDownloadMain: "ကိုယ်ရေးရာဇဝင် ဒေါင်းလုဒ်လုပ်ပါ", descDownload: "ပုံမှန်ဖောင်ကို ရယူပါ",
                 btnUploadMain: "ကိုယ်ရေးရာဇဝင် အပ်လုဒ်လုပ်ပါ", descUpload: "ဖြည့်စွက်ထားသော ဖောင်ကို တင်ပါ",
-                btnBack: "← နောက်သို့", formTitle: "သင့်ကိုယ်ရေးရာဇဝင်ကို တင်သွင်းပါ",
+                btnBackUpload: "← နောက်သို့", btnBackAdmin: "← ပင်မစာမျက်နှာသို့", 
+                formTitle: "သင့်ကိုယ်ရေးရာဇဝင်ကို တင်သွင်းပါ",
                 labelEps: "EPS-TOPIK ID", labelName: "အမည်အပြည့်အစုံ", labelPhone: "ဖုန်းနံပါတ်", 
+                labelPassword: "စကားဝှက် သတ်မှတ်ပါ",
                 labelFile: "ပြီးပြည့်စုံသော ကိုယ်ရေးရာဇဝင်ကို အပ်လုဒ်လုပ်ပါ", btnSubmit: "လျှောက်လွှာတင်သွင်းပါ",
-                linkEps: "EPS - Work24 သို့သွားရန်",
-                clickVisit: "ဝင်ရောက်ရန် နှိပ်ပါ"
+                linkEps: "EPS - Work24 သို့သွားရန်", clickVisit: "ဝင်ရောက်ရန် နှိပ်ပါ",
+                btnAdminAccess: "🔒 စီမံခန့်ခွဲသူ ဝင်ရောက်ရန်"
             },
             vi: {
                 navSubtitle: "Đất nước của cơ hội, thêm nhiều ước mơ và tương lai, hãy cùng nhau đến Hàn Quốc!",
                 btnDownloadMain: "Tải xuống Sơ yếu lý lịch", descDownload: "Nhận biểu mẫu chuẩn",
                 btnUploadMain: "Tải lên Sơ yếu lý lịch", descUpload: "Gửi biểu mẫu đã điền của bạn",
-                btnBack: "← Quay lại lựa chọn", formTitle: "Nộp sơ yếu lý lịch của bạn",
+                btnBackUpload: "← Quay lại lựa chọn", btnBackAdmin: "← Quay lại trang chính", 
+                formTitle: "Nộp sơ yếu lý lịch của bạn",
                 labelEps: "ID EPS-TOPIK", labelName: "Họ và tên", labelPhone: "Số điện thoại", 
+                labelPassword: "Thiết lập mật khẩu (Bảo vệ hồ sơ của bạn)",
                 labelFile: "Tải lên Sơ yếu lý lịch đã hoàn thành", btnSubmit: "Nộp đơn",
-                linkEps: "Hệ thống EPS - Đi tới Work24",
-                clickVisit: "Nhấn vào đây để truy cập"
+                linkEps: "Hệ thống EPS - Đi tới Work24", clickVisit: "Nhấn vào đây để truy cập",
+                btnAdminAccess: "🔒 Quyền truy cập quản trị viên"
             },
             id: {
                 navSubtitle: "Negeri penuh peluang, lebih banyak impian dan masa depan, mari pergi ke Korea bersama!",
                 btnDownloadMain: "Unduh Resume", descDownload: "Dapatkan formulir standar",
                 btnUploadMain: "Unggah Resume", descUpload: "Kirim formulir yang telah diisi",
-                btnBack: "← Kembali ke Pilihan", formTitle: "Kirimkan Resume Anda",
+                btnBackUpload: "← Kembali ke Pilihan", btnBackAdmin: "← Kembali ke Utama", 
+                formTitle: "Kirimkan Resume Anda",
                 labelEps: "ID EPS-TOPIK", labelName: "Nama Lengkap", labelPhone: "Nomor Telepon", 
+                labelPassword: "Buat Kata Sandi (Untuk melindungi resume Anda)",
                 labelFile: "Unggah Resume yang Telah Diisi", btnSubmit: "Kirim Aplikasi",
-                linkEps: "Sistem EPS - Pergi ke Work24",
-                clickVisit: "Klik untuk mengunjungi"
+                linkEps: "Sistem EPS - Pergi ke Work24", clickVisit: "Klik untuk mengunjungi",
+                btnAdminAccess: "🔒 Akses Admin"
             }
         };
 
@@ -198,16 +246,19 @@
             document.getElementById('desc-download').innerText = t.descDownload;
             document.getElementById('btn-upload-main').innerText = t.btnUploadMain;
             document.getElementById('desc-upload').innerText = t.descUpload;
-            document.getElementById('btn-back').innerText = t.btnBack;
+            document.getElementById('btn-back-upload').innerText = t.btnBackUpload;
+            document.getElementById('btn-back-admin').innerText = t.btnBackAdmin;
             document.getElementById('form-title').innerText = t.formTitle;
             document.getElementById('label-eps').innerText = t.labelEps;
             document.getElementById('label-name').innerText = t.labelName;
             document.getElementById('label-phone').innerText = t.labelPhone;
+            document.getElementById('label-password').innerText = t.labelPassword;
             document.getElementById('label-file').innerText = t.labelFile;
             document.getElementById('btn-submit').innerText = t.btnSubmit;
             
             document.getElementById('link-eps').innerText = t.linkEps;
             document.getElementById('click-visit').innerText = t.clickVisit;
+            document.getElementById('btn-admin-access').innerText = t.btnAdminAccess;
         }
         
         changeLanguage();
