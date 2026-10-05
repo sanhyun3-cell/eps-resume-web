@@ -15,30 +15,31 @@
     </style>
 </head>
 <body>
-    <!-- 상단 네비게이션 바 -->
+    <!-- 상단 네비게이션 바 (안내 문구 포함) -->
     <nav class="bg-eps text-white shadow-md py-6 sm:py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
-                <!-- 로고, 국기, 슬로건 -->
-                <div class="flex flex-col items-center sm:items-start gap-3">
-                    <div class="flex flex-col sm:flex-row items-center gap-4">
+                <!-- 로고, 국기, 안내문구 -->
+                <div class="flex flex-col items-center sm:items-start gap-3 w-full sm:w-auto">
+                    <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
                         <span class="font-extrabold text-3xl sm:text-4xl tracking-wide" id="nav-title">LGK(Let's Go Korea)</span>
                         <div class="flex items-center gap-2 mt-2 sm:mt-0">
-                            <img src="https://flagcdn.com/w40/us.png" alt="USA" class="w-10 shadow-sm border border-gray-300">
-                            <img src="https://flagcdn.com/w40/gb.png" alt="UK" class="w-10 shadow-sm border border-gray-300">
-                            <img src="https://flagcdn.com/w40/kr.png" alt="Korea" class="w-10 shadow-sm border border-gray-300">
-                            <img src="https://flagcdn.com/w40/id.png" alt="Indonesia" class="w-10 shadow-sm border border-gray-300">
-                            <img src="https://flagcdn.com/w40/mm.png" alt="Myanmar" class="w-10 shadow-sm border border-gray-300">
-                            <img src="https://flagcdn.com/w40/vn.png" alt="Vietnam" class="w-10 shadow-sm border border-gray-300">
+                            <img src="https://flagcdn.com/w40/us.png" alt="USA" class="w-8 sm:w-10 shadow-sm border border-gray-300">
+                            <img src="https://flagcdn.com/w40/gb.png" alt="UK" class="w-8 sm:w-10 shadow-sm border border-gray-300">
+                            <img src="https://flagcdn.com/w40/kr.png" alt="Korea" class="w-8 sm:w-10 shadow-sm border border-gray-300">
+                            <img src="https://flagcdn.com/w40/id.png" alt="Indonesia" class="w-8 sm:w-10 shadow-sm border border-gray-300">
+                            <img src="https://flagcdn.com/w40/mm.png" alt="Myanmar" class="w-8 sm:w-10 shadow-sm border border-gray-300">
+                            <img src="https://flagcdn.com/w40/vn.png" alt="Vietnam" class="w-8 sm:w-10 shadow-sm border border-gray-300">
                         </div>
                     </div>
-                    <span class="text-sm sm:text-lg font-medium text-blue-200 italic tracking-wide" id="nav-subtitle">
-                        Land of opportunity, more dreams and future, let's go to Korea together!
+                    <!-- 파란색 영역 안의 안내 문구 -->
+                    <span class="text-sm sm:text-base font-medium text-blue-100 tracking-wide text-center sm:text-left mt-2 sm:mt-0" id="nav-desc">
+                        This is the resume registration and download page for working in Korea.
                     </span>
                 </div>
                 <!-- 언어 선택 -->
-                <div>
-                    <select id="lang-select" class="bg-white text-gray-900 text-sm rounded-md block p-2 font-medium shadow-sm" onchange="changeLanguage()">
+                <div class="w-full sm:w-auto flex justify-center sm:justify-end">
+                    <select id="lang-select" class="bg-white text-gray-900 text-sm sm:text-base rounded-md block w-full sm:w-auto p-2 font-medium shadow-sm" onchange="changeLanguage()">
                         <option value="en" selected>English</option>
                         <option value="ko">한국어</option>
                         <option value="my">မြန်မာ</option>
@@ -50,111 +51,117 @@
         </div>
     </nav>
 
-    <main class="max-w-4xl mx-auto mt-8 px-4 sm:px-6 pb-4">
+    <!-- 메인 타이틀 슬로건 (파란 바탕 밖, 크고 검은 글씨) -->
+    <div class="max-w-4xl mx-auto mt-8 sm:mt-10 px-4 sm:px-6 text-center">
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight leading-snug break-keep" id="main-slogan">
+            Land of opportunity, more dreams and future, let's go to Korea together!
+        </h1>
+    </div>
+
+    <main class="max-w-4xl mx-auto mt-8 sm:mt-10 px-4 sm:px-6 pb-4">
         <!-- 상단 환호하는 이미지 -->
-        <div id="main-image" class="mb-8 rounded-xl overflow-hidden shadow-lg h-64 sm:h-80 bg-gray-200">
+        <div id="main-image" class="mb-8 rounded-xl overflow-hidden shadow-lg h-56 sm:h-80 bg-gray-200">
             <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Cheering People" class="w-full h-full object-cover">
         </div>
 
-        <!-- 1. 초기 선택 화면 -->
-        <div id="selection-screen" class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
-            <a href="eps_resume_template.pdf" download class="flex flex-col items-center justify-center p-10 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
-                <div class="text-7xl mb-6 group-hover:scale-110 transition-transform">📥</div>
-                <h3 class="text-2xl font-bold text-gray-900" id="btn-download-main">Download Resume</h3>
-                <p class="text-base text-gray-500 mt-2" id="desc-download">Get the standard form</p>
+        <!-- 1. 초기 선택 화면 (모바일에서는 위아래 배치, PC에서는 양옆 배치) -->
+        <div id="selection-screen" class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8 sm:mt-10">
+            <a href="eps_resume_template.pdf" download class="flex flex-col items-center justify-center p-8 sm:p-10 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
+                <div class="text-6xl sm:text-7xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform">📥</div>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-900" id="btn-download-main">Download Resume</h3>
+                <p class="text-sm sm:text-base text-gray-500 mt-2" id="desc-download">Get the standard form</p>
             </a>
-            <div onclick="showUploadForm()" class="flex flex-col items-center justify-center p-10 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
-                <div class="text-7xl mb-6 group-hover:scale-110 transition-transform">📤</div>
-                <h3 class="text-2xl font-bold text-gray-900" id="btn-upload-main">Upload Resume</h3>
-                <p class="text-base text-gray-500 mt-2" id="desc-upload">Submit your filled form</p>
+            <div onclick="showUploadForm()" class="flex flex-col items-center justify-center p-8 sm:p-10 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
+                <div class="text-6xl sm:text-7xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform">📤</div>
+                <h3 class="text-xl sm:text-2xl font-bold text-gray-900" id="btn-upload-main">Upload Resume</h3>
+                <p class="text-sm sm:text-base text-gray-500 mt-2" id="desc-upload">Submit your filled form</p>
             </div>
         </div>
 
-        <!-- 2. 이력서 업로드 폼 화면 (비밀번호 추가됨) -->
-        <div id="upload-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-blue-800 mt-10">
+        <!-- 2. 이력서 업로드 폼 화면 -->
+        <div id="upload-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-blue-800 mt-8 sm:mt-10">
             <button onclick="showSelectionScreen()" class="mb-6 text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1" id="btn-back-upload">
                 ← Back to Selection
             </button>
-            <h2 class="text-2xl font-bold text-gray-900 mb-6" id="form-title">Submit Your Resume</h2>
-            <form id="resume-form" class="space-y-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6" id="form-title">Submit Your Resume</h2>
+            <form id="resume-form" class="space-y-5 sm:space-y-6">
                 <div>
                     <label for="eps-id" class="block text-sm font-medium text-gray-700" id="label-eps">EPS-TOPIK ID</label>
-                    <input type="text" id="eps-id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" required>
+                    <input type="text" id="eps-id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-base" required>
                 </div>
                 <div>
                     <label for="full-name" class="block text-sm font-medium text-gray-700" id="label-name">Full Name</label>
-                    <input type="text" id="full-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" required>
+                    <input type="text" id="full-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-base" required>
                 </div>
                 <div>
                     <label for="phone" class="block text-sm font-medium text-gray-700" id="label-phone">Phone Number</label>
-                    <input type="tel" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" placeholder="010-XXXX-XXXX" required>
+                    <input type="tel" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-base" placeholder="010-XXXX-XXXX" required>
                 </div>
-                <!-- 사용자 비밀번호 설정 (본인 확인용) -->
                 <div>
                     <label for="upload-password" class="block text-sm font-medium text-gray-700" id="label-password">Set a Password (To protect your resume)</label>
-                    <input type="password" id="upload-password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" placeholder="****" required>
+                    <input type="password" id="upload-password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-base" placeholder="****" required>
                 </div>
                 <div>
                     <label for="file-upload" class="block text-sm font-medium text-gray-700" id="label-file">Upload Completed Resume</label>
                     <input type="file" id="file-upload" accept=".pdf,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" required>
                 </div>
-                <button type="button" class="w-full btn-eps flex justify-center py-4 px-4 border border-transparent rounded-md shadow-md text-base font-bold tracking-wide" id="btn-submit" onclick="alert('Submission system will be connected soon via Supabase!')">
+                <button type="button" class="w-full btn-eps flex justify-center py-4 px-4 border border-transparent rounded-md shadow-md text-base sm:text-lg font-bold tracking-wide mt-4" id="btn-submit" onclick="alert('Submission system will be connected soon via Supabase!')">
                     Submit Application
                 </button>
             </form>
         </div>
 
         <!-- 3. 관리자(운영자) 로그인 화면 -->
-        <div id="admin-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-gray-800 mt-10">
+        <div id="admin-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-gray-800 mt-8 sm:mt-10">
             <button onclick="showSelectionScreen()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1" id="btn-back-admin">
                 ← Back to Main
             </button>
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Administrator Login</h2>
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Administrator Login</h2>
             <p class="text-sm text-gray-500 mb-6">Only authorized personnel (sanhyun, kinam, seongsoo) can access.</p>
-            <form id="admin-form" class="space-y-6">
+            <form id="admin-form" class="space-y-5 sm:space-y-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Admin ID</label>
-                    <input type="text" id="admin-id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-gray-500 focus:border-gray-500" placeholder="Enter ID" required>
+                    <input type="text" id="admin-id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-gray-500 focus:border-gray-500 text-base" placeholder="Enter ID" required>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" id="admin-password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-gray-500 focus:border-gray-500" required>
+                    <input type="password" id="admin-password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-gray-500 focus:border-gray-500 text-base" required>
                 </div>
-                <button type="button" class="w-full bg-gray-800 hover:bg-gray-900 text-white flex justify-center py-4 px-4 rounded-md shadow-md text-base font-bold tracking-wide" onclick="alert('Admin dashboard connection will be built next!')">
+                <button type="button" class="w-full bg-gray-800 hover:bg-gray-900 text-white flex justify-center py-4 px-4 rounded-md shadow-md text-base sm:text-lg font-bold tracking-wide mt-4" onclick="alert('Admin dashboard connection will be built next!')">
                     Login to Dashboard
                 </button>
             </form>
         </div>
 
-        <!-- 고용24 바로가기 배너 -->
-        <div id="eps-banner" class="mt-16">
+        <!-- 고용24 바로가기 배너 (모바일 비율 조정) -->
+        <div id="eps-banner" class="mt-12 sm:mt-16">
             <a href="https://www.eps.go.kr/index.jsp" target="_blank" class="group relative block w-full rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
                 <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition"></div>
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Working in office" class="w-full h-48 sm:h-64 object-cover">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Working in office" class="w-full h-40 sm:h-64 object-cover">
                 <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
-                    <span class="text-xl sm:text-3xl font-bold mb-3 text-center drop-shadow-md" id="link-eps">EPS(Employment Permit System) - Go to Work24</span>
-                    <span class="text-sm font-semibold bg-blue-600 bg-opacity-90 px-5 py-2 rounded-full backdrop-blur-sm group-hover:bg-blue-500 transition" id="click-visit">Click to visit</span>
+                    <span class="text-lg sm:text-3xl font-bold mb-2 sm:mb-3 text-center drop-shadow-md" id="link-eps">EPS(Employment Permit System) - Go to Work24</span>
+                    <span class="text-xs sm:text-sm font-semibold bg-blue-600 bg-opacity-90 px-4 sm:px-5 py-2 rounded-full backdrop-blur-sm group-hover:bg-blue-500 transition" id="click-visit">Click to visit</span>
                 </div>
             </a>
         </div>
     </main>
 
-    <!-- 하단 관리자 로그인 접속 버튼 (작게 배치) -->
-    <footer class="mt-8 mb-12 text-center">
-        <button onclick="showAdminForm()" class="text-xs text-gray-400 hover:text-gray-600 transition" id="btn-admin-access">
+    <!-- 하단 관리자 로그인 접속 버튼 -->
+    <footer class="mt-6 mb-10 text-center">
+        <button onclick="showAdminForm()" class="text-xs sm:text-sm text-gray-400 hover:text-gray-600 transition p-2" id="btn-admin-access">
             🔒 Admin Access
         </button>
     </footer>
 
     <!-- 스크립트 -->
     <script>
-        // 화면 전환 로직
         function hideAllScreens() {
             document.getElementById('selection-screen').classList.add('hidden');
             document.getElementById('upload-screen').classList.add('hidden');
             document.getElementById('admin-screen').classList.add('hidden');
             document.getElementById('main-image').classList.add('hidden');
             document.getElementById('eps-banner').classList.add('hidden');
+            document.getElementById('main-slogan').parentElement.classList.add('hidden');
         }
 
         function showSelectionScreen() {
@@ -162,6 +169,7 @@
             document.getElementById('selection-screen').classList.remove('hidden');
             document.getElementById('main-image').classList.remove('hidden');
             document.getElementById('eps-banner').classList.remove('hidden');
+            document.getElementById('main-slogan').parentElement.classList.remove('hidden');
         }
 
         function showUploadForm() {
@@ -176,7 +184,8 @@
 
         const translations = {
             en: {
-                navSubtitle: "Land of opportunity, more dreams and future, let's go to Korea together!",
+                navDesc: "This is the resume registration and download page for working in Korea.",
+                mainSlogan: "Land of opportunity, more dreams and future, let's go to Korea together!",
                 btnDownloadMain: "Download Resume", descDownload: "Get the standard form",
                 btnUploadMain: "Upload Resume", descUpload: "Submit your filled form",
                 btnBackUpload: "← Back to Selection", btnBackAdmin: "← Back to Main", 
@@ -188,7 +197,8 @@
                 btnAdminAccess: "🔒 Admin Access"
             },
             ko: {
-                navSubtitle: "기회의 나라, 더 많은 꿈과 미래, 함께 한국으로 갑시다!",
+                navDesc: "한국에서 일하기 위한 이력서 등록 및 다운로드 페이지 입니다.",
+                mainSlogan: "기회의 나라, 더 많은 꿈과 미래, 함께 한국으로 갑시다!",
                 btnDownloadMain: "이력서 다운로드", descDownload: "기본 양식 받기",
                 btnUploadMain: "이력서 업로드", descUpload: "작성된 양식 제출",
                 btnBackUpload: "← 이전 화면으로", btnBackAdmin: "← 메인으로", 
@@ -200,7 +210,8 @@
                 btnAdminAccess: "🔒 관리자 접속"
             },
             my: {
-                navSubtitle: "အခွင့်အလမ်းများပြည့်နှက်နေသောနိုင်ငံ၊ ပိုမိုများပြားသောအိပ်မက်များနှင့် အနာဂတ်၊ ကိုရီးယားသို့ အတူတူသွားကြစို့!",
+                navDesc: "ကိုရီးယားတွင် အလုပ်လုပ်ရန်အတွက် ကိုယ်ရေးရာဇဝင် မှတ်ပုံတင်ခြင်းနှင့် ဒေါင်းလုဒ်စာမျက်နှာ ဖြစ်ပါသည်။",
+                mainSlogan: "အခွင့်အလမ်းများပြည့်နှက်နေသောနိုင်ငံ၊ ပိုမိုများပြားသောအိပ်မက်များနှင့် အနာဂတ်၊ ကိုရီးယားသို့ အတူတူသွားကြစို့!",
                 btnDownloadMain: "ကိုယ်ရေးရာဇဝင် ဒေါင်းလုဒ်လုပ်ပါ", descDownload: "ပုံမှန်ဖောင်ကို ရယူပါ",
                 btnUploadMain: "ကိုယ်ရေးရာဇဝင် အပ်လုဒ်လုပ်ပါ", descUpload: "ဖြည့်စွက်ထားသော ဖောင်ကို တင်ပါ",
                 btnBackUpload: "← နောက်သို့", btnBackAdmin: "← ပင်မစာမျက်နှာသို့", 
@@ -212,7 +223,8 @@
                 btnAdminAccess: "🔒 စီမံခန့်ခွဲသူ ဝင်ရောက်ရန်"
             },
             vi: {
-                navSubtitle: "Đất nước của cơ hội, thêm nhiều ước mơ và tương lai, hãy cùng nhau đến Hàn Quốc!",
+                navDesc: "Đây là trang đăng ký và tải xuống sơ yếu lý lịch để làm việc tại Hàn Quốc.",
+                mainSlogan: "Đất nước của cơ hội, thêm nhiều ước mơ và tương lai, hãy cùng nhau đến Hàn Quốc!",
                 btnDownloadMain: "Tải xuống Sơ yếu lý lịch", descDownload: "Nhận biểu mẫu chuẩn",
                 btnUploadMain: "Tải lên Sơ yếu lý lịch", descUpload: "Gửi biểu mẫu đã điền của bạn",
                 btnBackUpload: "← Quay lại lựa chọn", btnBackAdmin: "← Quay lại trang chính", 
@@ -224,7 +236,8 @@
                 btnAdminAccess: "🔒 Quyền truy cập quản trị viên"
             },
             id: {
-                navSubtitle: "Negeri penuh peluang, lebih banyak impian dan masa depan, mari pergi ke Korea bersama!",
+                navDesc: "Ini adalah halaman pendaftaran dan unduhan resume untuk bekerja di Korea.",
+                mainSlogan: "Negeri penuh peluang, lebih banyak impian dan masa depan, mari pergi ke Korea bersama!",
                 btnDownloadMain: "Unduh Resume", descDownload: "Dapatkan formulir standar",
                 btnUploadMain: "Unggah Resume", descUpload: "Kirim formulir yang telah diisi",
                 btnBackUpload: "← Kembali ke Pilihan", btnBackAdmin: "← Kembali ke Utama", 
@@ -241,7 +254,9 @@
             const lang = document.getElementById('lang-select').value;
             const t = translations[lang];
             
-            document.getElementById('nav-subtitle').innerText = t.navSubtitle;
+            document.getElementById('nav-desc').innerText = t.navDesc;
+            document.getElementById('main-slogan').innerText = t.mainSlogan;
+            
             document.getElementById('btn-download-main').innerText = t.btnDownloadMain;
             document.getElementById('desc-download').innerText = t.descDownload;
             document.getElementById('btn-upload-main').innerText = t.btnUploadMain;
@@ -261,6 +276,7 @@
             document.getElementById('btn-admin-access').innerText = t.btnAdminAccess;
         }
         
+        // 처음 페이지 로딩 시 기본 언어(영어) 적용
         changeLanguage();
     </script>
 </body>
