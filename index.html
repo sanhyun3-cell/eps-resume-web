@@ -13,18 +13,29 @@
         .text-eps { color: var(--eps-blue); }
         .btn-eps { background-color: var(--eps-blue); color: white; transition: background-color 0.3s; }
         .btn-eps:hover { background-color: var(--eps-light-blue); }
+        
+        /* 회색 배경에서 흰색으로 반짝이는 애니메이션 */
+        @keyframes white-pulse {
+            0% { background-color: #f3f4f6; color: #1f2937; transform: scale(1); }
+            50% { background-color: #ffffff; color: #0b3d91; box-shadow: 0 0 15px rgba(255, 255, 255, 0.9); transform: scale(1.03); }
+            100% { background-color: #f3f4f6; color: #1f2937; transform: scale(1); }
+        }
+        .country-card-blink {
+            animation: white-pulse 3s infinite ease-in-out;
+        }
     </style>
 </head>
 <body>
+    <!-- 상단 네비게이션 바 -->
     <nav class="bg-eps text-white shadow-md py-4 sm:py-5 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex flex-col items-center md:items-start cursor-pointer" onclick="goHome()">
+                <div class="flex flex-col items-center md:items-start cursor-pointer" onclick="goMainHome()">
                     <span class="font-extrabold text-2xl sm:text-3xl tracking-wide">LGK(Let's Go Korea)</span>
                     <span class="text-xs text-blue-200">EPS Employment Support Portal</span>
                 </div>
                 <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm">
-                    <button onclick="goHome()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-md font-semibold transition">🏠 Home</button>
+                    <button onclick="goMainHome()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-md font-semibold transition">🏠 Home</button>
                     <button onclick="showBoardScreen()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-md font-semibold transition">📢 Notice & Q&A</button>
                     <button onclick="showQnAScreen()" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-md font-semibold transition">💬 Email Q&A</button>
                     <select id="site-lang-select" class="bg-white text-gray-900 text-xs rounded-md p-1.5 font-medium ml-2 shadow-sm" onchange="changeSiteLanguage()">
@@ -36,65 +47,161 @@
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto mt-6 sm:mt-8 px-4 sm:px-6 pb-16">
+    <main class="max-w-6xl mx-auto mt-6 sm:mt-8 px-4 sm:px-6 pb-16 space-y-10">
         
-        <!-- 1. 아시아 권역별 17개국 선택 화면 (가볍고 빠른 카드 그리드 방식) -->
-        <div id="country-selection-screen" class="space-y-8">
-            <div class="text-center bg-gradient-to-r from-blue-900 to-indigo-900 text-white p-6 sm:p-8 rounded-2xl shadow-lg">
-                <h2 class="text-xl sm:text-3xl font-extrabold">🌏 Asia Recruitment Network / 아시아 송출국 네트워크</h2>
-                <p class="text-xs sm:text-sm text-blue-200 mt-2">한국 취업을 희망하는 본인의 국가를 선택하세요.</p>
-            </div>
-
-            <!-- 동남아시아 -->
-            <div class="bg-white shadow-md rounded-xl p-5 border-l-4 border-blue-600">
-                <h3 class="text-base font-bold text-gray-900 mb-3">🌴 동남아시아 (Southeast Asia)</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <button onclick="selectCountry('Vietnam', 'vi')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇻🇳</span><div><div class="font-bold text-xs sm:text-sm">Vietnam</div><div class="text-[10px] text-gray-500">베트남</div></div></button>
-                    <button onclick="selectCountry('Thailand', 'th')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇹🇭</span><div><div class="font-bold text-xs sm:text-sm">Thailand</div><div class="text-[10px] text-gray-500">태국</div></div></button>
-                    <button onclick="selectCountry('Indonesia', 'id')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇮🇩</span><div><div class="font-bold text-xs sm:text-sm">Indonesia</div><div class="text-[10px] text-gray-500">인도네시아</div></div></button>
-                    <button onclick="selectCountry('Cambodia', 'km')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇰🇭</span><div><div class="font-bold text-xs sm:text-sm">Cambodia</div><div class="text-[10px] text-gray-500">캄보디아</div></div></button>
-                    <button onclick="selectCountry('Philippines', 'en')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇵🇭</span><div><div class="font-bold text-xs sm:text-sm">Philippines</div><div class="text-[10px] text-gray-500">필리핀</div></div></button>
-                    <button onclick="selectCountry('Myanmar', 'my')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇲🇲</span><div><div class="font-bold text-xs sm:text-sm">Myanmar</div><div class="text-[10px] text-gray-500">미얀마</div></div></button>
-                    <button onclick="selectCountry('East Timor', 'en')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇹🇱</span><div><div class="font-bold text-xs sm:text-sm">East Timor</div><div class="text-[10px] text-gray-500">동티모르</div></div></button>
-                    <button onclick="selectCountry('Laos', 'lo')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇱🇦</span><div><div class="font-bold text-xs sm:text-sm">Laos</div><div class="text-[10px] text-gray-500">라오스</div></div></button>
+        <!-- ================= 메인 홈페이지 화면 ================= -->
+        <div id="main-home-screen" class="space-y-10">
+            <!-- 1. 상단 한국인 일하는 이미지 배너 복구 -->
+            <div class="relative w-full rounded-2xl overflow-hidden shadow-xl h-48 sm:h-72 flex items-center justify-center bg-gray-900">
+                <div class="absolute inset-0 bg-black bg-opacity-45"></div>
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Working together" class="absolute inset-0 w-full h-full object-cover">
+                <div class="relative z-10 text-center text-white p-4 space-y-2">
+                    <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight drop-shadow-md">Land of Opportunity, Let's Go to Korea!</h1>
+                    <p class="text-xs sm:text-sm text-blue-100 font-medium">외국인 근로자를 위한 안전하고 신뢰할 수 있는 고용 및 이력서 지원 포털</p>
+                    <button onclick="showAsiaMapScreen()" class="mt-3 bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3 rounded-full shadow-lg text-sm sm:text-base transition transform hover:scale-105">
+                        🌍 국가별 이력서 다운/제출 (Asia Network)
+                    </button>
                 </div>
             </div>
 
-            <!-- 동아시아 -->
-            <div class="bg-white shadow-md rounded-xl p-5 border-l-4 border-indigo-600">
-                <h3 class="text-base font-bold text-gray-900 mb-3">🏮 동아시아 (East Asia)</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <button onclick="selectCountry('Mongolia', 'mn')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇲🇳</span><div><div class="font-bold text-xs sm:text-sm">Mongolia</div><div class="text-[10px] text-gray-500">몽골</div></div></button>
-                    <button onclick="selectCountry('China', 'zh')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇨🇳</span><div><div class="font-bold text-xs sm:text-sm">China</div><div class="text-[10px] text-gray-500">중국</div></div></button>
+            <!-- 2. 중간 공지사항 게시판 미리보기 섹션 -->
+            <div class="bg-white shadow-md rounded-xl p-6 border-t-4 border-indigo-600">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-gray-900">📢 공지사항 및 지원 Q&A (Notice & Q&A)</h3>
+                    <button onclick="showBoardScreen()" class="text-xs text-indigo-600 font-bold hover:underline">전체보기 →</button>
+                </div>
+                <div class="border rounded-lg overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-200 text-left text-xs sm:text-sm">
+                        <thead class="bg-gray-50 text-gray-700 font-semibold">
+                            <tr>
+                                <th class="px-4 py-2.5">No</th>
+                                <th class="px-4 py-2.5">Title</th>
+                                <th class="px-4 py-2.5 w-24">Author</th>
+                                <th class="px-4 py-2.5 w-24 text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="home-board-preview" class="divide-y divide-gray-200 bg-white">
+                            <tr><td colspan="4" class="px-4 py-4 text-center text-gray-400">공지사항을 불러오는 중...</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <!-- 중앙아시아 -->
-            <div class="bg-white shadow-md rounded-xl p-5 border-l-4 border-emerald-600">
-                <h3 class="text-base font-bold text-gray-900 mb-3">🏔️ 중앙아시아 (Central Asia)</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <button onclick="selectCountry('Uzbekistan', 'uz')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇺🇿</span><div><div class="font-bold text-xs sm:text-sm">Uzbekistan</div><div class="text-[10px] text-gray-500">우즈베키스탄</div></div></button>
-                    <button onclick="selectCountry('Kyrgyzstan', 'ky')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇰🇬</span><div><div class="font-bold text-xs sm:text-sm">Kyrgyzstan</div><div class="text-[10px] text-gray-500">키르기스스탄</div></div></button>
-                    <button onclick="selectCountry('Tajikistan', 'tg')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇹🇯</span><div><div class="font-bold text-xs sm:text-sm">Tajikistan</div><div class="text-[10px] text-gray-500">타지키스탄</div></div></button>
-                </div>
+            <!-- 3. 제일 아래 EPS 사이트 연결 배너 복구 -->
+            <div class="mt-12">
+                <a href="https://www.eps.go.kr/index.jsp" target="_blank" class="group relative block w-full rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
+                    <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition"></div>
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="EPS Work24" class="w-full h-36 sm:h-48 object-cover">
+                    <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
+                        <span class="text-base sm:text-2xl font-bold mb-1 text-center drop-shadow-md">EPS (Employment Permit System) - Go to Work24</span>
+                        <span class="text-xs font-semibold bg-blue-600 px-4 py-1.5 rounded-full">Click to visit official site</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- ================= 아시아 지도 및 17개국 선택 페이지 (메인 버튼 클릭 시 진입) ================= -->
+        <div id="asia-map-screen" class="hidden space-y-6">
+            <div class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                <button onclick="goMainHome()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1">← 메인 홈으로 돌아가기</button>
+                <span class="text-xs sm:text-sm font-bold text-gray-700">🗺️ Asia Recruitment Network (17 Countries)</span>
             </div>
 
-            <!-- 남아시아 -->
-            <div class="bg-white shadow-md rounded-xl p-5 border-l-4 border-amber-600">
-                <h3 class="text-base font-bold text-gray-900 mb-3">🪷 남아시아 (South Asia)</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <button onclick="selectCountry('Sri Lanka', 'si')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇱🇰</span><div><div class="font-bold text-xs sm:text-sm">Sri Lanka</div><div class="text-[10px] text-gray-500">스리랑카</div></div></button>
-                    <button onclick="selectCountry('Pakistan', 'ur')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇵🇰</span><div><div class="font-bold text-xs sm:text-sm">Pakistan</div><div class="text-[10px] text-gray-500">파키스탄</div></div></button>
-                    <button onclick="selectCountry('Bangladesh', 'bn')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇧🇩</span><div><div class="font-bold text-xs sm:text-sm">Bangladesh</div><div class="text-[10px] text-gray-500">방글라데시</div></div></button>
-                    <button onclick="selectCountry('Nepal', 'ne')" class="p-3 bg-gray-50 hover:bg-blue-50 border rounded-lg flex items-center gap-2 text-left transition shadow-sm"><span class="text-2xl">🇳🇵</span><div><div class="font-bold text-xs sm:text-sm">Nepal</div><div class="text-[10px] text-gray-500">네팔</div></div></button>
+            <!-- 아시아 지도 (작고 직관적인 권역별 카드 섹션 및 흰색 반짝임 효과) -->
+            <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 rounded-2xl p-6 sm:p-8 shadow-xl text-white space-y-6 border border-blue-900">
+                <div class="text-center">
+                    <h2 class="text-xl sm:text-2xl font-extrabold">🌏 Asia Map & Country Selection</h2>
+                    <p class="text-xs sm:text-sm text-gray-300 mt-1">회색 바탕에서 흰색으로 반짝이는 국가 카드를 클릭하여 이력서 메뉴로 진입하세요.</p>
+                </div>
+
+                <!-- 권역별 국가 카드 그리드 -->
+                <div class="space-y-4">
+                    <!-- 동남아시아 -->
+                    <div class="bg-black/30 p-4 rounded-xl border border-blue-900">
+                        <h4 class="text-xs font-bold text-blue-300 mb-2">🌴 Southeast Asia (동남아시아)</h4>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                            <div onclick="selectCountry('Vietnam', 'vi')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                <span class="text-xl">🇻🇳</span><div class="text-xs font-bold">Vietnam (베트남)</div>
+                            </div>
+                            <div onclick="selectCountry('Myanmar', 'my')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                <span class="text-xl">🇲🇲</span><div class="text-xs font-bold">Myanmar (미얀마)</div>
+                            </div>
+                            <div onclick="selectCountry('Thailand', 'th')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                <span class="text-xl">🇹🇭</span><div class="text-xs font-bold">Thailand (태국)</div>
+                            </div>
+                            <div onclick="selectCountry('Indonesia', 'id')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                <span class="text-xl">🇮🇩</span><div class="text-xs font-bold">Indonesia (인도네시아)</div>
+                            </div>
+                            <div onclick="selectCountry('Cambodia', 'km')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                <span class="text-xl">🇰🇭</span><div class="text-xs font-bold">Cambodia (캄보디아)</div>
+                            </div>
+                            <div onclick="selectCountry('Philippines', 'en')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                <span class="text-xl">🇵🇭</span><div class="text-xs font-bold">Philippines (필리핀)</div>
+                            </div>
+                            <div onclick="selectCountry('East Timor', 'en')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                <span class="text-xl">🇹🇱</span><div class="text-xs font-bold">East Timor (동티모르)</div>
+                            </div>
+                            <div onclick="selectCountry('Laos', 'lo')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                <span class="text-xl">🇱🇦</span><div class="text-xs font-bold">Laos (라오스)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 동아시아 & 중앙아시아 -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-black/30 p-4 rounded-xl border border-blue-900">
+                            <h4 class="text-xs font-bold text-indigo-300 mb-2">🏮 East Asia (동아시아)</h4>
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <div onclick="selectCountry('Mongolia', 'mn')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                    <span class="text-xl">🇲🇳</span><div class="text-xs font-bold">Mongolia (몽골)</div>
+                                </div>
+                                <div onclick="selectCountry('China', 'zh')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                    <span class="text-xl">🇨🇳</span><div class="text-xs font-bold">China (중국)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-black/30 p-4 rounded-xl border border-blue-900">
+                            <h4 class="text-xs font-bold text-emerald-300 mb-2">🏔️ Central Asia (중앙아시아)</h4>
+                            <div class="grid grid-cols-3 gap-2.5">
+                                <div onclick="selectCountry('Uzbekistan', 'uz')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                    <span class="text-xl">🇺🇿</span><div class="text-xs font-bold">Uzbekistan</div>
+                                </div>
+                                <div onclick="selectCountry('Kyrgyzstan', 'ky')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                    <span class="text-xl">🇰🇬</span><div class="text-xs font-bold">Kyrgyzstan</div>
+                                </div>
+                                <div onclick="selectCountry('Tajikistan', 'tg')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                    <span class="text-xl">🇹🇯</span><div class="text-xs font-bold">Tajikistan</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 남아시아 -->
+                    <div class="bg-black/30 p-4 rounded-xl border border-blue-900">
+                        <h4 class="text-xs font-bold text-amber-300 mb-2">🪷 South Asia (남아시아)</h4>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                            <div onclick="selectCountry('Sri Lanka', 'si')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                <span class="text-xl">🇱🇰</span><div class="text-xs font-bold">Sri Lanka (스리랑카)</div>
+                            </div>
+                            <div onclick="selectCountry('Pakistan', 'ur')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                <span class="text-xl">🇵🇰</span><div class="text-xs font-bold">Pakistan (파키스탄)</div>
+                            </div>
+                            <div onclick="selectCountry('Bangladesh', 'bn')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                <span class="text-xl">🇧🇩</span><div class="text-xs font-bold">Bangladesh (방글라)</div>
+                            </div>
+                            <div onclick="selectCountry('Nepal', 'ne')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
+                                <span class="text-xl">🇳🇵</span><div class="text-xs font-bold">Nepal (네팔)</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 2. 국가별 다운로드/업로드 메뉴 화면 -->
+        <!-- ================= 국가별 다운로드/업로드 메뉴 화면 ================= -->
         <div id="action-screen" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                <button onclick="goHome()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1">← 국가 선택으로 돌아가기</button>
+                <button onclick="showAsiaMapScreen()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1">← 아시아 국가 선택으로 돌아가기</button>
                 <span id="selected-country-badge" class="bg-blue-100 text-blue-800 text-xs sm:text-sm font-bold px-3 py-1.5 rounded-full">Selected: None</span>
             </div>
             <div id="menu-selection" class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
@@ -123,9 +230,9 @@
             </div>
         </div>
 
-        <!-- 3. Q&A 메일 전송 메뉴 -->
+        <!-- ================= Q&A 메일 전송 메뉴 ================= -->
         <div id="qna-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-amber-600">
-            <button onclick="goHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">← 홈으로 돌아가기</button>
+            <button onclick="goMainHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">← 홈으로 돌아가기</button>
             <div class="max-w-2xl mx-auto">
                 <div class="flex items-center gap-3 mb-4"><span class="text-3xl">📧</span><h2 class="text-2xl font-bold text-gray-900">Direct Management Q&A</h2></div>
                 <p class="text-sm text-gray-600 mb-6 bg-amber-50 p-4 rounded-lg border border-amber-200">운영진 공식 이메일인 <strong class="text-amber-800">LGK_manager@gmail.com</strong>으로 직접 전송됩니다.</p>
@@ -140,7 +247,7 @@
             </div>
         </div>
 
-        <!-- 4. 공지사항 & 비밀번호 잠금형 Q&A 게시판 -->
+        <!-- ================= 공지사항 & 비밀번호 잠금형 Q&A 게시판 ================= -->
         <div id="board-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-8 border-t-4 border-indigo-700">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <div>
@@ -149,7 +256,7 @@
                 </div>
                 <div class="flex gap-2">
                     <button onclick="showWritePostModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-xs sm:text-sm font-semibold shadow">✍️ Write Post</button>
-                    <button onclick="goHome()" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-md text-xs sm:text-sm font-semibold">Home</button>
+                    <button onclick="goMainHome()" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-md text-xs sm:text-sm font-semibold">Home</button>
                 </div>
             </div>
             <div class="mb-4 flex justify-between items-center bg-gray-50 p-3 rounded-lg border text-xs">
@@ -174,9 +281,9 @@
             </div>
         </div>
 
-        <!-- 5. 관리자 대시보드 로그인 화면 -->
+        <!-- ================= 관리자 대시보드 로그인 화면 ================= -->
         <div id="admin-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-gray-800 mt-8">
-            <button onclick="goHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">← Back to Home</button>
+            <button onclick="goMainHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">← Back to Home</button>
             <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Administrator Login</h2>
             <form id="admin-form" class="space-y-5" onsubmit="handleAdminLogin(event)">
                 <div><label class="block text-sm font-medium text-gray-700">Admin Email</label><input type="email" id="admin-id" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" placeholder="staff@gmail.com" required></div>
@@ -185,11 +292,11 @@
             </form>
         </div>
 
-        <!-- 6. 대시보드 -->
+        <!-- ================= 대시보드 ================= -->
         <div id="dashboard-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-8 border-t-4 border-gray-800 mt-8">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-bold text-gray-900">📊 Admin Dashboard</h2>
-                <button onclick="goHome()" class="bg-gray-600 text-white px-4 py-2 rounded-md text-sm">Logout</button>
+                <button onclick="goMainHome()" class="bg-gray-600 text-white px-4 py-2 rounded-md text-sm">Logout</button>
             </div>
             <div class="overflow-x-auto border border-gray-200 rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
@@ -257,15 +364,28 @@
         let isStaffAuthorized = false;
         let currentSelectedPost = null;
 
+        window.addEventListener('DOMContentLoaded', () => {
+            loadHomeBoardPreview();
+        });
+
         function hideAllScreens() {
-            ['country-selection-screen', 'action-screen', 'upload-screen', 'qna-screen', 'board-screen', 'admin-screen', 'dashboard-screen'].forEach(id => {
+            ['main-home-screen', 'asia-map-screen', 'action-screen', 'upload-screen', 'qna-screen', 'board-screen', 'admin-screen', 'dashboard-screen'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
         }
-        function goHome() { hideAllScreens(); document.getElementById('country-selection-screen').classList.remove('hidden'); }
+        function goMainHome() { hideAllScreens(); document.getElementById('main-home-screen').classList.remove('hidden'); loadHomeBoardPreview(); }
+        function showAsiaMapScreen() { hideAllScreens(); document.getElementById('asia-map-screen').classList.remove('hidden'); }
         function showQnAScreen() { hideAllScreens(); document.getElementById('qna-screen').classList.remove('hidden'); }
         async function showBoardScreen() { hideAllScreens(); document.getElementById('board-screen').classList.remove('hidden'); await loadBoardPosts(); }
-        function selectCountry(c, l) { currentCountry = c; currentLang = l || 'en'; hideAllScreens(); document.getElementById('action-screen').classList.remove('hidden'); document.getElementById('menu-selection').classList.remove('hidden'); document.getElementById('selected-country-badge').innerText = `Selected: ${c}`; }
+        
+        function selectCountry(c, l) { 
+            currentCountry = c; 
+            currentLang = l || 'en'; 
+            hideAllScreens(); 
+            document.getElementById('action-screen').classList.remove('hidden'); 
+            document.getElementById('menu-selection').classList.remove('hidden'); 
+            document.getElementById('selected-country-badge').innerText = `Selected: ${c}`; 
+        }
         function showUploadForm() { document.getElementById('menu-selection').classList.add('hidden'); document.getElementById('upload-screen').classList.remove('hidden'); }
         function showMenuSelection() { document.getElementById('upload-screen').classList.add('hidden'); document.getElementById('menu-selection').classList.remove('hidden'); }
         function showAdminForm() { hideAllScreens(); document.getElementById('admin-screen').classList.remove('hidden'); }
@@ -280,6 +400,27 @@
         }
 
         let boardPosts = [];
+        async function loadHomeBoardPreview() {
+            try {
+                const { data } = await supabaseClient.from('board_posts').select('*').order('created_at', { ascending: false }).limit(3);
+                const tbody = document.getElementById('home-board-preview');
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-4 text-center text-gray-400">등록된 공지/문의가 없습니다.</td></tr>`;
+                    return;
+                }
+                tbody.innerHTML = data.map((p, idx) => `
+                    <tr class="hover:bg-gray-50 cursor-pointer" onclick="showBoardScreen()">
+                        <td class="px-4 py-2.5 text-gray-500">${data.length - idx}</td>
+                        <td class="px-4 py-2.5 font-medium text-gray-900">🔒 ******************** (비밀글)</td>
+                        <td class="px-4 py-2.5 text-gray-600">${p.author}</td>
+                        <td class="px-4 py-2.5 text-center">${p.reply ? '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">답변완료</span>' : '<span class="bg-gray-100 text-gray-500 px-2 py-0.5 rounded text-xs">대기중</span>'}</td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                document.getElementById('home-board-preview').innerHTML = `<tr><td colspan="4" class="px-4 py-4 text-center text-gray-400">게시글을 불러올 수 없습니다.</td></tr>`;
+            }
+        }
+
         async function loadBoardPosts() {
             try {
                 const { data } = await supabaseClient.from('board_posts').select('*').order('created_at', { ascending: false });
@@ -392,18 +533,18 @@
             document.getElementById('dashboard-screen').classList.remove('hidden');
             const { data } = await supabaseClient.from('resumes').select('*').order('created_at', { ascending: false });
             const tbody = document.getElementById('resume-table-body');
-            tbody.innerHTML = (data || []).map(r => `<tr class="border-b"><td class="px-4 py-3 text-xs">${new Date(r.created_at).toLocaleString()}</td><td class="px-4 py-3">${r.country||''}</td><td class="px-4 py-3">${r.eps_id}</td><td class="px-4 py-3">${r.full_name}</td><td class="px-4 py-3 text-center"><a href="${r.file_url}" target="_blank" class="text-blue-600 underline text-xs">Download</a></li></td></tr>`).join('');
+            tbody.innerHTML = (data || []).map(r => `<tr class="border-b"><td class="px-4 py-3 text-xs">${new Date(r.created_at).toLocaleString()}</td><td class="px-4 py-3">${r.country||''}</td><td class="px-4 py-3">${r.eps_id}</td><td class="px-4 py-3">${r.full_name}</td><td class="px-4 py-3 text-center"><a href="${r.file_url}" target="_blank" class="text-blue-600 underline text-xs">Download</a></td></tr>`).join('');
         }
 
         async function handleUpload(e) {
             e.preventDefault();
             const file = document.getElementById('file-upload').files[0];
             const epsId = document.getElementById('eps-id').value;
-            const path = `${currentCountry}_${epsId}_${Date.now()}.${file.name.spec.split('.').pop()}`;
+            const path = `${currentCountry}_${epsId}_${Date.now()}.${file.name.split('.').pop()}`;
             await supabaseClient.storage.from('resume_files').upload(path, file);
             const { data } = supabaseClient.storage.from('resume_files').getPublicUrl(path);
             await supabaseClient.from('resumes').insert([{ country: currentCountry, eps_id: epsId, full_name: document.getElementById('full-name').value, phone: document.getElementById('phone').value, password: document.getElementById('upload-password').value, file_url: data.publicUrl }]);
-            alert('제출 완료!'); goHome();
+            alert('제출 완료!'); goMainHome();
         }
     </script>
 </body>
