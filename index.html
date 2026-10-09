@@ -15,15 +15,21 @@
         .btn-eps { background-color: var(--eps-blue); color: white; transition: background-color 0.3s; }
         .btn-eps:hover { background-color: var(--eps-light-blue); }
         
-        /* 국기 깜박임(Blinking) 애니메이션 효과 */
-        @keyframes blink-animation {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.1); }
-            100% { opacity: 1; transform: scale(1); }
+        /* 지도 위 마커 및 국기 깜박임(Blinking Pulse) 애니메이션 */
+        @keyframes radar-pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(59, 130, 246, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
         }
-        .flag-blink {
-            display: inline-block;
-            animation: blink-animation 1.8s infinite ease-in-out;
+        .map-marker-blink {
+            animation: radar-pulse 2s infinite ease-in-out;
+        }
+        @keyframes flag-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        .flag-icon-anim {
+            animation: flag-bounce 1.5s infinite ease-in-out;
         }
     </style>
 </head>
@@ -59,75 +65,94 @@
 
     <main class="max-w-5xl mx-auto mt-8 sm:mt-10 px-4 sm:px-6 pb-12">
         
-        <!-- 1단계: 아시아 지도 시각 배너 및 17개 국가 선택 화면 -->
+        <!-- 1단계: 아시아 지도 인포그래픽 배너 및 17개 국가 선택 화면 -->
         <div id="country-selection-screen" class="space-y-8">
             
-            <!-- 아시아 지도 및 안내 시각 배너 -->
-            <div class="bg-gradient-to-r from-blue-900 via-indigo-800 to-blue-900 text-white rounded-2xl p-6 sm:p-8 shadow-xl text-center relative overflow-hidden">
-                <div class="absolute -right-10 -bottom-10 text-9xl opacity-10 select-none">🌏</div>
-                <div class="absolute -left-10 -top-10 text-9xl opacity-10 select-none">🗺️</div>
-                <span class="text-4xl sm:text-5xl mb-2 inline-block">🌏🗺️</span>
-                <h2 class="text-xl sm:text-3xl font-extrabold tracking-tight" id="select-country-title">Select Your Country in Asia / 아시아 송출국 선택</h2>
-                <p class="text-xs sm:text-sm text-blue-200 mt-2 max-w-xl mx-auto" id="select-country-desc">
-                    Explore employment opportunities in Korea. Choose your home country below to get started in your native language.
-                </p>
+            <!-- 아시아 지도 인터랙티브 시각 배너 -->
+            <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white rounded-2xl p-6 sm:p-10 shadow-2xl relative overflow-hidden border border-blue-900/50">
+                <!-- 배경 지도 텍스처 효과 -->
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                
+                <div class="relative z-10 text-center max-w-2xl mx-auto space-y-3">
+                    <div class="inline-flex items-center gap-2 bg-blue-600/30 border border-blue-400/30 px-4 py-1.5 rounded-full text-blue-300 text-xs font-semibold tracking-wide uppercase">
+                        <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span> Asia EPS Recruitment Network
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight" id="select-country-title">Select Your Country in Asia</h2>
+                    <p class="text-sm text-gray-300" id="select-country-desc">
+                        Explore employment pathways to Korea. Click your country below where active recruitment and resume services are live.
+                    </p>
+                </div>
+
+                <!-- 아시아 지도 위에서 반짝이는 주요 거점 국기 미리보기 바 -->
+                <div class="mt-8 pt-6 border-t border-blue-800/60 flex flex-wrap justify-center items-center gap-3 sm:gap-6 text-2xl">
+                    <span class="flag-icon-anim cursor-pointer hover:scale-125 transition" title="Vietnam" onclick="selectCountry('Vietnam', 'vi')">🇻🇳</span>
+                    <span class="flag-icon-anim cursor-pointer hover:scale-125 transition" title="Myanmar" onclick="selectCountry('Myanmar', 'my')">🇲🇲</span>
+                    <span class="flag-icon-anim cursor-pointer hover:scale-125 transition" title="Thailand" onclick="selectCountry('Thailand', 'th')">🇹🇭</span>
+                    <span class="flag-icon-anim cursor-pointer hover:scale-125 transition" title="Indonesia" onclick="selectCountry('Indonesia', 'id')">🇮🇩</span>
+                    <span class="flag-icon-anim cursor-pointer hover:scale-125 transition" title="Cambodia" onclick="selectCountry('Cambodia', 'km')">🇰🇭</span>
+                    <span class="flag-icon-anim cursor-pointer hover:scale-125 transition" title="Philippines" onclick="selectCountry('Philippines', 'en')">🇵🇭</span>
+                    <span class="flag-icon-anim cursor-pointer hover:scale-125 transition" title="Mongolia" onclick="selectCountry('Mongolia', 'mn')">🇲🇳</span>
+                    <span class="flag-icon-anim cursor-pointer hover:scale-125 transition" title="Uzbekistan" onclick="selectCountry('Uzbekistan', 'uz')">🇺🇿</span>
+                    <span class="flag-icon-anim cursor-pointer hover:scale-125 transition" title="Sri Lanka" onclick="selectCountry('Sri Lanka', 'si')">🇱🇰</span>
+                    <span class="text-xs text-blue-400 font-medium ml-2">✨ Click any country below</span>
+                </div>
             </div>
 
             <!-- 동남아시아 (Southeast Asia) -->
             <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-blue-600">
                 <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">🌴 <span id="region-sea">Southeast Asia (동남아시아)</span></h3>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div onclick="selectCountry('Vietnam', 'vi')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇻🇳</span> 
+                    <div onclick="selectCountry('Vietnam', 'vi')" class="country-card flex items-center gap-3 p-3.5 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group map-marker-blink">
+                        <span class="text-3xl flag-icon-anim">🇻🇳</span> 
                         <div>
                             <span class="font-bold text-gray-900 text-sm block">Vietnam</span>
                             <span class="text-xs text-gray-500">베트남</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Thailand', 'th')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇹🇭</span> 
+                    <div onclick="selectCountry('Thailand', 'th')" class="country-card flex items-center gap-3 p-3.5 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group map-marker-blink">
+                        <span class="text-3xl flag-icon-anim">🇹🇭</span> 
                         <div>
                             <span class="font-bold text-gray-900 text-sm block">Thailand</span>
                             <span class="text-xs text-gray-500">태국</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Indonesia', 'id')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇮🇩</span> 
+                    <div onclick="selectCountry('Indonesia', 'id')" class="country-card flex items-center gap-3 p-3.5 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group map-marker-blink">
+                        <span class="text-3xl flag-icon-anim">🇮🇩</span> 
                         <div>
                             <span class="font-bold text-gray-900 text-sm block">Indonesia</span>
                             <span class="text-xs text-gray-500">인도네시아</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Cambodia', 'km')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇰🇭</span> 
+                    <div onclick="selectCountry('Cambodia', 'km')" class="country-card flex items-center gap-3 p-3.5 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group map-marker-blink">
+                        <span class="text-3xl flag-icon-anim">🇰🇭</span> 
                         <div>
                             <span class="font-bold text-gray-900 text-sm block">Cambodia</span>
                             <span class="text-xs text-gray-500">캄보디아</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('East Timor', 'en')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇹🇱</span> 
+                    <div onclick="selectCountry('East Timor', 'en')" class="country-card flex items-center gap-3 p-3.5 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-icon-anim">🇹🇱</span> 
                         <div>
                             <span class="font-bold text-gray-900 text-sm block">East Timor</span>
                             <span class="text-xs text-gray-500">동티모르</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Myanmar', 'my')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇲🇲</span> 
+                    <div onclick="selectCountry('Myanmar', 'my')" class="country-card flex items-center gap-3 p-3.5 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group map-marker-blink">
+                        <span class="text-3xl flag-icon-anim">🇲🇲</span> 
                         <div>
                             <span class="font-bold text-gray-900 text-sm block">Myanmar</span>
                             <span class="text-xs text-gray-500">미얀마</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Laos', 'lo')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇱🇦</span> 
+                    <div onclick="selectCountry('Laos', 'lo')" class="country-card flex items-center gap-3 p-3.5 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-icon-anim">🇱🇦</span> 
                         <div>
                             <span class="font-bold text-gray-900 text-sm block">Laos</span>
                             <span class="text-xs text-gray-500">라오스</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Philippines', 'en')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇵🇭</span> 
+                    <div onclick="selectCountry('Philippines', 'en')" class="country-card flex items-center gap-3 p-3.5 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group map-marker-blink">
+                        <span class="text-3xl flag-icon-anim">🇵🇭</span> 
                         <div>
                             <span class="font-bold text-gray-900 text-sm block">Philippines</span>
                             <span class="text-xs text-gray-500">필리핀</span>
@@ -140,15 +165,15 @@
             <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-indigo-600">
                 <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">🏮 <span id="region-ea">East Asia (동아시아)</span></h3>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div onclick="selectCountry('Mongolia', 'mn')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇲🇳</span> 
+                    <div onclick="selectCountry('Mongolia', 'mn')" class="country-card flex items-center gap-3 p-3.5 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group map-marker-blink">
+                        <span class="text-3xl flag-icon-anim">🇲🇳</span> 
                         <div>
                             <span class="font-bold text-gray-900 text-sm block">Mongolia</span>
                             <span class="text-xs text-gray-500">몽골</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('China', 'zh')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇨🇳</span> 
+                    <div onclick="selectCountry('China', 'zh')" class="country-card flex items-center gap-3 p-3.5 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group map-marker-blink">
+                        <span class="text-3xl flag-icon-anim">🇨🇳</span> 
                         <div>
                             <span class="font-bold text-gray-900 text-sm block">China</span>
                             <span class="text-xs text-gray-500">중국</span>
@@ -161,121 +186,11 @@
             <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-emerald-600">
                 <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">🏔️ <span id="region-ca">Central Asia (중앙아시아)</span></h3>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div onclick="selectCountry('Uzbekistan', 'uz')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇺🇿</span> 
+                    <div onclick="selectCountry('Uzbekistan', 'uz')" class="country-card flex items-center gap-3 p-3.5 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group map-marker-blink">
+                        <span class="text-3xl flag-icon-anim">🇺🇿</span> 
                         <div>
                             <span class="font-bold text-gray-900 text-sm block">Uzbekistan</span>
                             <span class="text-xs text-gray-500">우즈베키스탄</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Kyrgyzstan', 'ky')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇰🇬</span> 
-                        <div>
-                            <span class="font-bold text-gray-900 text-sm block">Kyrgyzstan</span>
-                            <span class="text-xs text-gray-500">키르기스스탄</span>
-                        </div>
-                    </div>
-                    <div onclick="selectCountry('Tajikistan', 'tg')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇹🇯</span> 
-                        <div>
-                            <span class="font-bold text-gray-900 text-sm block">Tajikistan</span>
-                            <span class="text-xs text-gray-500">타지키스탄</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 남아시아 (South Asia) -->
-            <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-amber-600">
-                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">🪷 <span id="region-sa">South Asia (남아시아)</span></h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div onclick="selectCountry('Sri Lanka', 'si')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇱🇰</span> 
-                        <div>
-                            <span class="font-bold text-gray-900 text-sm block">Sri Lanka</span>
-                            <span class="text-xs text-gray-500">스리랑카</span>
-                        </div>
-                    </div>
-                    <div onclick="selectCountry('Pakistan', 'ur')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇵🇰</span> 
-                        <div>
-                            <span class="font-bold text-gray-900 text-sm block">Pakistan</span>
-                            <span class="text-xs text-gray-500">파키스탄</span>
-                        </div>
-                    </div>
-                    <div onclick="selectCountry('Bangladesh', 'bn')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇧🇩</span> 
-                        <div>
-                            <span class="font-bold text-gray-900 text-sm block">Bangladesh</span>
-                            <span class="text-xs text-gray-500">방글라데시</span>
-                        </div>
-                    </div>
-                    <div onclick="selectCountry('Nepal', 'ne')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
-                        <span class="text-3xl flag-blink">🇳🇵</span> 
-                        <div>
-                            <span class="font-bold text-gray-900 text-sm block">Nepal</span>
-                            <span class="text-xs text-gray-500">네팔</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2단계: 선택한 국가별 다운로드 / 업로드 메뉴 화면 -->
-        <div id="action-screen" class="hidden space-y-6">
-            <div class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                <button onclick="goHome()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1" id="btn-back-home">
-                    ← Back to Country Selection / 국가 선택으로 돌아가기
-                </button>
-                <span id="selected-country-badge" class="bg-blue-100 text-blue-800 text-xs sm:text-sm font-bold px-3 py-1.5 rounded-full">Selected Country: None</span>
-            </div>
-
-            <!-- 선택 메뉴 (다운로드 / 업로드 카드) -->
-            <div id="menu-selection" class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-                <a href="eps_resume_template.pdf" download class="flex flex-col items-center justify-center p-8 sm:p-10 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
-                    <div class="text-6xl sm:text-7xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform">📥</div>
-                    <h3 class="text-xl sm:text-2xl font-bold text-gray-900" id="btn-download-main">Download Resume</h3>
-                    <p class="text-sm sm:text-base text-gray-500 mt-2" id="desc-download">Get the standard form</p>
-                </a>
-                <div onclick="showUploadForm()" class="flex flex-col items-center justify-center p-8 sm:p-10 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
-                    <div class="text-6xl sm:text-7xl mb-4 sm:mb-6 group-hover:scale-110 transition-transform">📤</div>
-                    <h3 class="text-xl sm:text-2xl font-bold text-gray-900" id="btn-upload-main">Upload Resume</h3>
-                    <p class="text-sm sm:text-base text-gray-500 mt-2" id="desc-upload">Submit your filled form</p>
-                </div>
-            </div>
-
-            <!-- 이력서 업로드 폼 -->
-            <div id="upload-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-blue-800">
-                <button onclick="showMenuSelection()" class="mb-6 text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1" id="btn-back-menu">
-                    ← Back to Menu
-                </button>
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6" id="form-title">Submit Your Resume</h2>
-                <form id="resume-form" class="space-y-5 sm:space-y-6" onsubmit="handleUpload(event)">
-                    <div>
-                        <label for="eps-id" class="block text-sm font-medium text-gray-700" id="label-eps">EPS-TOPIK ID</label>
-                        <input type="text" id="eps-id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-base" required>
-                    </div>
-                    <div>
-                        <label for="full-name" class="block text-sm font-medium text-gray-700" id="label-name">Full Name</label>
-                        <input type="text" id="full-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-base" required>
-                    </div>
-                    <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700" id="label-phone">Phone Number</label>
-                        <input type="tel" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-base" placeholder="010-XXXX-XXXX" required>
-                    </div>
-                    <div>
-                        <label for="upload-password" class="block text-sm font-medium text-gray-700" id="label-password">Set a Password (To protect your resume)</label>
-                        <input type="password" id="upload-password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-base" placeholder="****" required>
-                    </div>
-                    <div>
-                        <label for="file-upload" class="block text-sm font-medium text-gray-700" id="label-file">Upload Completed Resume</label>
-                        <input type="file" id="file-upload" accept=".pdf,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" required>
-                    </div>
-                    <button type="submit" id="btn-submit" class="w-full btn-eps flex justify-center py-4 px-4 border border-transparent rounded-md shadow-md text-base sm:text-lg font-bold tracking-wide mt-4">
-                        Submit Application
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <!-- 3. 관리자 로그인 및 대시보드 화면 -->
+                    <div onclick="selectCountry('Kyrgyzstan', 'ky')" class="country-card
