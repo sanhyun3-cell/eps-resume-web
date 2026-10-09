@@ -14,7 +14,6 @@
         .btn-eps { background-color: var(--eps-blue); color: white; transition: background-color 0.3s; }
         .btn-eps:hover { background-color: var(--eps-light-blue); }
         
-        /* 회색 배경에서 흰색으로 반짝이는 애니메이션 */
         @keyframes white-pulse {
             0% { background-color: #f3f4f6; color: #1f2937; transform: scale(1); }
             50% { background-color: #ffffff; color: #0b3d91; box-shadow: 0 0 15px rgba(255, 255, 255, 0.9); transform: scale(1.03); }
@@ -51,7 +50,7 @@
         
         <!-- ================= 메인 홈페이지 화면 ================= -->
         <div id="main-home-screen" class="space-y-10">
-            <!-- 1. 상단 한국인 일하는 이미지 배너 복구 -->
+            <!-- 1. 상단 한국인 일하는 이미지 배너 -->
             <div class="relative w-full rounded-2xl overflow-hidden shadow-xl h-48 sm:h-72 flex items-center justify-center bg-gray-900">
                 <div class="absolute inset-0 bg-black bg-opacity-45"></div>
                 <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Working together" class="absolute inset-0 w-full h-full object-cover">
@@ -87,7 +86,7 @@
                 </div>
             </div>
 
-            <!-- 3. 제일 아래 EPS 사이트 연결 배너 복구 -->
+            <!-- 3. 제일 아래 EPS 사이트 연결 배너 -->
             <div class="mt-12">
                 <a href="https://www.eps.go.kr/index.jsp" target="_blank" class="group relative block w-full rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
                     <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition"></div>
@@ -100,49 +99,47 @@
             </div>
         </div>
 
-        <!-- ================= 아시아 지도 및 17개국 선택 페이지 (메인 버튼 클릭 시 진입) ================= -->
+        <!-- ================= 아시아 지도 및 17개국 선택 페이지 ================= -->
         <div id="asia-map-screen" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <button onclick="goMainHome()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1">← 메인 홈으로 돌아가기</button>
                 <span class="text-xs sm:text-sm font-bold text-gray-700">🗺️ Asia Recruitment Network (17 Countries)</span>
             </div>
 
-            <!-- 아시아 지도 (작고 직관적인 권역별 카드 섹션 및 흰색 반짝임 효과) -->
             <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 rounded-2xl p-6 sm:p-8 shadow-xl text-white space-y-6 border border-blue-900">
                 <div class="text-center">
                     <h2 class="text-xl sm:text-2xl font-extrabold">🌏 Asia Map & Country Selection</h2>
-                    <p class="text-xs sm:text-sm text-gray-300 mt-1">회색 바탕에서 흰색으로 반짝이는 국가 카드를 클릭하여 이력서 메뉴로 진입하세요.</p>
+                    <p class="text-xs sm:text-sm text-gray-300 mt-1">회색 바탕에서 흰색으로 반짝이는 국가 카드(국기 포함)를 클릭하여 이력서 메뉴로 진입하세요.</p>
                 </div>
 
-                <!-- 권역별 국가 카드 그리드 -->
                 <div class="space-y-4">
                     <!-- 동남아시아 -->
                     <div class="bg-black/30 p-4 rounded-xl border border-blue-900">
                         <h4 class="text-xs font-bold text-blue-300 mb-2">🌴 Southeast Asia (동남아시아)</h4>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                             <div onclick="selectCountry('Vietnam', 'vi')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-xl">🇻🇳</span><div class="text-xs font-bold">Vietnam (베트남)</div>
+                                <span class="text-2xl">🇻🇳</span><div class="text-xs font-bold">Vietnam (베트남)</div>
                             </div>
                             <div onclick="selectCountry('Myanmar', 'my')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-xl">🇲🇲</span><div class="text-xs font-bold">Myanmar (미얀마)</div>
+                                <span class="text-2xl">🇲🇲</span><div class="text-xs font-bold">Myanmar (미얀마)</div>
                             </div>
                             <div onclick="selectCountry('Thailand', 'th')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-xl">🇹🇭</span><div class="text-xs font-bold">Thailand (태국)</div>
+                                <span class="text-2xl">🇹🇭</span><div class="text-xs font-bold">Thailand (태국)</div>
                             </div>
                             <div onclick="selectCountry('Indonesia', 'id')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-xl">🇮🇩</span><div class="text-xs font-bold">Indonesia (인도네시아)</div>
+                                <span class="text-2xl">🇮🇩</span><div class="text-xs font-bold">Indonesia (인도네시아)</div>
                             </div>
                             <div onclick="selectCountry('Cambodia', 'km')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-xl">🇰🇭</span><div class="text-xs font-bold">Cambodia (캄보디아)</div>
+                                <span class="text-2xl">🇰🇭</span><div class="text-xs font-bold">Cambodia (캄보디아)</div>
                             </div>
                             <div onclick="selectCountry('Philippines', 'en')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-xl">🇵🇭</span><div class="text-xs font-bold">Philippines (필리핀)</div>
+                                <span class="text-2xl">🇵🇭</span><div class="text-xs font-bold">Philippines (필리핀)</div>
                             </div>
                             <div onclick="selectCountry('East Timor', 'en')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-xl">🇹🇱</span><div class="text-xs font-bold">East Timor (동티모르)</div>
+                                <span class="text-2xl">🇹🇱</span><div class="text-xs font-bold">East Timor (동티모르)</div>
                             </div>
                             <div onclick="selectCountry('Laos', 'lo')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-xl">🇱🇦</span><div class="text-xs font-bold">Laos (라오스)</div>
+                                <span class="text-2xl">🇱🇦</span><div class="text-xs font-bold">Laos (라오스)</div>
                             </div>
                         </div>
                     </div>
@@ -153,10 +150,10 @@
                             <h4 class="text-xs font-bold text-indigo-300 mb-2">🏮 East Asia (동아시아)</h4>
                             <div class="grid grid-cols-2 gap-2.5">
                                 <div onclick="selectCountry('Mongolia', 'mn')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <span class="text-xl">🇲🇳</span><div class="text-xs font-bold">Mongolia (몽골)</div>
+                                    <span class="text-2xl">🇲🇳</span><div class="text-xs font-bold">Mongolia (몽골)</div>
                                 </div>
                                 <div onclick="selectCountry('China', 'zh')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <span class="text-xl">🇨🇳</span><div class="text-xs font-bold">China (중국)</div>
+                                    <span class="text-2xl">🇨🇳</span><div class="text-xs font-bold">China (중국)</div>
                                 </div>
                             </div>
                         </div>
@@ -164,13 +161,13 @@
                             <h4 class="text-xs font-bold text-emerald-300 mb-2">🏔️ Central Asia (중앙아시아)</h4>
                             <div class="grid grid-cols-3 gap-2.5">
                                 <div onclick="selectCountry('Uzbekistan', 'uz')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <span class="text-xl">🇺🇿</span><div class="text-xs font-bold">Uzbekistan</div>
+                                    <span class="text-2xl">🇺🇿</span><div class="text-xs font-bold">Uzbekistan</div>
                                 </div>
                                 <div onclick="selectCountry('Kyrgyzstan', 'ky')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <span class="text-xl">🇰🇬</span><div class="text-xs font-bold">Kyrgyzstan</div>
+                                    <span class="text-2xl">🇰🇬</span><div class="text-xs font-bold">Kyrgyzstan</div>
                                 </div>
                                 <div onclick="selectCountry('Tajikistan', 'tg')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <span class="text-xl">🇹🇯</span><div class="text-xs font-bold">Tajikistan</div>
+                                    <span class="text-2xl">🇹🇯</span><div class="text-xs font-bold">Tajikistan</div>
                                 </div>
                             </div>
                         </div>
@@ -181,16 +178,16 @@
                         <h4 class="text-xs font-bold text-amber-300 mb-2">🪷 South Asia (남아시아)</h4>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                             <div onclick="selectCountry('Sri Lanka', 'si')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-xl">🇱🇰</span><div class="text-xs font-bold">Sri Lanka (스리랑카)</div>
+                                <span class="text-2xl">🇱🇰</span><div class="text-xs font-bold">Sri Lanka (스리랑카)</div>
                             </div>
                             <div onclick="selectCountry('Pakistan', 'ur')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-xl">🇵🇰</span><div class="text-xs font-bold">Pakistan (파키스탄)</div>
+                                <span class="text-2xl">🇵🇰</span><div class="text-xs font-bold">Pakistan (파키스탄)</div>
                             </div>
                             <div onclick="selectCountry('Bangladesh', 'bn')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-xl">🇧🇩</span><div class="text-xs font-bold">Bangladesh (방글라)</div>
+                                <span class="text-2xl">🇧🇩</span><div class="text-xs font-bold">Bangladesh (방글라)</div>
                             </div>
                             <div onclick="selectCountry('Nepal', 'ne')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-xl">🇳🇵</span><div class="text-xs font-bold">Nepal (네팔)</div>
+                                <span class="text-2xl">🇳🇵</span><div class="text-xs font-bold">Nepal (네팔)</div>
                             </div>
                         </div>
                     </div>
@@ -350,8 +347,17 @@
         </div>
     </div>
 
-    <footer class="mt-8 mb-10 text-center">
-        <button onclick="showAdminForm()" class="text-xs sm:text-sm text-gray-400 hover:text-gray-600 transition p-2">🔒 Admin Access</button>
+    <!-- (주)케이엔인터내셔널 (KN INTERNATIONAL) 저작권 및 KN 로고 표기 Footer -->
+    <footer class="mt-16 mb-10 text-center space-y-3 border-t pt-6 max-w-6xl mx-auto px-4">
+        <div class="flex justify-center items-center gap-2">
+            <!-- KN 로고 스타일 뱃지 -->
+            <div class="bg-blue-900 text-white font-extrabold text-sm px-3 py-1 rounded tracking-wider shadow">KN</div>
+            <span class="font-bold text-gray-800 text-sm sm:text-base">(주)케이엔인터내셔널 (KN INTERNATIONAL)</span>
+        </div>
+        <p class="text-xs text-gray-500">All rights reserved. Official EPS Employment & Recruitment Portal.</p>
+        <div>
+            <button onclick="showAdminForm()" class="text-xs text-gray-400 hover:text-gray-600 transition p-1">🔒 Admin Access</button>
+        </div>
     </footer>
 
     <script>
