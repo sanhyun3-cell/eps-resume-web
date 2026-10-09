@@ -14,10 +14,21 @@
         .text-eps { color: var(--eps-blue); }
         .btn-eps { background-color: var(--eps-blue); color: white; transition: background-color 0.3s; }
         .btn-eps:hover { background-color: var(--eps-light-blue); }
+        
+        /* 국기 깜박임(Blinking) 애니메이션 효과 */
+        @keyframes blink-animation {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .flag-blink {
+            display: inline-block;
+            animation: blink-animation 1.8s infinite ease-in-out;
+        }
     </style>
 </head>
 <body>
-    <!-- 상단 네비게이션 바 (첫화면 언어: 한국어/영어 전용) -->
+    <!-- 상단 네비게이션 바 -->
     <nav class="bg-eps text-white shadow-md py-6 sm:py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
@@ -48,40 +59,79 @@
 
     <main class="max-w-5xl mx-auto mt-8 sm:mt-10 px-4 sm:px-6 pb-12">
         
-        <!-- 1단계: 아시아 지역별 및 17개 국가 선택 화면 -->
-        <div id="country-selection-screen" class="space-y-10">
-            <div class="text-center">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-800" id="select-country-title">🌍 Select Your Country / 국가를 선택하세요</h2>
-                <p class="text-sm text-gray-500 mt-1" id="select-country-desc">Choose your home country to proceed with the appropriate language.</p>
+        <!-- 1단계: 아시아 지도 시각 배너 및 17개 국가 선택 화면 -->
+        <div id="country-selection-screen" class="space-y-8">
+            
+            <!-- 아시아 지도 및 안내 시각 배너 -->
+            <div class="bg-gradient-to-r from-blue-900 via-indigo-800 to-blue-900 text-white rounded-2xl p-6 sm:p-8 shadow-xl text-center relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 text-9xl opacity-10 select-none">🌏</div>
+                <div class="absolute -left-10 -top-10 text-9xl opacity-10 select-none">🗺️</div>
+                <span class="text-4xl sm:text-5xl mb-2 inline-block">🌏🗺️</span>
+                <h2 class="text-xl sm:text-3xl font-extrabold tracking-tight" id="select-country-title">Select Your Country in Asia / 아시아 송출국 선택</h2>
+                <p class="text-xs sm:text-sm text-blue-200 mt-2 max-w-xl mx-auto" id="select-country-desc">
+                    Explore employment opportunities in Korea. Choose your home country below to get started in your native language.
+                </p>
             </div>
 
             <!-- 동남아시아 (Southeast Asia) -->
             <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-blue-600">
                 <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">🌴 <span id="region-sea">Southeast Asia (동남아시아)</span></h3>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div onclick="selectCountry('Vietnam', 'vi')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇻🇳</span> <span class="font-semibold text-gray-800 text-sm">Vietnam (베트남)</span>
+                    <div onclick="selectCountry('Vietnam', 'vi')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇻🇳</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Vietnam</span>
+                            <span class="text-xs text-gray-500">베트남</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('Thailand', 'th')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇹🇭</span> <span class="font-semibold text-gray-800 text-sm">Thailand (태국)</span>
+                    <div onclick="selectCountry('Thailand', 'th')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇹🇭</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Thailand</span>
+                            <span class="text-xs text-gray-500">태국</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('Indonesia', 'id')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇮🇩</span> <span class="font-semibold text-gray-800 text-sm">Indonesia (인도네시아)</span>
+                    <div onclick="selectCountry('Indonesia', 'id')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇮🇩</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Indonesia</span>
+                            <span class="text-xs text-gray-500">인도네시아</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('Cambodia', 'km')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇰🇭</span> <span class="font-semibold text-gray-800 text-sm">Cambodia (캄보디아)</span>
+                    <div onclick="selectCountry('Cambodia', 'km')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇰🇭</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Cambodia</span>
+                            <span class="text-xs text-gray-500">캄보디아</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('East Timor', 'en')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇹🇱</span> <span class="font-semibold text-gray-800 text-sm">East Timor (동티모르)</span>
+                    <div onclick="selectCountry('East Timor', 'en')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇹🇱</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">East Timor</span>
+                            <span class="text-xs text-gray-500">동티모르</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('Myanmar', 'my')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇲🇲</span> <span class="font-semibold text-gray-800 text-sm">Myanmar (미얀마)</span>
+                    <div onclick="selectCountry('Myanmar', 'my')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇲🇲</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Myanmar</span>
+                            <span class="text-xs text-gray-500">미얀마</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('Laos', 'lo')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇱🇦</span> <span class="font-semibold text-gray-800 text-sm">Laos (라오스)</span>
+                    <div onclick="selectCountry('Laos', 'lo')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇱🇦</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Laos</span>
+                            <span class="text-xs text-gray-500">라오스</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('Philippines', 'en')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇵🇭</span> <span class="font-semibold text-gray-800 text-sm">Philippines (필리핀)</span>
+                    <div onclick="selectCountry('Philippines', 'en')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇵🇭</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Philippines</span>
+                            <span class="text-xs text-gray-500">필리핀</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,11 +140,19 @@
             <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-indigo-600">
                 <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">🏮 <span id="region-ea">East Asia (동아시아)</span></h3>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div onclick="selectCountry('Mongolia', 'mn')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇲🇳</span> <span class="font-semibold text-gray-800 text-sm">Mongolia (몽골)</span>
+                    <div onclick="selectCountry('Mongolia', 'mn')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇲🇳</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Mongolia</span>
+                            <span class="text-xs text-gray-500">몽골</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('China', 'zh')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇨🇳</span> <span class="font-semibold text-gray-800 text-sm">China (중국)</span>
+                    <div onclick="selectCountry('China', 'zh')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇨🇳</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">China</span>
+                            <span class="text-xs text-gray-500">중국</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,14 +161,26 @@
             <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-emerald-600">
                 <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">🏔️ <span id="region-ca">Central Asia (중앙아시아)</span></h3>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div onclick="selectCountry('Uzbekistan', 'uz')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇺🇿</span> <span class="font-semibold text-gray-800 text-sm">Uzbekistan (우즈베키스탄)</span>
+                    <div onclick="selectCountry('Uzbekistan', 'uz')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇺🇿</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Uzbekistan</span>
+                            <span class="text-xs text-gray-500">우즈베키스탄</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('Kyrgyzstan', 'ky')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇰🇬</span> <span class="font-semibold text-gray-800 text-sm">Kyrgyzstan (키르기스스탄)</span>
+                    <div onclick="selectCountry('Kyrgyzstan', 'ky')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇰🇬</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Kyrgyzstan</span>
+                            <span class="text-xs text-gray-500">키르기스스탄</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('Tajikistan', 'tg')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇹🇯</span> <span class="font-semibold text-gray-800 text-sm">Tajikistan (타지키스탄)</span>
+                    <div onclick="selectCountry('Tajikistan', 'tg')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇹🇯</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Tajikistan</span>
+                            <span class="text-xs text-gray-500">타지키스탄</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -119,17 +189,33 @@
             <div class="bg-white shadow-md rounded-xl p-6 border-l-4 border-amber-600">
                 <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">🪷 <span id="region-sa">South Asia (남아시아)</span></h3>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div onclick="selectCountry('Sri Lanka', 'si')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇱🇰</span> <span class="font-semibold text-gray-800 text-sm">Sri Lanka (스리랑카)</span>
+                    <div onclick="selectCountry('Sri Lanka', 'si')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇱🇰</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Sri Lanka</span>
+                            <span class="text-xs text-gray-500">스리랑카</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('Pakistan', 'ur')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇵🇰</span> <span class="font-semibold text-gray-800 text-sm">Pakistan (파키스탄)</span>
+                    <div onclick="selectCountry('Pakistan', 'ur')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇵🇰</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Pakistan</span>
+                            <span class="text-xs text-gray-500">파키스탄</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('Bangladesh', 'bn')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇧🇩</span> <span class="font-semibold text-gray-800 text-sm">Bangladesh (방글라데시)</span>
+                    <div onclick="selectCountry('Bangladesh', 'bn')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇧🇩</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Bangladesh</span>
+                            <span class="text-xs text-gray-500">방글라데시</span>
+                        </div>
                     </div>
-                    <div onclick="selectCountry('Nepal', 'ne')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm">
-                        <span class="text-2xl">🇳🇵</span> <span class="font-semibold text-gray-800 text-sm">Nepal (네팔)</span>
+                    <div onclick="selectCountry('Nepal', 'ne')" class="country-card flex items-center gap-3 p-3 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg cursor-pointer transition shadow-sm group">
+                        <span class="text-3xl flag-blink">🇳🇵</span> 
+                        <div>
+                            <span class="font-bold text-gray-900 text-sm block">Nepal</span>
+                            <span class="text-xs text-gray-500">네팔</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -193,407 +279,3 @@
         </div>
 
         <!-- 3. 관리자 로그인 및 대시보드 화면 -->
-        <div id="admin-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-gray-800 mt-8">
-            <button onclick="goHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">
-                ← Back to Home
-            </button>
-            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Administrator Login</h2>
-            <form id="admin-form" class="space-y-5" onsubmit="handleAdminLogin(event)">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Admin ID</label>
-                    <input type="text" id="admin-id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-base" placeholder="sanhyun" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" id="admin-password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-base" required>
-                </div>
-                <button type="submit" class="w-full bg-gray-800 hover:bg-gray-900 text-white flex justify-center py-4 px-4 rounded-md font-bold text-base">Login to Dashboard</button>
-            </form>
-        </div>
-
-        <!-- 관리자 대시보드 (국가별 필터 기능 포함) -->
-        <div id="dashboard-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-8 border-t-4 border-gray-800 mt-8">
-            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-                <div>
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900">📊 Admin Dashboard - Resumes by Country</h2>
-                    <p class="text-sm text-gray-500">View and download resumes sorted by applicant country.</p>
-                </div>
-                <div class="flex gap-3">
-                    <button onclick="loadResumes()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-semibold">🔄 Refresh</button>
-                    <button onclick="goHome()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-semibold">Logout</button>
-                </div>
-            </div>
-
-            <!-- 검색 및 국가별 필터 -->
-            <div class="flex flex-col sm:flex-row gap-4 mb-6">
-                <input type="text" id="search-input" placeholder="Search by EPS ID or Name..." class="w-full sm:w-80 border border-gray-300 rounded-md p-3 text-sm" oninput="filterResumes()">
-                <select id="country-filter" class="w-full sm:w-60 border border-gray-300 rounded-md p-3 text-sm bg-white" onchange="filterResumes()">
-                    <option value="">All Countries (전체 국가)</option>
-                    <option value="Vietnam">Vietnam (베트남)</option>
-                    <option value="Thailand">Thailand (태국)</option>
-                    <option value="Indonesia">Indonesia (인도네시아)</option>
-                    <option value="Cambodia">Cambodia (캄보디아)</option>
-                    <option value="East Timor">East Timor (동티모르)</option>
-                    <option value="Myanmar">Myanmar (미얀마)</option>
-                    <option value="Laos">Laos (라오스)</option>
-                    <option value="Philippines">Philippines (필리핀)</option>
-                    <option value="Mongolia">Mongolia (몽골)</option>
-                    <option value="China">China (중국)</option>
-                    <option value="Uzbekistan">Uzbekistan (우즈베키스탄)</option>
-                    <option value="Kyrgyzstan">Kyrgyzstan (키르기스스탄)</option>
-                    <option value="Tajikistan">Tajikistan (타지키스탄)</option>
-                    <option value="Sri Lanka">Sri Lanka (스리랑카)</option>
-                    <option value="Pakistan">Pakistan (파키스탄)</option>
-                    <option value="Bangladesh">Bangladesh (방글라데시)</option>
-                    <option value="Nepal">Nepal (네팔)</option>
-                </select>
-            </div>
-
-            <!-- 목록 테이블 -->
-            <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm">
-                <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
-                    <thead class="bg-gray-50 text-gray-700 font-semibold">
-                        <tr>
-                            <th class="px-4 py-3">Date</th>
-                            <th class="px-4 py-3">Country</th>
-                            <th class="px-4 py-3">EPS-TOPIK ID</th>
-                            <th class="px-4 py-3">Full Name</th>
-                            <th class="px-4 py-3">Phone</th>
-                            <th class="px-4 py-3 text-center">Resume File</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resume-table-body" class="divide-y divide-gray-200 bg-white text-gray-800"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 고용24 배너 -->
-        <div id="eps-banner" class="mt-12 sm:mt-16">
-            <a href="https://www.eps.go.kr/index.jsp" target="_blank" class="group relative block w-full rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
-                <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition"></div>
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Working" class="w-full h-40 sm:h-64 object-cover">
-                <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
-                    <span class="text-lg sm:text-3xl font-bold mb-2 text-center drop-shadow-md" id="link-eps">EPS(Employment Permit System) - Go to Work24</span>
-                    <span class="text-xs sm:text-sm font-semibold bg-blue-600 px-5 py-2 rounded-full" id="click-visit">Click to visit</span>
-                </div>
-            </a>
-        </div>
-    </main>
-
-    <!-- 하단 관리자 접속 버튼 -->
-    <footer class="mt-6 mb-10 text-center">
-        <button onclick="showAdminForm()" class="text-xs sm:text-sm text-gray-400 hover:text-gray-600 transition p-2" id="btn-admin-access">
-            🔒 Admin Access
-        </button>
-    </footer>
-
-    <!-- 자바스크립트 로직 -->
-    <script>
-        const SUPABASE_URL = 'https://frrspurafirjskuscgmo.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycnNwdXJhZmlyanNrdXNjZ21vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExODc4NTUsImV4cCI6MjEwNjc2Mzg1NX0.i7YpBqWkWGfzwAJvIhtasIzNJeDols9ZDFzI04RK690';
-
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        let currentCountry = '';
-        let currentLang = 'en';
-
-        function hideAllScreens() {
-            document.getElementById('country-selection-screen').classList.add('hidden');
-            document.getElementById('action-screen').classList.add('hidden');
-            document.getElementById('upload-screen').classList.add('hidden');
-            document.getElementById('admin-screen').classList.add('hidden');
-            document.getElementById('dashboard-screen').classList.add('hidden');
-            document.getElementById('eps-banner').classList.add('hidden');
-        }
-
-        function goHome() {
-            hideAllScreens();
-            document.getElementById('country-selection-screen').classList.remove('hidden');
-            document.getElementById('eps-banner').classList.remove('hidden');
-        }
-
-        function selectCountry(countryName, langCode) {
-            currentCountry = countryName;
-            currentLang = langCode || 'en';
-            
-            hideAllScreens();
-            document.getElementById('action-screen').classList.remove('hidden');
-            document.getElementById('menu-selection').classList.remove('hidden');
-            document.getElementById('upload-screen').classList.add('hidden');
-            
-            document.getElementById('selected-country-badge').innerText = `Selected Country: ${countryName}`;
-            applyCountryLanguage();
-        }
-
-        function showUploadForm() {
-            document.getElementById('menu-selection').classList.add('hidden');
-            document.getElementById('upload-screen').classList.remove('hidden');
-        }
-
-        function showMenuSelection() {
-            document.getElementById('upload-screen').classList.add('hidden');
-            document.getElementById('menu-selection').classList.remove('hidden');
-        }
-
-        function showAdminForm() {
-            hideAllScreens();
-            document.getElementById('admin-screen').classList.remove('hidden');
-        }
-
-        function handleAdminLogin(event) {
-            event.preventDefault();
-            const id = document.getElementById('admin-id').value.trim();
-            const pw = document.getElementById('admin-password').value.trim();
-
-            if (id === 'sanhyun' && pw === '1234') {
-                alert('Admin login successful!');
-                document.getElementById('admin-form').reset();
-                showDashboard();
-            } else {
-                alert('Invalid Admin ID or Password. (Hint: sanhyun / 1234)');
-            }
-        }
-
-        async function showDashboard() {
-            hideAllScreens();
-            document.getElementById('dashboard-screen').classList.remove('hidden');
-            await loadResumes();
-        }
-
-        let allResumes = [];
-
-        async function loadResumes() {
-            const tbody = document.getElementById('resume-table-body');
-            tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-gray-500">Loading resumes...</td></tr>`;
-
-            try {
-                const { data, error } = await supabaseClient
-                    .from('resumes')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-
-                allResumes = data || [];
-                renderTable(allResumes);
-
-            } catch (error) {
-                console.error('Error loading resumes:', error);
-                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-red-500">Failed to load data: ${error.message}</td></tr>`;
-            }
-        }
-
-        function renderTable(resumes) {
-            const tbody = document.getElementById('resume-table-body');
-            if (resumes.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-gray-500">No resumes submitted yet.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = resumes.map(row => {
-                const dateStr = row.created_at ? new Date(row.created_at).toLocaleString() : 'N/A';
-                return `
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="px-4 py-3 whitespace-nowrap text-gray-500 text-xs">${dateStr}</td>
-                        <td class="px-4 py-3 font-semibold text-indigo-700">${row.country || 'N/A'}</td>
-                        <td class="px-4 py-3 font-semibold text-blue-900">${row.eps_id}</td>
-                        <td class="px-4 py-3">${row.full_name}</td>
-                        <td class="px-4 py-3">${row.phone}</td>
-                        <td class="px-4 py-3 text-center">
-                            <a href="${row.file_url}" target="_blank" class="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-3 py-1.5 rounded-md text-xs font-semibold hover:bg-blue-200 transition">
-                                📥 Download
-                            </a>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function filterResumes() {
-            const keyword = document.getElementById('search-input').value.toLowerCase();
-            const countryFilter = document.getElementById('country-filter').value;
-
-            const filtered = allResumes.filter(row => {
-                const matchesKeyword = row.eps_id.toLowerCase().includes(keyword) || row.full_name.toLowerCase().includes(keyword);
-                const matchesCountry = countryFilter === '' || row.country === countryFilter;
-                return matchesKeyword && matchesCountry;
-            });
-            renderTable(filtered);
-        }
-
-        // 수파베이스 파일 업로드 및 국가 데이터 저장 처리
-        async function handleUpload(event) {
-            event.preventDefault();
-            
-            const submitBtn = document.getElementById('btn-submit');
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Submitting...";
-
-            const epsId = document.getElementById('eps-id').value;
-            const fullName = document.getElementById('full-name').value;
-            const phone = document.getElementById('phone').value;
-            const password = document.getElementById('upload-password').value;
-            const fileInput = document.getElementById('file-upload');
-            const file = fileInput.files[0];
-
-            if (!file) {
-                alert('Please select a resume file.');
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Submit Application";
-                return;
-            }
-
-            try {
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
-                const filePath = `${currentCountry}_${epsId}_${fileName}`;
-
-                const { data: uploadData, error: uploadError } = await supabaseClient.storage
-                    .from('resume_files')
-                    .upload(filePath, file);
-
-                if (uploadError) throw uploadError;
-
-                const { data: publicUrlData } = supabaseClient.storage
-                    .from('resume_files')
-                    .getPublicUrl(filePath);
-
-                const fileUrl = publicUrlData.publicUrl;
-
-                // 데이터베이스 저장 시 국가(country) 정보 함께 저장
-                const { error: dbError } = await supabaseClient
-                    .from('resumes')
-                    .insert([
-                        { 
-                            country: currentCountry,
-                            eps_id: epsId, 
-                            full_name: fullName, 
-                            phone: phone, 
-                            password: password, 
-                            file_url: fileUrl 
-                        }
-                    ]);
-
-                if (dbError) throw dbError;
-
-                alert('Resume submitted successfully!');
-                document.getElementById('resume-form').reset();
-                goHome();
-
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Submission failed: ' + error.message);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Submit Application";
-            }
-        }
-
-        // 첫화면 상단 언어 선택 (한국어, 영어 전용)
-        const siteTranslations = {
-            en: {
-                navDesc: "Select your country to register or download your employment resume for Korea.",
-                mainSlogan: "Land of opportunity, more dreams and future, let's go to Korea together!",
-                selectCountryTitle: "🌍 Select Your Country",
-                selectCountryDesc: "Choose your home country to proceed with the appropriate language.",
-                regionSea: "Southeast Asia", regionEa: "East Asia", regionCa: "Central Asia", regionSa: "South Asia",
-                labelSiteLang: "Site Language:"
-            },
-            ko: {
-                navDesc: "한국 취업 이력서 등록 및 다운로드를 위해 국가를 선택해주세요.",
-                mainSlogan: "기회의 나라, 더 많은 꿈과 미래, 함께 한국으로 갑시다!",
-                selectCountryTitle: "🌍 국가를 선택하세요",
-                selectCountryDesc: "해당하는 국가를 선택하시면 맞춤 언어로 진행됩니다.",
-                regionSea: "동남아시아 (Southeast Asia)", regionEa: "동아시아 (East Asia)", regionCa: "중앙아시아 (Central Asia)", regionSa: "남아시아 (South Asia)",
-                labelSiteLang: "사이트 언어:"
-            }
-        };
-
-        function changeSiteLanguage() {
-            const lang = document.getElementById('site-lang-select').value;
-            const t = siteTranslations[lang];
-            
-            document.getElementById('nav-desc').innerText = t.navDesc;
-            document.getElementById('main-slogan').innerText = t.mainSlogan;
-            document.getElementById('select-country-title').innerText = t.selectCountryTitle;
-            document.getElementById('select-country-desc').innerText = t.selectCountryDesc;
-            document.getElementById('region-sea').innerText = t.regionSea;
-            document.getElementById('region-ea').innerText = t.regionEa;
-            document.getElementById('region-ca').innerText = t.regionCa;
-            document.getElementById('region-sa').innerText = t.regionSa;
-            document.getElementById('label-site-lang').innerText = t.labelSiteLang;
-        }
-
-        // 각 국가별 언어 딕셔너리 (현지어 지원)
-        const countryTranslations = {
-            vi: { // 베트남어
-                downloadMain: "Tải xuống Sơ yếu lý lịch", descDownload: "Nhận biểu mẫu chuẩn",
-                uploadMain: "Tải lên Sơ yếu lý lịch", descUpload: "Gửi biểu mẫu đã điền",
-                backHome: "← Quay lại chọn quốc gia", backMenu: "← Quay lại menu",
-                formTitle: "Nộp sơ yếu lý lịch",
-                labelEps: "ID EPS-TOPIK", labelName: "Họ và tên", labelPhone: "Số điện thoại",
-                labelPassword: "Mật khẩu bảo vệ hồ sơ", labelFile: "Tải lên tệp sơ yếu lý lịch", btnSubmit: "Nộp đơn"
-            },
-            my: { // 미얀마어
-                downloadMain: "ကိုယ်ရေးရာဇဝင် ဒေါင်းလုဒ်လုပ်ရန်", descDownload: "စံပုံစံဖောင်ကို ရယူပါ",
-                uploadMain: "ကိုယ်ရေးရာဇဝင် အပ်လုဒ်လုပ်ရန်", descUpload: "ဖြည့်စွက်ထားသောဖောင်ကို တင်ပါ",
-                backHome: "← နိုင်ငံရွေးချယ်မှုသို့ ပြန်သွားရန်", backMenu: "← မီနူးသို့ ပြန်သွားရန်",
-                formTitle: "သင့်ကိုယ်ရေးရာဇဝင်ကို တင်သွင်းပါ",
-                labelEps: "EPS-TOPIK ID", labelName: "အမည်အပြည့်အစုံ", labelPhone: "ဖုန်းနံပါတ်",
-                labelPassword: "စကားဝှက် သတ်မှတ်ပါ", labelFile: "ပြီးပြည့်စုံသော ကိုယ်ရေးရာဇဝင်ကို အပ်လုဒ်လုပ်ပါ", btnSubmit: "လျှောက်လွှာတင်သွင်းပါ"
-            },
-            id: { // 인도네시아어
-                downloadMain: "Unduh Resume", descDownload: "Dapatkan formulir standar",
-                uploadMain: "Unggah Resume", descUpload: "Kirim formulir yang telah diisi",
-                backHome: "← Kembali ke Pilih Negara", backMenu: "← Kembali ke Menu",
-                formTitle: "Kirimkan Resume Anda",
-                labelEps: "ID EPS-TOPIK", labelName: "Nama Lengkap", labelPhone: "Nomor Telepon",
-                labelPassword: "Buat Kata Sandi", labelFile: "Unggah Resume", btnSubmit: "Kirim Aplikasi"
-            },
-            th: { // 태국어
-                downloadMain: "ดาวน์โหลดเรซูเม่", descDownload: "รับแบบฟอร์มมาตรฐาน",
-                uploadMain: "อัปโหลดเรซูเม่", descUpload: "ส่งแบบฟอร์มที่กรอกแล้ว",
-                backHome: "← กลับไปเลือกประเทศ", backMenu: "← กลับสู่เมนู",
-                formTitle: "ส่งประวัติย่อของคุณ",
-                labelEps: "รหัส EPS-TOPIK", labelName: "ชื่อ-นามสกุล", labelPhone: "เบอร์โทรศัพท์",
-                labelPassword: "ตั้งรหัสผ่าน", labelFile: "อัปโหลดเรซูเม่ที่กรอกแล้ว", btnSubmit: "ส่งใบสมัคร"
-            },
-            zh: { // 중국어
-                downloadMain: "下载简历表格", descDownload: "获取标准表格",
-                uploadMain: "上传简历", descUpload: "提交已填写的表格",
-                backHome: "← 返回选择国家", backMenu: "← 返回菜单",
-                formTitle: "提交您的简历",
-                labelEps: "EPS-TOPIK 准考证号", labelName: "姓名", labelPhone: "手机号码",
-                labelPassword: "设置密码", labelFile: "上传已填写的简历", btnSubmit: "提交申请"
-            },
-            en: { // 기본 영어 (필리핀, 동티모르 등 포함)
-                downloadMain: "Download Resume", descDownload: "Get the standard form",
-                uploadMain: "Upload Resume", descUpload: "Submit your filled form",
-                backHome: "← Back to Country Selection", backMenu: "← Back to Menu",
-                formTitle: "Submit Your Resume",
-                labelEps: "EPS-TOPIK ID", labelName: "Full Name", labelPhone: "Phone Number",
-                labelPassword: "Set a Password", labelFile: "Upload Completed Resume", btnSubmit: "Submit Application"
-            }
-        };
-
-        function applyCountryLanguage() {
-            // 해당 국가의 번역이 없으면 기본 영어(en)로 대체
-            const t = countryTranslations[currentLang] || countryTranslations['en'];
-            
-            document.getElementById('btn-download-main').innerText = t.downloadMain;
-            document.getElementById('desc-download').innerText = t.descDownload;
-            document.getElementById('btn-upload-main').innerText = t.uploadMain;
-            document.getElementById('desc-upload').innerText = t.descUpload;
-            document.getElementById('btn-back-home').innerText = t.backHome;
-            document.getElementById('btn-back-menu').innerText = t.backMenu;
-            document.getElementById('form-title').innerText = t.formTitle;
-            document.getElementById('label-eps').innerText = t.labelEps;
-            document.getElementById('label-name').innerText = t.labelName;
-            document.getElementById('label-phone').innerText = t.labelPhone;
-            document.getElementById('label-password').innerText = t.labelPassword;
-            document.getElementById('label-file').innerText = t.labelFile;
-            document.getElementById('btn-submit').innerText = t.btnSubmit;
-        }
-    </script>
-</body>
-</html>
