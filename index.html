@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LGK(Let's Go Korea) - EPS Employment Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Supabase JS Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root { --eps-blue: #0b3d91; --eps-light-blue: #1e40af; }
@@ -14,7 +13,6 @@
         .text-eps { color: var(--eps-blue); }
         .btn-eps { background-color: var(--eps-blue); color: white; transition: background-color 0.3s; }
         .btn-eps:hover { background-color: var(--eps-light-blue); }
-        
         @keyframes map-pulse {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
             70% { transform: scale(1.15); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
@@ -24,16 +22,13 @@
     </style>
 </head>
 <body>
-    <!-- 상단 네비게이션 바 -->
     <nav class="bg-eps text-white shadow-md py-4 sm:py-5 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex flex-col items-center md:items-start cursor-pointer" onclick="goHome()">
                     <span class="font-extrabold text-2xl sm:text-3xl tracking-wide">LGK(Let's Go Korea)</span>
-                    <span class="text-xs text-blue-200" id="nav-desc">EPS Employment Support Portal</span>
+                    <span class="text-xs text-blue-200">EPS Employment Support Portal</span>
                 </div>
-                
-                <!-- 상단 빠른 메뉴 바 -->
                 <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm">
                     <button onclick="goHome()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-md font-semibold transition">🏠 Home</button>
                     <button onclick="showBoardScreen()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-md font-semibold transition">📢 Notice & Q&A</button>
@@ -48,20 +43,15 @@
     </nav>
 
     <main class="max-w-6xl mx-auto mt-6 sm:mt-8 px-4 sm:px-6 pb-16">
-        
         <!-- 1. 메인 아시아 지도 화면 -->
         <div id="country-selection-screen" class="space-y-6">
             <div class="text-center">
                 <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900" id="select-map-title">🗺️ Asia Map Recruitment Network / 아시아 지도 송출국 선택</h2>
                 <p class="text-sm text-gray-500 mt-1" id="select-map-desc">Click your country pin on the Asia map below to proceed.</p>
             </div>
-
-            <!-- 아시아 지도 영역 -->
             <div class="relative w-full bg-blue-950 rounded-2xl shadow-2xl overflow-hidden border-4 border-blue-900 flex justify-center items-center" style="min-height: 460px;">
                 <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80" alt="Asia Map" class="absolute inset-0 w-full h-full object-cover opacity-25">
-                
                 <div class="relative w-full max-w-4xl h-[440px] sm:h-[480px]">
-                    <!-- 17개국 핀 위치 -->
                     <div onclick="selectCountry('Vietnam', 'vi')" class="absolute top-[52%] left-[58%] cursor-pointer group flex flex-col items-center z-20">
                         <div class="map-pin bg-white/95 hover:bg-blue-600 px-2 py-1 rounded-full shadow-lg flex items-center gap-1 border-2 border-red-500 transition transform hover:scale-110">
                             <span class="text-lg">🇻🇳</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Vietnam</span>
@@ -149,30 +139,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 하단 빠른 선택 버튼 바 -->
-            <div class="bg-white shadow-md rounded-xl p-5 border border-gray-200">
-                <h3 class="text-sm font-bold text-gray-800 mb-3">📋 All 17 Countries / 전체 국가 빠른 선택</h3>
-                <div class="flex flex-wrap gap-2">
-                    <button onclick="selectCountry('Vietnam', 'vi')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇻🇳 Vietnam</button>
-                    <button onclick="selectCountry('Myanmar', 'my')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇲🇲 Myanmar</button>
-                    <button onclick="selectCountry('Thailand', 'th')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇹🇭 Thailand</button>
-                    <button onclick="selectCountry('Indonesia', 'id')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇮🇩 Indonesia</button>
-                    <button onclick="selectCountry('Cambodia', 'km')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇰🇭 Cambodia</button>
-                    <button onclick="selectCountry('Philippines', 'en')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇵🇭 Philippines</button>
-                    <button onclick="selectCountry('Mongolia', 'mn')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇲🇳 Mongolia</button>
-                    <button onclick="selectCountry('China', 'zh')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇨🇳 China</button>
-                    <button onclick="selectCountry('Uzbekistan', 'uz')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇺🇿 Uzbekistan</button>
-                    <button onclick="selectCountry('Kyrgyzstan', 'ky')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇰🇬 Kyrgyzstan</button>
-                    <button onclick="selectCountry('Tajikistan', 'tg')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇹🇯 Tajikistan</button>
-                    <button onclick="selectCountry('Sri Lanka', 'si')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇱🇰 Sri Lanka</button>
-                    <button onclick="selectCountry('Pakistan', 'ur')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇵🇰 Pakistan</button>
-                    <button onclick="selectCountry('Bangladesh', 'bn')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇧🇩 Bangladesh</button>
-                    <button onclick="selectCountry('Nepal', 'ne')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇳🇵 Nepal</button>
-                    <button onclick="selectCountry('East Timor', 'en')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇹🇱 East Timor</button>
-                    <button onclick="selectCountry('Laos', 'lo')" class="px-3 py-1 bg-gray-100 hover:bg-blue-100 text-gray-800 text-xs font-semibold rounded border">🇱🇦 Laos</button>
-                </div>
-            </div>
         </div>
 
         <!-- 2. 국가별 다운로드/업로드 메뉴 화면 -->
@@ -181,7 +147,6 @@
                 <button onclick="goHome()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1">← Back to Map</button>
                 <span id="selected-country-badge" class="bg-blue-100 text-blue-800 text-xs sm:text-sm font-bold px-3 py-1.5 rounded-full">Selected Country: None</span>
             </div>
-
             <div id="menu-selection" class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
                 <a href="eps_resume_template.pdf" download class="flex flex-col items-center justify-center p-8 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
                     <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📥</div>
@@ -194,717 +159,35 @@
                     <p class="text-sm text-gray-500 mt-2">Submit your filled form</p>
                 </div>
             </div>
-
-            <!-- 이력서 업로드 폼 -->
             <div id="upload-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-blue-800">
                 <button onclick="showMenuSelection()" class="mb-6 text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1">← Back to Menu</button>
                 <h2 class="text-xl font-bold text-gray-900 mb-6" id="form-title">Submit Your Resume</h2>
                 <form id="resume-form" class="space-y-5" onsubmit="handleUpload(event)">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700" id="label-eps">EPS-TOPIK ID</label>
-                        <input type="text" id="eps-id" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700" id="label-name">Full Name</label>
-                        <input type="text" id="full-name" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700" id="label-phone">Phone Number</label>
-                        <input type="tel" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700" id="label-password">Password (For protection)</label>
-                        <input type="password" id="upload-password" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700" id="label-file">Upload Resume File</label>
-                        <input type="file" id="file-upload" accept=".pdf,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500" required>
-                    </div>
-                    <button type="submit" id="btn-submit" class="w-full btn-eps py-4 rounded-md font-bold text-base">Submit Application</button>
+                    <div><label class="block text-sm font-medium text-gray-700">EPS-TOPIK ID</label><input type="text" id="eps-id" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
+                    <div><label class="block text-sm font-medium text-gray-700">Full Name</label><input type="text" id="full-name" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
+                    <div><label class="block text-sm font-medium text-gray-700">Phone Number</label><input type="tel" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
+                    <div><label class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="upload-password" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
+                    <div><label class="block text-sm font-medium text-gray-700">Upload Resume File</label><input type="file" id="file-upload" accept=".pdf,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500" required></div>
+                    <button type="submit" class="w-full btn-eps py-4 rounded-md font-bold text-base">Submit Application</button>
                 </form>
             </div>
         </div>
 
-        <!-- 3. [신설] Q&A 메일 전송 메뉴 (LGK_manager@gmail.com 연동) -->
+        <!-- 3. Q&A 메일 전송 메뉴 -->
         <div id="qna-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-amber-600">
             <button onclick="goHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">← Back to Home</button>
             <div class="max-w-2xl mx-auto">
-                <div class="flex items-center gap-3 mb-4">
-                    <span class="text-3xl">📧</span>
-                    <h2 class="text-2xl font-bold text-gray-900">Direct Management Q&A / 운영진 1:1 질문</h2>
-                </div>
-                <p class="text-sm text-gray-600 mb-6 bg-amber-50 p-4 rounded-lg border border-amber-200">
-                    궁금하신 사항을 아래에 작성하시면 운영진의 공식 이메일인 <strong class="text-amber-800">LGK_manager@gmail.com</strong>으로 직접 전송됩니다.
-                </p>
+                <div class="flex items-center gap-3 mb-4"><span class="text-3xl">📧</span><h2 class="text-2xl font-bold text-gray-900">Direct Management Q&A</h2></div>
+                <p class="text-sm text-gray-600 mb-6 bg-amber-50 p-4 rounded-lg border border-amber-200">운영진 공식 이메일인 <strong class="text-amber-800">LGK_manager@gmail.com</strong>으로 직접 전송됩니다.</p>
                 <form onsubmit="handleSendMail(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700">Applicant Name / 이름</label>
-                        <input type="text" id="mail-name" class="w-full border rounded-md p-3 text-sm" placeholder="Your Name" required>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700">Country / 국가</label>
-                        <input type="text" id="mail-country" class="w-full border rounded-md p-3 text-sm" placeholder="e.g. Vietnam, Myanmar" required>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700">Contact Email or Phone / 회신받을 연락처</label>
-                        <input type="text" id="mail-contact" class="w-full border rounded-md p-3 text-sm" placeholder="example@email.com / 010-XXXX-XXXX" required>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700">Subject / 제목</label>
-                        <input type="text" id="mail-subject" class="w-full border rounded-md p-3 text-sm" placeholder="Question regarding resume or visa..." required>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700">Message / 문의 내용</label>
-                        <textarea id="mail-body" rows="6" class="w-full border rounded-md p-3 text-sm" placeholder="Please write your detailed inquiry here..." required></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 rounded-md transition shadow-md">
-                        📤 Send Mail to LGK_manager@gmail.com
-                    </button>
+                    <div><label class="block text-xs font-semibold text-gray-700">Name</label><input type="text" id="mail-name" class="w-full border rounded-md p-3 text-sm" required></div>
+                    <div><label class="block text-xs font-semibold text-gray-700">Country</label><input type="text" id="mail-country" class="w-full border rounded-md p-3 text-sm" required></div>
+                    <div><label class="block text-xs font-semibold text-gray-700">Contact</label><input type="text" id="mail-contact" class="w-full border rounded-md p-3 text-sm" required></div>
+                    <div><label class="block text-xs font-semibold text-gray-700">Subject</label><input type="text" id="mail-subject" class="w-full border rounded-md p-3 text-sm" required></div>
+                    <div><label class="block text-xs font-semibold text-gray-700">Message</label><textarea id="mail-body" rows="6" class="w-full border rounded-md p-3 text-sm" required></textarea></div>
+                    <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 rounded-md transition shadow-md">📤 Send Mail</button>
                 </form>
             </div>
         </div>
 
-        <!-- 4. [신설] 공지사항 & 비밀번호 잠금형 Q&A 게시판 -->
-        <div id="board-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-8 border-t-4 border-indigo-700">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                <div>
-                    <h2 class="text-2xl font-bold text-gray-900">📢 Notice & Support Board</h2>
-                    <p class="text-xs sm:text-sm text-gray-500">모든 글은 비밀번호로 보호되며, 타인에게는 별(*)로 마스킹 처리됩니다.</p>
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="showWritePostModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-xs sm:text-sm font-semibold shadow">✍️ Write Post / 글쓰기</button>
-                    <button onclick="goHome()" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-md text-xs sm:text-sm font-semibold">Home</button>
-                </div>
-            </div>
-
-            <!-- 운영진 권한 알림 바 -->
-            <div class="mb-4 flex justify-between items-center bg-gray-50 p-3 rounded-lg border text-xs">
-                <span id="board-staff-status" class="text-gray-600 font-medium">일반 모드 (운영진 3인만 답변을 등록할 수 있습니다)</span>
-                <button onclick="toggleStaffLogin()" id="board-staff-btn" class="text-indigo-600 font-bold hover:underline">🔒 운영진 로그인</button>
-            </div>
-
-            <!-- 게시글 리스트 테이블 -->
-            <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm">
-                <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
-                    <thead class="bg-gray-50 text-gray-700 font-semibold">
-                        <tr>
-                            <th class="px-4 py-3 w-16">No</th>
-                            <th class="px-4 py-3">Title (Protected)</th>
-                            <th class="px-4 py-3 w-32">Author</th>
-                            <th class="px-4 py-3 w-28 text-center">Status</th>
-                            <th class="px-4 py-3 w-28 text-center">View</th>
-                        </tr>
-                    </thead>
-                    <tbody id="board-table-body" class="divide-y divide-gray-200 bg-white text-gray-800">
-                        <tr><td colspan="5" class="px-4 py-6 text-center text-gray-400">Loading board posts...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- 5. 관리자 로그인 화면 (하단 링크용) -->
-        <div id="admin-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-gray-800 mt-8">
-            <button onclick="goHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">← Back to Home</button>
-            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Administrator Login</h2>
-            <form id="admin-form" class="space-y-5" onsubmit="handleAdminLogin(event)">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Admin ID</label>
-                    <input type="text" id="admin-id" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" placeholder="sanhyun / kinam / seongsoo" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" id="admin-password" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required>
-                </div>
-                <button type="submit" class="w-full bg-gray-800 hover:bg-gray-900 text-white flex justify-center py-4 px-4 rounded-md font-bold text-base">Login to Dashboard</button>
-            </form>
-        </div>
-
-        <!-- 6. 관리자 이력서 대시보드 화면 -->
-        <div id="dashboard-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-8 border-t-4 border-gray-800 mt-8">
-            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-                <div>
-                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900">📊 Admin Dashboard - Resumes by Country</h2>
-                    <p class="text-sm text-gray-500">View and download resumes sorted by applicant country.</p>
-                </div>
-                <div class="flex gap-3">
-                    <button onclick="loadResumes()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-semibold">🔄 Refresh</button>
-                    <button onclick="goHome()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-semibold">Logout</button>
-                </div>
-            </div>
-
-            <!-- 검색 및 국가별 필터 -->
-            <div class="flex flex-col sm:flex-row gap-4 mb-6">
-                <input type="text" id="search-input" placeholder="Search by EPS ID or Name..." class="w-full sm:w-80 border border-gray-300 rounded-md p-3 text-sm" oninput="filterResumes()">
-                <select id="country-filter" class="w-full sm:w-60 border border-gray-300 rounded-md p-3 text-sm bg-white" onchange="filterResumes()">
-                    <option value="">All Countries (전체 국가)</option>
-                    <option value="Vietnam">Vietnam (베트남)</option>
-                    <option value="Thailand">Thailand (태국)</option>
-                    <option value="Indonesia">Indonesia (인도네시아)</option>
-                    <option value="Cambodia">Cambodia (캄보디아)</option>
-                    <option value="East Timor">East Timor (동티모르)</option>
-                    <option value="Myanmar">Myanmar (미얀마)</option>
-                    <option value="Laos">Laos (라오스)</option>
-                    <option value="Philippines">Philippines (필리핀)</option>
-                    <option value="Mongolia">Mongolia (몽골)</option>
-                    <option value="China">China (중국)</option>
-                    <option value="Uzbekistan">Uzbekistan (우즈베키스탄)</option>
-                    <option value="Kyrgyzstan">Kyrgyzstan (키르기스스탄)</option>
-                    <option value="Tajikistan">Tajikistan (타지키스탄)</option>
-                    <option value="Sri Lanka">Sri Lanka (스리랑카)</option>
-                    <option value="Pakistan">Pakistan (파키스탄)</option>
-                    <option value="Bangladesh">Bangladesh (방글라데시)</option>
-                    <option value="Nepal">Nepal (네팔)</option>
-                </select>
-            </div>
-
-            <!-- 목록 테이블 -->
-            <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm">
-                <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
-                    <thead class="bg-gray-50 text-gray-700 font-semibold">
-                        <tr>
-                            <th class="px-4 py-3">Date</th>
-                            <th class="px-4 py-3">Country</th>
-                            <th class="px-4 py-3">EPS-TOPIK ID</th>
-                            <th class="px-4 py-3">Full Name</th>
-                            <th class="px-4 py-3">Phone</th>
-                            <th class="px-4 py-3 text-center">Resume File</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resume-table-body" class="divide-y divide-gray-200 bg-white text-gray-800"></tbody>
-                </table>
-            </div>
-        </div>
-    </main>
-
-    <!-- 모달: 게시판 글쓰기 -->
-    <div id="write-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-        <div class="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl">
-            <h3 class="text-lg font-bold text-gray-900 mb-4">✍️ 새 문의글 작성</h3>
-            <form onsubmit="handleCreateBoardPost(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-700">작성자 / Author</label>
-                    <input type="text" id="post-author" class="w-full border rounded-md p-2.5 text-sm" placeholder="홍길동 / John" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-700">비밀번호 / Password (필수: 조회 시 사용)</label>
-                    <input type="password" id="post-password" class="w-full border rounded-md p-2.5 text-sm" placeholder="4자리 이상 입력" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-700">제목 / Title</label>
-                    <input type="text" id="post-title" class="w-full border rounded-md p-2.5 text-sm" placeholder="문의 제목" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-700">내용 / Content</label>
-                    <textarea id="post-content" rows="4" class="w-full border rounded-md p-2.5 text-sm" placeholder="타인에게는 별(*)로 마스킹됩니다." required></textarea>
-                </div>
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeWriteModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md text-xs font-semibold">취소</button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md text-xs font-semibold">등록하기</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- 모달: 게시글 상세 및 답변 -->
-    <div id="detail-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-        <div class="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-            <div class="flex justify-between items-start border-b pb-3">
-                <div>
-                    <span class="text-xs text-indigo-600 font-bold" id="detail-author">작성자</span>
-                    <h3 class="text-lg font-bold text-gray-900" id="detail-title">글 제목</h3>
-                </div>
-                <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
-            </div>
-            
-            <div class="bg-gray-50 p-4 rounded-lg text-sm text-gray-800 whitespace-pre-wrap" id="detail-content">본문 내용</div>
-            
-            <!-- 운영진 답변 영역 -->
-            <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-                <h4 class="text-xs font-bold text-blue-900 mb-1">💬 운영진 공식 답변:</h4>
-                <p class="text-sm text-gray-800 whitespace-pre-wrap" id="detail-reply">아직 등록된 답변이 없습니다.</p>
-            </div>
-
-            <!-- 운영진 전용 답변 작성 폼 -->
-            <div id="staff-reply-box" class="hidden border-t pt-3">
-                <label class="block text-xs font-bold text-indigo-700 mb-1">운영진 답변 등록 (3인 전용)</label>
-                <textarea id="staff-reply-input" rows="3" class="w-full border rounded-md p-2 text-sm" placeholder="답변 내용을 작성해 주세요..."></textarea>
-                <div class="flex justify-end mt-2">
-                    <button onclick="handleSaveStaffReply()" class="bg-indigo-600 text-white px-3 py-1.5 rounded-md text-xs font-semibold">답변 저장</button>
-                </div>
-            </div>
-
-            <div class="flex justify-end pt-2">
-                <button onclick="closeDetailModal()" class="px-4 py-2 bg-gray-600 text-white rounded-md text-xs font-semibold">닫기</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 모달: 운영진 3인 로그인 -->
-    <div id="staff-login-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-        <div class="bg-white rounded-xl max-w-sm w-full p-6 shadow-2xl">
-            <h3 class="text-base font-bold text-gray-900 mb-3">🔒 운영진 3인 인증</h3>
-            <p class="text-xs text-gray-500 mb-4">답변 권한이 있는 3인 (sanhyun, kinam, seongsoo) 계정으로 로그인하세요.</p>
-            <form onsubmit="handleStaffAuth(event)" class="space-y-3">
-                <input type="text" id="staff-auth-id" class="w-full border rounded-md p-2.5 text-xs" placeholder="운영진 ID (sanhyun)" required>
-                <input type="password" id="staff-auth-pw" class="w-full border rounded-md p-2.5 text-xs" placeholder="비밀번호" required>
-                <div class="flex justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeStaffModal()" class="px-3 py-1.5 bg-gray-200 text-xs rounded">취소</button>
-                    <button type="submit" class="px-3 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded">인증</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- 하단 관리자 접속 버튼 -->
-    <footer class="mt-8 mb-10 text-center">
-        <button onclick="showAdminForm()" class="text-xs sm:text-sm text-gray-400 hover:text-gray-600 transition p-2">
-            🔒 Admin Access (Dashboard)
-        </button>
-    </footer>
-
-    <!-- 자바스크립트 통합 로직 -->
-    <script>
-        const SUPABASE_URL = 'https://frrspurafirjskuscgmo.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycnNwdXJhZmlyanNrdXNjZ21vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExODc4NTUsImV4cCI6MjEwNjc2Mzg1NX0.i7YpBqWkWGfzwAJvIhtasIzNJeDols9ZDFzI04RK690';
-
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        let currentCountry = '';
-        let currentLang = 'en';
-        let isStaffAuthorized = false;
-        let currentSelectedPost = null;
-
-        // 화면 전환 함수
-        function hideAllScreens() {
-            document.getElementById('country-selection-screen').classList.add('hidden');
-            document.getElementById('action-screen').classList.add('hidden');
-            document.getElementById('upload-screen').classList.add('hidden');
-            document.getElementById('qna-screen').classList.add('hidden');
-            document.getElementById('board-screen').classList.add('hidden');
-            document.getElementById('admin-screen').classList.add('hidden');
-            document.getElementById('dashboard-screen').classList.add('hidden');
-        }
-
-        function goHome() {
-            hideAllScreens();
-            document.getElementById('country-selection-screen').classList.remove('hidden');
-        }
-
-        function showQnAScreen() {
-            hideAllScreens();
-            document.getElementById('qna-screen').classList.remove('hidden');
-        }
-
-        async function showBoardScreen() {
-            hideAllScreens();
-            document.getElementById('board-screen').classList.remove('hidden');
-            await loadBoardPosts();
-        }
-
-        function selectCountry(countryName, langCode) {
-            currentCountry = countryName;
-            currentLang = langCode || 'en';
-            
-            hideAllScreens();
-            document.getElementById('action-screen').classList.remove('hidden');
-            document.getElementById('menu-selection').classList.remove('hidden');
-            document.getElementById('upload-screen').classList.add('hidden');
-            document.getElementById('selected-country-badge').innerText = `Selected: ${countryName}`;
-            applyCountryLanguage();
-        }
-
-        function showUploadForm() {
-            document.getElementById('menu-selection').classList.add('hidden');
-            document.getElementById('upload-screen').classList.remove('hidden');
-        }
-
-        function showMenuSelection() {
-            document.getElementById('upload-screen').classList.add('hidden');
-            document.getElementById('menu-selection').classList.remove('hidden');
-        }
-
-        function showAdminForm() {
-            hideAllScreens();
-            document.getElementById('admin-screen').classList.remove('hidden');
-        }
-
-        // 1. Q&A 메일 전송 로직 (LGK_manager@gmail.com)
-        function handleSendMail(event) {
-            event.preventDefault();
-            const name = document.getElementById('mail-name').value;
-            const country = document.getElementById('mail-country').value;
-            const contact = document.getElementById('mail-contact').value;
-            const subject = document.getElementById('mail-subject').value;
-            const body = document.getElementById('mail-body').value;
-
-            const fullSubject = encodeURIComponent(`[LGK Q&A] ${subject} (${name} - ${country})`);
-            const fullBody = encodeURIComponent(
-                `■ Applicant Name: ${name}\n` +
-                `■ Country: ${country}\n` +
-                `■ Contact: ${contact}\n\n` +
-                `■ Inquiry Content:\n${body}`
-            );
-
-            window.location.href = `mailto:LGK_manager@gmail.com?subject=${fullSubject}&body=${fullBody}`;
-        }
-
-        // 2. 게시판 데이터 로드 및 별표(*) 마스킹 처리
-        let boardPosts = [];
-
-        async function loadBoardPosts() {
-            const tbody = document.getElementById('board-table-body');
-            tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-6 text-center text-gray-500">게시글을 불러오는 중...</td></tr>`;
-
-            try {
-                const { data, error } = await supabaseClient
-                    .from('board_posts')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error) {
-                    // 테이블이 아직 없는 경우를 대비한 Mock 기본 데이터
-                    boardPosts = [
-                        { id: 1, title: "급여 지급 관련 문의드립니다", author: "Nguyen", password: "123", content: "한국 취업 시 실수령액 기준이 어떻게 되나요?", reply: "표준 근로계약서 기준으로 책정됩니다." },
-                        { id: 2, title: "미얀마 현지 시험 일정 질문", author: "Aung", password: "456", content: "다음 시험 일정이 언제 공지되나요?", reply: "" }
-                    ];
-                } else {
-                    boardPosts = data || [];
-                }
-
-                renderBoardTable();
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        function renderBoardTable() {
-            const tbody = document.getElementById('board-table-body');
-            if (boardPosts.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-6 text-center text-gray-400">등록된 게시글이 없습니다.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = boardPosts.map((post, index) => {
-                // 일반 사용자에게는 제목을 별표로 마스킹 처리
-                const displayTitle = isStaffAuthorized 
-                    ? `🔓 ${post.title}` 
-                    : `🔒 ******************** (비밀글)`;
-                const statusBadge = post.reply 
-                    ? `<span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded font-semibold">답변완료</span>` 
-                    : `<span class="bg-gray-100 text-gray-500 text-xs px-2 py-0.5 rounded">대기중</span>`;
-
-                return `
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="px-4 py-3 text-gray-500 text-xs">${boardPosts.length - index}</td>
-                        <td class="px-4 py-3 font-medium text-gray-900">${displayTitle}</td>
-                        <td class="px-4 py-3 text-gray-600 text-xs">${post.author}</td>
-                        <td class="px-4 py-3 text-center">${statusBadge}</td>
-                        <td class="px-4 py-3 text-center">
-                            <button onclick="handleViewPost(${post.id})" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1 rounded text-xs font-semibold">
-                                조회
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function showWritePostModal() {
-            document.getElementById('write-modal').classList.remove('hidden');
-        }
-        function closeWriteModal() {
-            document.getElementById('write-modal').classList.add('hidden');
-        }
-
-        async function handleCreateBoardPost(event) {
-            event.preventDefault();
-            const author = document.getElementById('post-author').value;
-            const password = document.getElementById('post-password').value;
-            const title = document.getElementById('post-title').value;
-            const content = document.getElementById('post-content').value;
-
-            try {
-                const { error } = await supabaseClient
-                    .from('board_posts')
-                    .insert([{ author, password, title, content }]);
-
-                if (error) {
-                    // Supabase 테이블이 없는 경우 로컬 배열 임시 저장
-                    boardPosts.unshift({ id: Date.now(), author, password, title, content, reply: "" });
-                }
-                alert('비밀글이 성공적으로 등록되었습니다.');
-                closeWriteModal();
-                await loadBoardPosts();
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        // 비밀번호 확인 후 상세 열람
-        function handleViewPost(postId) {
-            const post = boardPosts.find(p => p.id === postId);
-            if (!post) return;
-
-            // 운영진인 경우 비밀번호 검사 생략
-            if (isStaffAuthorized) {
-                openDetailModal(post);
-                return;
-            }
-
-            const inputPw = prompt("🔒 이 글은 비밀글입니다. 작성 시 입력한 비밀번호를 입력하세요:");
-            if (inputPw === post.password) {
-                openDetailModal(post);
-            } else if (inputPw !== null) {
-                alert("비밀번호가 일치하지 않습니다!");
-            }
-        }
-
-        function openDetailModal(post) {
-            currentSelectedPost = post;
-            document.getElementById('detail-title').innerText = post.title;
-            document.getElementById('detail-author').innerText = `작성자: ${post.author}`;
-            document.getElementById('detail-content').innerText = post.content;
-            document.getElementById('detail-reply').innerText = post.reply || "아직 등록된 답변이 없습니다.";
-
-            // 운영진이면 답변 작성 폼 노출
-            const replyBox = document.getElementById('staff-reply-box');
-            if (isStaffAuthorized) {
-                replyBox.classList.remove('hidden');
-                document.getElementById('staff-reply-input').value = post.reply || "";
-            } else {
-                replyBox.classList.add('hidden');
-            }
-
-            document.getElementById('detail-modal').classList.remove('hidden');
-        }
-
-        function closeDetailModal() {
-            document.getElementById('detail-modal').classList.add('hidden');
-            currentSelectedPost = null;
-        }
-
-        // 운영진 3인 답변 저장
-        async function handleSaveStaffReply() {
-            if (!currentSelectedPost) return;
-            const replyText = document.getElementById('staff-reply-input').value;
-
-            try {
-                const { error } = await supabaseClient
-                    .from('board_posts')
-                    .update({ reply: replyText })
-                    .eq('id', currentSelectedPost.id);
-
-                currentSelectedPost.reply = replyText;
-                document.getElementById('detail-reply').innerText = replyText;
-                alert('운영진 답변이 등록되었습니다.');
-                await loadBoardPosts();
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        // 운영진 3인 인증 (sanhyun, kinam, seongsoo)
-        function toggleStaffLogin() {
-            if (isStaffAuthorized) {
-                isStaffAuthorized = false;
-                document.getElementById('board-staff-status').innerText = "일반 모드 (운영진 3인만 답변을 등록할 수 있습니다)";
-                document.getElementById('board-staff-btn').innerText = "🔒 운영진 로그인";
-                renderBoardTable();
-                alert('운영진 로그아웃되었습니다.');
-            } else {
-                document.getElementById('staff-login-modal').classList.remove('hidden');
-            }
-        }
-
-        function closeStaffModal() {
-            document.getElementById('staff-login-modal').classList.add('hidden');
-        }
-
-        function handleStaffAuth(event) {
-            event.preventDefault();
-            const id = document.getElementById('staff-auth-id').value.trim();
-            const pw = document.getElementById('staff-auth-pw').value.trim();
-
-            const staffList = ['sanhyun', 'kinam', 'seongsoo'];
-            if (staffList.includes(id) && pw === '1234') {
-                isStaffAuthorized = true;
-                document.getElementById('board-staff-status').innerText = `🟢 운영진 인증됨 (${id})`;
-                document.getElementById('board-staff-btn').innerText = "🔓 로그아웃";
-                closeStaffModal();
-                alert(`환영합니다, ${id} 운영자님! 모든 글의 열람 및 답변 등록이 가능합니다.`);
-                renderBoardTable();
-            } else {
-                alert('운영진 계정 정보가 일치하지 않습니다.');
-            }
-        }
-
-        // 관리자 대시보드 로그인 처리
-        function handleAdminLogin(event) {
-            event.preventDefault();
-            const id = document.getElementById('admin-id').value.trim();
-            const pw = document.getElementById('admin-password').value.trim();
-
-            const staffList = ['sanhyun', 'kinam', 'seongsoo'];
-            if (staffList.includes(id) && pw === '1234') {
-                alert('Admin login successful!');
-                document.getElementById('admin-form').reset();
-                showDashboard();
-            } else {
-                alert('Invalid Admin ID or Password.');
-            }
-        }
-
-        async function showDashboard() {
-            hideAllScreens();
-            document.getElementById('dashboard-screen').classList.remove('hidden');
-            await loadResumes();
-        }
-
-        let allResumes = [];
-
-        async function loadResumes() {
-            const tbody = document.getElementById('resume-table-body');
-            tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-gray-500">Loading resumes...</td></tr>`;
-
-            try {
-                const { data, error } = await supabaseClient
-                    .from('resumes')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-                allResumes = data || [];
-                renderResumeTable(allResumes);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        function renderResumeTable(resumes) {
-            const tbody = document.getElementById('resume-table-body');
-            if (resumes.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-gray-500">No resumes submitted yet.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = resumes.map(row => {
-                const dateStr = row.created_at ? new Date(row.created_at).toLocaleString() : 'N/A';
-                return `
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="px-4 py-3 whitespace-nowrap text-gray-500 text-xs">${dateStr}</td>
-                        <td class="px-4 py-3 font-semibold text-indigo-700">${row.country || 'N/A'}</td>
-                        <td class="px-4 py-3 font-semibold text-blue-900">${row.eps_id}</td>
-                        <td class="px-4 py-3">${row.full_name}</td>
-                        <td class="px-4 py-3">${row.phone}</td>
-                        <td class="px-4 py-3 text-center">
-                            <a href="${row.file_url}" target="_blank" class="inline-flex items-center gap-1 bg-blue-100 text-blue-800 px-3 py-1.5 rounded-md text-xs font-semibold hover:bg-blue-200">
-                                📥 Download
-                            </a>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function filterResumes() {
-            const keyword = document.getElementById('search-input').value.toLowerCase();
-            const countryFilter = document.getElementById('country-filter').value;
-
-            const filtered = allResumes.filter(row => {
-                const matchesKeyword = (row.eps_id && row.eps_id.toLowerCase().includes(keyword)) || 
-                                       (row.full_name && row.full_name.toLowerCase().includes(keyword));
-                const matchesCountry = countryFilter === '' || row.country === countryFilter;
-                return matchesKeyword && matchesCountry;
-            });
-            renderResumeTable(filtered);
-        }
-
-        // 수파베이스 이력서 제출
-        async function handleUpload(event) {
-            event.preventDefault();
-            const submitBtn = document.getElementById('btn-submit');
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Submitting...";
-
-            const epsId = document.getElementById('eps-id').value;
-            const fullName = document.getElementById('full-name').value;
-            const phone = document.getElementById('phone').value;
-            const password = document.getElementById('upload-password').value;
-            const file = document.getElementById('file-upload').files[0];
-
-            if (!file) {
-                alert('Please select a resume file.');
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Submit Application";
-                return;
-            }
-
-            try {
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
-                const filePath = `${currentCountry}_${epsId}_${fileName}`;
-
-                const { error: uploadError } = await supabaseClient.storage
-                    .from('resume_files')
-                    .upload(filePath, file);
-
-                if (uploadError) throw uploadError;
-
-                const { data: publicUrlData } = supabaseClient.storage
-                    .from('resume_files')
-                    .getPublicUrl(filePath);
-
-                const { error: dbError } = await supabaseClient
-                    .from('resumes')
-                    .insert([{ 
-                        country: currentCountry,
-                        eps_id: epsId, 
-                        full_name: fullName, 
-                        phone: phone, 
-                        password: password, 
-                        file_url: publicUrlData.publicUrl 
-                    }]);
-
-                if (dbError) throw dbError;
-
-                alert('Resume submitted successfully!');
-                document.getElementById('resume-form').reset();
-                goHome();
-            } catch (error) {
-                alert('Submission failed: ' + error.message);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Submit Application";
-            }
-        }
-
-        // 다국어 처리
-        const siteTranslations = {
-            en: { navDesc: "EPS Employment Support Portal", selectMapTitle: "🗺️ Asia Map Recruitment Network", selectMapDesc: "Click your country pin on the Asia map below to proceed." },
-            ko: { navDesc: "한국 외국인고용 지원 포털", selectMapTitle: "🗺️ 아시아 지도 송출국 네트워크", selectMapDesc: "아시아 지도 위에서 본인의 국가 핀을 클릭하세요." }
-        };
-
-        function changeSiteLanguage() {
-            const lang = document.getElementById('site-lang-select').value;
-            const t = siteTranslations[lang];
-            document.getElementById('nav-desc').innerText = t.navDesc;
-            document.getElementById('select-map-title').innerText = t.selectMapTitle;
-            document.getElementById('select-map-desc').innerText = t.selectMapDesc;
-        }
-
-        const countryTranslations = {
-            vi: { downloadMain: "Tải xuống Sơ yếu lý lịch", uploadMain: "Tải lên Sơ yếu lý lịch", formTitle: "Nộp sơ yếu lý lịch" },
-            my: { downloadMain: "ကိုယ်ရေးရာဇဝင် ဒေါင်းလုဒ်လုပ်ရန်", uploadMain: "ကိုယ်ရေးရာဇဝင် အပ်လုဒ်လုပ်ရန်", formTitle: "သင့်ကိုယ်ရေးရာဇဝင်ကို တင်သွင်းပါ" },
-            id: { downloadMain: "Unduh Resume", uploadMain: "Unggah Resume", formTitle: "Kirimkan Resume Anda" },
-            en: { downloadMain: "Download Resume", uploadMain: "Upload Resume", formTitle: "Submit Your Resume" }
-        };
-
-        function applyCountryLanguage() {
-            const t = countryTranslations[currentLang] || countryTranslations['en'];
-            document.getElementById('btn-download-main').innerText = t.downloadMain;
-            document.getElementById('btn-upload-main').innerText = t.uploadMain;
-            document.getElementById('form-title').innerText = t.formTitle;
-        }
-    </script>
-</body>
-</html>
+        <!-- 4
