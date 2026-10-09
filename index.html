@@ -190,4 +190,252 @@
             </div>
         </div>
 
-        <!-- 4
+        <!-- 4. 공지사항 & 비밀번호 잠금형 Q&A 게시판 -->
+        <div id="board-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-8 border-t-4 border-indigo-700">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">📢 Notice & Support Board</h2>
+                    <p class="text-xs sm:text-sm text-gray-500">모든 글은 비밀번호로 보호되며, 타인에게는 별(*)로 마스킹 처리됩니다.</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="showWritePostModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-xs sm:text-sm font-semibold shadow">✍️ Write Post</button>
+                    <button onclick="goHome()" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-md text-xs sm:text-sm font-semibold">Home</button>
+                </div>
+            </div>
+            <div class="mb-4 flex justify-between items-center bg-gray-50 p-3 rounded-lg border text-xs">
+                <span id="board-staff-status" class="text-gray-600 font-medium">일반 모드 (운영진 인증 필요)</span>
+                <button onclick="toggleStaffLogin()" id="board-staff-btn" class="text-indigo-600 font-bold hover:underline">🔒 운영진 로그인</button>
+            </div>
+            <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm">
+                <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
+                    <thead class="bg-gray-50 text-gray-700 font-semibold">
+                        <tr>
+                            <th class="px-4 py-3 w-16">No</th>
+                            <th class="px-4 py-3">Title (Protected)</th>
+                            <th class="px-4 py-3 w-32">Author</th>
+                            <th class="px-4 py-3 w-28 text-center">Status</th>
+                            <th class="px-4 py-3 w-28 text-center">View</th>
+                        </tr>
+                    </thead>
+                    <tbody id="board-table-body" class="divide-y divide-gray-200 bg-white text-gray-800">
+                        <tr><td colspan="5" class="px-4 py-6 text-center text-gray-400">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 5. 관리자 대시보드 로그인 화면 -->
+        <div id="admin-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-gray-800 mt-8">
+            <button onclick="goHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">← Back to Home</button>
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Administrator Login</h2>
+            <form id="admin-form" class="space-y-5" onsubmit="handleAdminLogin(event)">
+                <div><label class="block text-sm font-medium text-gray-700">Admin ID</label><input type="text" id="admin-id" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
+                <div><label class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="admin-password" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
+                <button type="submit" class="w-full bg-gray-800 hover:bg-gray-900 text-white flex justify-center py-4 px-4 rounded-md font-bold text-base">Login</button>
+            </form>
+        </div>
+
+        <!-- 6. 대시보드 -->
+        <div id="dashboard-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-8 border-t-4 border-gray-800 mt-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-900">📊 Admin Dashboard</h2>
+                <button onclick="goHome()" class="bg-gray-600 text-white px-4 py-2 rounded-md text-sm">Logout</button>
+            </div>
+            <div class="overflow-x-auto border border-gray-200 rounded-lg">
+                <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
+                    <thead class="bg-gray-50 text-gray-700">
+                        <tr><th class="px-4 py-3">Date</th><th class="px-4 py-3">Country</th><th class="px-4 py-3">EPS ID</th><th class="px-4 py-3">Name</th><th class="px-4 py-3 text-center">File</th></tr>
+                    </thead>
+                    <tbody id="resume-table-body" class="bg-white"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- 모달 창들 -->
+    <div id="write-modal" class="hidden fixed inset-0 bg-black/60 flex justify-center items-center z-50 p-4">
+        <div class="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">✍️ 새 문의글 작성</h3>
+            <form onsubmit="handleCreateBoardPost(event)" class="space-y-4">
+                <input type="text" id="post-author" class="w-full border rounded-md p-2.5 text-sm" placeholder="작성자 이름" required>
+                <input type="password" id="post-password" class="w-full border rounded-md p-2.5 text-sm" placeholder="비밀번호" required>
+                <input type="text" id="post-title" class="w-full border rounded-md p-2.5 text-sm" placeholder="제목" required>
+                <textarea id="post-content" rows="4" class="w-full border rounded-md p-2.5 text-sm" placeholder="내용" required></textarea>
+                <div class="flex justify-end gap-2"><button type="button" onclick="closeWriteModal()" class="px-4 py-2 bg-gray-200 text-xs rounded">취소</button><button type="submit" class="px-4 py-2 bg-indigo-600 text-white text-xs rounded">등록</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="detail-modal" class="hidden fixed inset-0 bg-black/60 flex justify-center items-center z-50 p-4">
+        <div class="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-start border-b pb-3">
+                <div><span class="text-xs text-indigo-600 font-bold" id="detail-author"></span><h3 class="text-lg font-bold text-gray-900" id="detail-title"></h3></div>
+                <button onclick="closeDetailModal()" class="text-gray-400 font-bold text-xl">&times;</button>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg text-sm" id="detail-content"></div>
+            <div class="bg-blue-50 border p-4 rounded-lg"><h4 class="text-xs font-bold text-blue-900 mb-1">💬 운영진 답변:</h4><p class="text-sm" id="detail-reply">아직 답변이 없습니다.</p></div>
+            <div id="staff-reply-box" class="hidden border-t pt-3">
+                <textarea id="staff-reply-input" rows="3" class="w-full border rounded-md p-2 text-sm" placeholder="답변 작성..."></textarea>
+                <div class="flex justify-end mt-2"><button onclick="handleSaveStaffReply()" class="bg-indigo-600 text-white px-3 py-1.5 rounded text-xs">답변 저장</button></div>
+            </div>
+            <div class="flex justify-end"><button onclick="closeDetailModal()" class="px-4 py-2 bg-gray-600 text-white text-xs rounded">닫기</button></div>
+        </div>
+    </div>
+
+    <div id="staff-login-modal" class="hidden fixed inset-0 bg-black/60 flex justify-center items-center z-50 p-4">
+        <div class="bg-white rounded-xl max-w-sm w-full p-6 shadow-2xl">
+            <h3 class="text-base font-bold text-gray-900 mb-3">🔒 운영진 인증</h3>
+            <form onsubmit="handleStaffAuth(event)" class="space-y-3">
+                <input type="text" id="staff-auth-id" class="w-full border rounded-md p-2.5 text-xs" placeholder="Staff ID" required>
+                <input type="password" id="staff-auth-pw" class="w-full border rounded-md p-2.5 text-xs" placeholder="Password" required>
+                <div class="flex justify-end gap-2"><button type="button" onclick="closeStaffModal()" class="px-3 py-1.5 bg-gray-200 text-xs rounded">취소</button><button type="submit" class="px-3 py-1.5 bg-indigo-600 text-white text-xs rounded">인증</button></div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="mt-8 mb-10 text-center">
+        <button onclick="showAdminForm()" class="text-xs sm:text-sm text-gray-400 hover:text-gray-600 transition p-2">🔒 Admin Access</button>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://frrspurafirjskuscgmo.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycnNwdXJhZmlyanNrdXNjZ21vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExODc4NTUsImV4cCI6MjEwNjc2Mzg1NX0.i7YpBqWkWGfzwAJvIhtasIzNJeDols9ZDFzI04RK690';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentCountry = '';
+        let currentLang = 'en';
+        let isStaffAuthorized = false;
+        let currentSelectedPost = null;
+
+        function hideAllScreens() {
+            ['country-selection-screen', 'action-screen', 'upload-screen', 'qna-screen', 'board-screen', 'admin-screen', 'dashboard-screen'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+        function goHome() { hideAllScreens(); document.getElementById('country-selection-screen').classList.remove('hidden'); }
+        function showQnAScreen() { hideAllScreens(); document.getElementById('qna-screen').classList.remove('hidden'); }
+        async function showBoardScreen() { hideAllScreens(); document.getElementById('board-screen').classList.remove('hidden'); await loadBoardPosts(); }
+        function selectCountry(c, l) { currentCountry = c; currentLang = l || 'en'; hideAllScreens(); document.getElementById('action-screen').classList.remove('hidden'); document.getElementById('menu-selection').classList.remove('hidden'); document.getElementById('selected-country-badge').innerText = `Selected: ${c}`; }
+        function showUploadForm() { document.getElementById('menu-selection').classList.add('hidden'); document.getElementById('upload-screen').classList.remove('hidden'); }
+        function showMenuSelection() { document.getElementById('upload-screen').classList.add('hidden'); document.getElementById('menu-selection').classList.remove('hidden'); }
+        function showAdminForm() { hideAllScreens(); document.getElementById('admin-screen').classList.remove('hidden'); }
+
+        function handleSendMail(event) {
+            event.preventDefault();
+            const n = document.getElementById('mail-name').value;
+            const c = document.getElementById('mail-country').value;
+            const sub = document.getElementById('mail-subject').value;
+            const b = document.getElementById('mail-body').value;
+            window.location.href = `mailto:LGK_manager@gmail.com?subject=${encodeURIComponent(`[Q&A] ${sub} (${n})`)}&body=${encodeURIComponent(`Country: ${c}\n\n${b}`)}`;
+        }
+
+        let boardPosts = [];
+        async function loadBoardPosts() {
+            try {
+                const { data } = await supabaseClient.from('board_posts').select('*').order('created_at', { ascending: false });
+                boardPosts = data || [];
+                renderBoardTable();
+            } catch (e) { boardPosts = []; renderBoardTable(); }
+        }
+
+        function renderBoardTable() {
+            const tbody = document.getElementById('board-table-body');
+            if (boardPosts.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-6 text-center text-gray-400">게시글이 없습니다.</td></tr>`; return; }
+            tbody.innerHTML = boardPosts.map((p, idx) => {
+                const title = isStaffAuthorized ? `🔓 ${p.title}` : `🔒 ******************** (비밀글)`;
+                const badge = p.reply ? `<span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded font-semibold">답변완료</span>` : `<span class="bg-gray-100 text-gray-500 text-xs px-2 py-0.5 rounded">대기중</span>`;
+                return `<tr class="hover:bg-gray-50"><td class="px-4 py-3 text-xs text-gray-500">${boardPosts.length - idx}</td><td class="px-4 py-3 font-medium text-gray-900">${title}</td><td class="px-4 py-3 text-xs text-gray-600">${p.author}</td><td class="px-4 py-3 text-center">${badge}</td><td class="px-4 py-3 text-center"><button onclick="handleViewPost(${p.id})" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1 rounded text-xs font-semibold">조회</button></td></tr>`;
+            }).join('');
+        }
+
+        function showWritePostModal() { document.getElementById('write-modal').classList.remove('hidden'); }
+        function closeWriteModal() { document.getElementById('write-modal').classList.add('hidden'); }
+        async function handleCreateBoardPost(e) {
+            e.preventDefault();
+            const author = document.getElementById('post-author').value;
+            const password = document.getElementById('post-password').value;
+            const title = document.getElementById('post-title').value;
+            const content = document.getElementById('post-content').value;
+            await supabaseClient.from('board_posts').insert([{ author, password, title, content }]);
+            alert('등록되었습니다.'); closeWriteModal(); await loadBoardPosts();
+        }
+
+        function handleViewPost(id) {
+            const p = boardPosts.find(x => x.id === id);
+            if (!p) return;
+            if (isStaffAuthorized) { openDetailModal(p); return; }
+            const pw = prompt("비밀번호를 입력하세요:");
+            if (pw === p.password) openDetailModal(p);
+            else if (pw !== null) alert("비밀번호가 틀렸습니다.");
+        }
+
+        function openDetailModal(p) {
+            currentSelectedPost = p;
+            document.getElementById('detail-title').innerText = p.title;
+            document.getElementById('detail-author').innerText = `작성자: ${p.author}`;
+            document.getElementById('detail-content').innerText = p.content;
+            document.getElementById('detail-reply').innerText = p.reply || "아직 답변이 없습니다.";
+            const box = document.getElementById('staff-reply-box');
+            if (isStaffAuthorized) { box.classList.remove('hidden'); document.getElementById('staff-reply-input').value = p.reply || ""; } else { box.classList.add('hidden'); }
+            document.getElementById('detail-modal').classList.remove('hidden');
+        }
+        function closeDetailModal() { document.getElementById('detail-modal').classList.add('hidden'); currentSelectedPost = null; }
+
+        async function handleSaveStaffReply() {
+            if (!currentSelectedPost) return;
+            const reply = document.getElementById('staff-reply-input').value;
+            await supabaseClient.from('board_posts').update({ reply }).eq('id', currentSelectedPost.id);
+            alert('답변이 저장되었습니다.'); await loadBoardPosts(); closeDetailModal();
+        }
+
+        function toggleStaffLogin() {
+            if (isStaffAuthorized) {
+                isStaffAuthorized = false;
+                document.getElementById('board-staff-status').innerText = "일반 모드 (운영진 인증 필요)";
+                document.getElementById('board-staff-btn').innerText = "🔒 운영진 로그인";
+                renderBoardTable();
+            } else { document.getElementById('staff-login-modal').classList.remove('hidden'); }
+        }
+        function closeStaffModal() { document.getElementById('staff-login-modal').classList.add('hidden'); }
+        
+        function handleStaffAuth(e) {
+            e.preventDefault();
+            const id = document.getElementById('staff-auth-id').value.trim();
+            const pw = document.getElementById('staff-auth-pw').value.trim();
+            // 안전하게 암호화 검증 또는 코드 내부 권한 배열 관리
+            if (pw === '1234') { // 실제 환경에서는 비밀번호 복잡성 관리 필요
+                isStaffAuthorized = true;
+                document.getElementById('board-staff-status').innerText = `🟢 운영진 인증됨`;
+                document.getElementById('board-staff-btn').innerText = "🔓 로그아웃";
+                closeStaffModal();
+                renderBoardTable();
+            } else { alert('권한 정보가 올바르지 않습니다.'); }
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            if (document.getElementById('admin-password').value.trim() === '1234') { showDashboard(); }
+            else { alert('비밀번호가 올바르지 않습니다.'); }
+        }
+
+        async function showDashboard() {
+            hideAllScreens();
+            document.getElementById('dashboard-screen').classList.remove('hidden');
+            const { data } = await supabaseClient.from('resumes').select('*').order('created_at', { ascending: false });
+            const tbody = document.getElementById('resume-table-body');
+            tbody.innerHTML = (data || []).map(r => `<tr class="border-b"><td class="px-4 py-3 text-xs">${new Date(r.created_at).toLocaleString()}</td><td class="px-4 py-3">${r.country||''}</td><td class="px-4 py-3">${r.eps_id}</td><td class="px-4 py-3">${r.full_name}</td><td class="px-4 py-3 text-center"><a href="${r.file_url}" target="_blank" class="text-blue-600 underline text-xs">Download</a></td></tr>`).join('');
+        }
+
+        async function handleUpload(e) {
+            e.preventDefault();
+            const file = document.getElementById('file-upload').files[0];
+            const epsId = document.getElementById('eps-id').value;
+            const path = `${currentCountry}_${epsId}_${Date.now()}.${file.name.split('.').pop()}`;
+            await supabaseClient.storage.from('resume_files').upload(path, file);
+            const { data } = supabaseClient.storage.from('resume_files').getPublicUrl(path);
+            await supabaseClient.from('resumes').insert([{ country: currentCountry, eps_id: epsId, full_name: document.getElementById('full-name').value, phone: document.getElementById('phone').value, password: document.getElementById('upload-password').value, file_url: data.publicUrl }]);
+            alert('제출 완료!'); goHome();
+        }
+    </script>
+</body>
+</html>
