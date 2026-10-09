@@ -16,7 +16,7 @@
         
         @keyframes map-pulse {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { transform: scale(1.15); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            70% { transform: scale(1.12); box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
         .map-pin { animation: map-pulse 2s infinite ease-in-out; }
@@ -44,105 +44,118 @@
     </nav>
 
     <main class="max-w-6xl mx-auto mt-6 sm:mt-8 px-4 sm:px-6 pb-16">
-        <!-- 1. 아시아 지도 집중 화면 -->
+        <!-- 1. 아시아 지도 인터랙티브 화면 -->
         <div id="country-selection-screen" class="space-y-6">
             <div class="text-center">
                 <h2 class="text-xl sm:text-3xl font-extrabold text-gray-900">🗺️ Asia Map Recruitment Network / 아시아 송출국 네트워크</h2>
                 <p class="text-sm text-gray-500 mt-1">아시아 지도 위에서 본인의 국가(국기 핀)를 클릭하세요.</p>
             </div>
 
-            <!-- 아시아 지도 영역 -->
-            <div class="relative w-full bg-blue-950 rounded-2xl shadow-2xl overflow-hidden border-4 border-blue-900 flex justify-center items-center" style="min-height: 480px;">
-                <!-- 아시아 지역에 집중된 지도 텍스처 배경 -->
-                <div class="absolute inset-0 opacity-30 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:20px_20px]"></div>
+            <!-- 아시아 지도 영역 (안정적인 일러스트 스타일 배경 및 분산 배치된 핀) -->
+            <div class="relative w-full bg-gradient-to-br from-blue-950 via-slate-900 to-indigo-950 rounded-2xl shadow-2xl overflow-hidden border-4 border-blue-900 flex justify-center items-center" style="min-height: 520px;">
+                <!-- 아시아 대륙 가이드 배경 효과 -->
+                <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#60a5fa_1.5px,transparent_1.5px)] [background-size:24px_24px]"></div>
                 
-                <div class="relative w-full max-w-4xl h-[460px] sm:h-[500px]">
-                    <!-- 17개국 아시아 지리적 위치별 국기 핀 -->
-                    <div onclick="selectCountry('Vietnam', 'vi')" class="absolute top-[52%] left-[58%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-red-500 transition transform hover:scale-110">
-                            <span class="text-xl">🇻🇳</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Vietnam</span>
+                <div class="relative w-full max-w-5xl h-[480px] sm:h-[520px]">
+                    
+                    <!-- 1. 동아시아 (East Asia) -->
+                    <div onclick="selectCountry('Mongolia', 'mn')" class="absolute top-[18%] left-[58%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-blue-400 transition transform hover:scale-110">
+                            <span class="text-lg">🇲🇳</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Mongolia (몽골)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Myanmar', 'my')" class="absolute top-[48%] left-[48%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-yellow-500 transition transform hover:scale-110">
-                            <span class="text-xl">🇲🇲</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Myanmar</span>
+                    <div onclick="selectCountry('China', 'zh')" class="absolute top-[34%] left-[62%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-red-500 transition transform hover:scale-110">
+                            <span class="text-lg">🇨🇳</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">China (중국)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Thailand', 'th')" class="absolute top-[55%] left-[52%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-blue-500 transition transform hover:scale-110">
-                            <span class="text-xl">🇹🇭</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Thailand</span>
+
+                    <!-- 2. 중앙아시아 (Central Asia) -->
+                    <div onclick="selectCountry('Uzbekistan', 'uz')" class="absolute top-[30%] left-[28%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-blue-500 transition transform hover:scale-110">
+                            <span class="text-lg">🇺🇿</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Uzbekistan (우즈베크)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Indonesia', 'id')" class="absolute top-[72%] left-[62%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-red-500 transition transform hover:scale-110">
-                            <span class="text-xl">🇮🇩</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Indonesia</span>
+                    <div onclick="selectCountry('Kyrgyzstan', 'ky')" class="absolute top-[38%] left-[34%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-red-400 transition transform hover:scale-110">
+                            <span class="text-lg">🇰🇬</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Kyrgyzstan (키르기스)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Cambodia', 'km')" class="absolute top-[58%] left-[56%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-blue-400 transition transform hover:scale-110">
-                            <span class="text-xl">🇰🇭</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Cambodia</span>
+                    <div onclick="selectCountry('Tajikistan', 'tg')" class="absolute top-[46%] left-[34%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-yellow-400 transition transform hover:scale-110">
+                            <span class="text-lg">🇹🇯</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Tajikistan (타지크)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Philippines', 'en')" class="absolute top-[50%] left-[68%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-blue-500 transition transform hover:scale-110">
-                            <span class="text-xl">🇵🇭</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Philippines</span>
+
+                    <!-- 3. 남아시아 (South Asia) -->
+                    <div onclick="selectCountry('Pakistan', 'ur')" class="absolute top-[44%] left-[22%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-green-500 transition transform hover:scale-110">
+                            <span class="text-lg">🇵🇰</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Pakistan (파키스탄)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Mongolia', 'mn')" class="absolute top-[20%] left-[55%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-blue-400 transition transform hover:scale-110">
-                            <span class="text-xl">🇲🇳</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Mongolia</span>
+                    <div onclick="selectCountry('Nepal', 'ne')" class="absolute top-[42%] left-[45%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-red-500 transition transform hover:scale-110">
+                            <span class="text-lg">🇳🇵</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Nepal (네팔)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('China', 'zh')" class="absolute top-[35%] left-[58%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-red-500 transition transform hover:scale-110">
-                            <span class="text-xl">🇨🇳</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">China</span>
+                    <div onclick="selectCountry('Bangladesh', 'bn')" class="absolute top-[52%] left-[47%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-green-600 transition transform hover:scale-110">
+                            <span class="text-lg">🇧🇩</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Bangladesh (방글라데시)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Uzbekistan', 'uz')" class="absolute top-[32%] left-[32%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-blue-500 transition transform hover:scale-110">
-                            <span class="text-xl">🇺🇿</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Uzbekistan</span>
+                    <div onclick="selectCountry('Sri Lanka', 'si')" class="absolute top-[75%] left-[38%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-amber-500 transition transform hover:scale-110">
+                            <span class="text-lg">🇱🇰</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Sri Lanka (스리랑카)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Sri Lanka', 'si')" class="absolute top-[72%] left-[44%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-amber-500 transition transform hover:scale-110">
-                            <span class="text-xl">🇱🇰</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Sri Lanka</span>
+
+                    <!-- 4. 동남아시아 (Southeast Asia) -->
+                    <div onclick="selectCountry('Myanmar', 'my')" class="absolute top-[48%] left-[54%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-yellow-500 transition transform hover:scale-110">
+                            <span class="text-lg">🇲🇲</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Myanmar (미얀마)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Pakistan', 'ur')" class="absolute top-[45%] left-[36%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-green-500 transition transform hover:scale-110">
-                            <span class="text-xl">🇵🇰</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Pakistan</span>
+                    <div onclick="selectCountry('Laos', 'lo')" class="absolute top-[52%] left-[58%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-red-400 transition transform hover:scale-110">
+                            <span class="text-lg">🇱🇦</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Laos (라오스)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Bangladesh', 'bn')" class="absolute top-[50%] left-[45%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-green-600 transition transform hover:scale-110">
-                            <span class="text-xl">🇧🇩</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Bangladesh</span>
+                    <div onclick="selectCountry('Thailand', 'th')" class="absolute top-[58%] left-[55%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-blue-500 transition transform hover:scale-110">
+                            <span class="text-lg">🇹🇭</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Thailand (태국)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Nepal', 'ne')" class="absolute top-[44%] left-[43%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-red-500 transition transform hover:scale-110">
-                            <span class="text-xl">🇳🇵</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Nepal</span>
+                    <div onclick="selectCountry('Cambodia', 'km')" class="absolute top-[62%] left-[59%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-blue-400 transition transform hover:scale-110">
+                            <span class="text-lg">🇰🇭</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Cambodia (캄보디아)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Kyrgyzstan', 'ky')" class="absolute top-[34%] left-[38%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-red-400 transition transform hover:scale-110">
-                            <span class="text-xl">🇰🇬</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Kyrgyzstan</span>
+                    <div onclick="selectCountry('Vietnam', 'vi')" class="absolute top-[56%] left-[64%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-red-500 transition transform hover:scale-110">
+                            <span class="text-lg">🇻🇳</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Vietnam (베트남)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Tajikistan', 'tg')" class="absolute top-[38%] left-[38%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-yellow-400 transition transform hover:scale-110">
-                            <span class="text-xl">🇹🇯</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Tajikistan</span>
+                    <div onclick="selectCountry('Philippines', 'en')" class="absolute top-[50%] left-[76%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-blue-500 transition transform hover:scale-110">
+                            <span class="text-lg">🇵🇭</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Philippines (필리핀)</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('East Timor', 'en')" class="absolute top-[78%] left-[72%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-red-500 transition transform hover:scale-110">
-                            <span class="text-xl">🇹🇱</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">East Timor</span>
+                    <div onclick="selectCountry('Malaysia', 'en')" class="absolute top-[70%] left-[58%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-amber-500 transition transform hover:scale-110">
+                            <span class="text-lg">🇲🇾</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Malaysia</span>
                         </div>
                     </div>
-                    <div onclick="selectCountry('Laos', 'lo')" class="absolute top-[51%] left-[55%] cursor-pointer group flex flex-col items-center z-20">
-                        <div class="map-pin bg-white/95 hover:bg-blue-600 px-2.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 border-2 border-red-400 transition transform hover:scale-110">
-                            <span class="text-xl">🇱🇦</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Laos</span>
+                    <div onclick="selectCountry('Indonesia', 'id')" class="absolute top-[80%] left-[66%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-red-500 transition transform hover:scale-110">
+                            <span class="text-lg">🇮🇩</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">Indonesia (인도네시아)</span>
                         </div>
                     </div>
+                    <div onclick="selectCountry('East Timor', 'en')" class="absolute top-[85%] left-[82%] cursor-pointer group flex flex-col items-center z-20">
+                        <div class="map-pin bg-white hover:bg-blue-600 px-3 py-1.5 rounded-full shadow-xl flex items-center gap-2 border-2 border-red-500 transition transform hover:scale-110">
+                            <span class="text-lg">🇹🇱</span> <span class="text-xs font-bold text-gray-900 group-hover:text-white">East Timor (동티모르)</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
