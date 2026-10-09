@@ -25,7 +25,6 @@
     </style>
 </head>
 <body>
-    <!-- 상단 네비게이션 바 -->
     <nav class="bg-eps text-white shadow-md py-4 sm:py-5 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -48,9 +47,8 @@
 
     <main class="max-w-6xl mx-auto mt-6 sm:mt-8 px-4 sm:px-6 pb-16 space-y-10">
         
-        <!-- ================= 메인 홈페이지 화면 ================= -->
+        <!-- 메인 홈페이지 -->
         <div id="main-home-screen" class="space-y-10">
-            <!-- 1. 상단 한국인 일하는 이미지 배너 -->
             <div class="relative w-full rounded-2xl overflow-hidden shadow-xl h-48 sm:h-72 flex items-center justify-center bg-gray-900">
                 <div class="absolute inset-0 bg-black bg-opacity-45"></div>
                 <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Working together" class="absolute inset-0 w-full h-full object-cover">
@@ -63,7 +61,6 @@
                 </div>
             </div>
 
-            <!-- 2. 중간 공지사항 게시판 미리보기 섹션 -->
             <div class="bg-white shadow-md rounded-xl p-6 border-t-4 border-indigo-600">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-bold text-gray-900">📢 공지사항 및 지원 Q&A (Notice & Q&A)</h3>
@@ -86,7 +83,6 @@
                 </div>
             </div>
 
-            <!-- 3. 제일 아래 EPS 사이트 연결 배너 -->
             <div class="mt-12">
                 <a href="https://www.eps.go.kr/index.jsp" target="_blank" class="group relative block w-full rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
                     <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition"></div>
@@ -99,7 +95,7 @@
             </div>
         </div>
 
-        <!-- ================= 아시아 지도 및 17개국 선택 페이지 ================= -->
+        <!-- 아시아 지도 및 17개국 선택 페이지 (SVG 국기 적용) -->
         <div id="asia-map-screen" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <button onclick="goMainHome()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1">← 메인 홈으로 돌아가기</button>
@@ -109,7 +105,7 @@
             <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 rounded-2xl p-6 sm:p-8 shadow-xl text-white space-y-6 border border-blue-900">
                 <div class="text-center">
                     <h2 class="text-xl sm:text-2xl font-extrabold">🌏 Asia Map & Country Selection</h2>
-                    <p class="text-xs sm:text-sm text-gray-300 mt-1">회색 바탕에서 흰색으로 반짝이는 국가 카드(국기 포함)를 클릭하여 이력서 메뉴로 진입하세요.</p>
+                    <p class="text-xs sm:text-sm text-gray-300 mt-1">회색 바탕에서 흰색으로 반짝이는 국가 카드(선명한 국기 포함)를 클릭하세요.</p>
                 </div>
 
                 <div class="space-y-4">
@@ -117,29 +113,37 @@
                     <div class="bg-black/30 p-4 rounded-xl border border-blue-900">
                         <h4 class="text-xs font-bold text-blue-300 mb-2">🌴 Southeast Asia (동남아시아)</h4>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                            <div onclick="selectCountry('Vietnam', 'vi')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-2xl">🇻🇳</span><div class="text-xs font-bold">Vietnam (베트남)</div>
+                            <div onclick="selectCountry('Vietnam', 'vi')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                <img src="https://flagcdn.com/w40/vn.png" alt="Vietnam" class="w-6 h-4 object-cover rounded shadow-sm">
+                                <div class="text-xs font-bold">Vietnam (베트남)</div>
                             </div>
-                            <div onclick="selectCountry('Myanmar', 'my')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-2xl">🇲🇲</span><div class="text-xs font-bold">Myanmar (미얀마)</div>
+                            <div onclick="selectCountry('Myanmar', 'my')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                <img src="https://flagcdn.com/w40/mm.png" alt="Myanmar" class="w-6 h-4 object-cover rounded shadow-sm">
+                                <div class="text-xs font-bold">Myanmar (미얀마)</div>
                             </div>
-                            <div onclick="selectCountry('Thailand', 'th')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-2xl">🇹🇭</span><div class="text-xs font-bold">Thailand (태국)</div>
+                            <div onclick="selectCountry('Thailand', 'th')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                <img src="https://flagcdn.com/w40/th.png" alt="Thailand" class="w-6 h-4 object-cover rounded shadow-sm">
+                                <div class="text-xs font-bold">Thailand (태국)</div>
                             </div>
-                            <div onclick="selectCountry('Indonesia', 'id')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-2xl">🇮🇩</span><div class="text-xs font-bold">Indonesia (인도네시아)</div>
+                            <div onclick="selectCountry('Indonesia', 'id')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                <img src="https://flagcdn.com/w40/id.png" alt="Indonesia" class="w-6 h-4 object-cover rounded shadow-sm">
+                                <div class="text-xs font-bold">Indonesia (인도네시아)</div>
                             </div>
-                            <div onclick="selectCountry('Cambodia', 'km')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-2xl">🇰🇭</span><div class="text-xs font-bold">Cambodia (캄보디아)</div>
+                            <div onclick="selectCountry('Cambodia', 'km')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                <img src="https://flagcdn.com/w40/kh.png" alt="Cambodia" class="w-6 h-4 object-cover rounded shadow-sm">
+                                <div class="text-xs font-bold">Cambodia (캄보디아)</div>
                             </div>
-                            <div onclick="selectCountry('Philippines', 'en')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-2xl">🇵🇭</span><div class="text-xs font-bold">Philippines (필리핀)</div>
+                            <div onclick="selectCountry('Philippines', 'en')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                <img src="https://flagcdn.com/w40/ph.png" alt="Philippines" class="w-6 h-4 object-cover rounded shadow-sm">
+                                <div class="text-xs font-bold">Philippines (필리핀)</div>
                             </div>
-                            <div onclick="selectCountry('East Timor', 'en')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-2xl">🇹🇱</span><div class="text-xs font-bold">East Timor (동티모르)</div>
+                            <div onclick="selectCountry('East Timor', 'en')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                <img src="https://flagcdn.com/w40/tl.png" alt="East Timor" class="w-6 h-4 object-cover rounded shadow-sm">
+                                <div class="text-xs font-bold">East Timor (동티모르)</div>
                             </div>
-                            <div onclick="selectCountry('Laos', 'lo')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-2xl">🇱🇦</span><div class="text-xs font-bold">Laos (라오스)</div>
+                            <div onclick="selectCountry('Laos', 'lo')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                <img src="https://flagcdn.com/w40/la.png" alt="Laos" class="w-6 h-4 object-cover rounded shadow-sm">
+                                <div class="text-xs font-bold">Laos (라오스)</div>
                             </div>
                         </div>
                     </div>
@@ -149,11 +153,13 @@
                         <div class="bg-black/30 p-4 rounded-xl border border-blue-900">
                             <h4 class="text-xs font-bold text-indigo-300 mb-2">🏮 East Asia (동아시아)</h4>
                             <div class="grid grid-cols-2 gap-2.5">
-                                <div onclick="selectCountry('Mongolia', 'mn')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <span class="text-2xl">🇲🇳</span><div class="text-xs font-bold">Mongolia (몽골)</div>
+                                <div onclick="selectCountry('Mongolia', 'mn')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                    <img src="https://flagcdn.com/w40/mn.png" alt="Mongolia" class="w-6 h-4 object-cover rounded shadow-sm">
+                                    <div class="text-xs font-bold">Mongolia (몽골)</div>
                                 </div>
-                                <div onclick="selectCountry('China', 'zh')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <span class="text-2xl">🇨🇳</span><div class="text-xs font-bold">China (중국)</div>
+                                <div onclick="selectCountry('China', 'zh')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                    <img src="https://flagcdn.com/w40/cn.png" alt="China" class="w-6 h-4 object-cover rounded shadow-sm">
+                                    <div class="text-xs font-bold">China (중국)</div>
                                 </div>
                             </div>
                         </div>
@@ -161,13 +167,16 @@
                             <h4 class="text-xs font-bold text-emerald-300 mb-2">🏔️ Central Asia (중앙아시아)</h4>
                             <div class="grid grid-cols-3 gap-2.5">
                                 <div onclick="selectCountry('Uzbekistan', 'uz')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <span class="text-2xl">🇺🇿</span><div class="text-xs font-bold">Uzbekistan</div>
+                                    <img src="https://flagcdn.com/w40/uz.png" alt="Uzbekistan" class="w-5 h-3.5 object-cover rounded shadow-sm">
+                                    <div class="text-[11px] font-bold">Uzbekistan</div>
                                 </div>
                                 <div onclick="selectCountry('Kyrgyzstan', 'ky')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <span class="text-2xl">🇰🇬</span><div class="text-xs font-bold">Kyrgyzstan</div>
+                                    <img src="https://flagcdn.com/w40/kg.png" alt="Kyrgyzstan" class="w-5 h-3.5 object-cover rounded shadow-sm">
+                                    <div class="text-[11px] font-bold">Kyrgyzstan</div>
                                 </div>
                                 <div onclick="selectCountry('Tajikistan', 'tg')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <span class="text-2xl">🇹🇯</span><div class="text-xs font-bold">Tajikistan</div>
+                                    <img src="https://flagcdn.com/w40/tj.png" alt="Tajikistan" class="w-5 h-3.5 object-cover rounded shadow-sm">
+                                    <div class="text-[11px] font-bold">Tajikistan</div>
                                 </div>
                             </div>
                         </div>
@@ -177,17 +186,21 @@
                     <div class="bg-black/30 p-4 rounded-xl border border-blue-900">
                         <h4 class="text-xs font-bold text-amber-300 mb-2">🪷 South Asia (남아시아)</h4>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                            <div onclick="selectCountry('Sri Lanka', 'si')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-2xl">🇱🇰</span><div class="text-xs font-bold">Sri Lanka (스리랑카)</div>
+                            <div onclick="selectCountry('Sri Lanka', 'si')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                <img src="https://flagcdn.com/w40/lk.png" alt="Sri Lanka" class="w-6 h-4 object-cover rounded shadow-sm">
+                                <div class="text-xs font-bold">Sri Lanka (스리랑카)</div>
                             </div>
-                            <div onclick="selectCountry('Pakistan', 'ur')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-2xl">🇵🇰</span><div class="text-xs font-bold">Pakistan (파키스탄)</div>
+                            <div onclick="selectCountry('Pakistan', 'ur')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                <img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" class="w-6 h-4 object-cover rounded shadow-sm">
+                                <div class="text-xs font-bold">Pakistan (파키스탄)</div>
                             </div>
-                            <div onclick="selectCountry('Bangladesh', 'bn')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-2xl">🇧🇩</span><div class="text-xs font-bold">Bangladesh (방글라)</div>
+                            <div onclick="selectCountry('Bangladesh', 'bn')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                <img src="https://flagcdn.com/w40/bd.png" alt="Bangladesh" class="w-6 h-4 object-cover rounded shadow-sm">
+                                <div class="text-xs font-bold">Bangladesh (방글라)</div>
                             </div>
-                            <div onclick="selectCountry('Nepal', 'ne')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                <span class="text-2xl">🇳🇵</span><div class="text-xs font-bold">Nepal (네팔)</div>
+                            <div onclick="selectCountry('Nepal', 'ne')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
+                                <img src="https://flagcdn.com/w40/np.png" alt="Nepal" class="w-6 h-4 object-cover rounded shadow-sm">
+                                <div class="text-xs font-bold">Nepal (네팔)</div>
                             </div>
                         </div>
                     </div>
@@ -195,7 +208,7 @@
             </div>
         </div>
 
-        <!-- ================= 국가별 다운로드/업로드 메뉴 화면 ================= -->
+        <!-- 국가별 다운로드/업로드 메뉴 -->
         <div id="action-screen" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <button onclick="showAsiaMapScreen()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1">← 아시아 국가 선택으로 돌아가기</button>
@@ -227,7 +240,7 @@
             </div>
         </div>
 
-        <!-- ================= Q&A 메일 전송 메뉴 ================= -->
+        <!-- Q&A 메일 전송 메뉴 -->
         <div id="qna-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-amber-600">
             <button onclick="goMainHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">← 홈으로 돌아가기</button>
             <div class="max-w-2xl mx-auto">
@@ -244,7 +257,7 @@
             </div>
         </div>
 
-        <!-- ================= 공지사항 & 비밀번호 잠금형 Q&A 게시판 ================= -->
+        <!-- 공지사항 & 비밀번호 잠금형 Q&A 게시판 -->
         <div id="board-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-8 border-t-4 border-indigo-700">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <div>
@@ -278,7 +291,7 @@
             </div>
         </div>
 
-        <!-- ================= 관리자 대시보드 로그인 화면 ================= -->
+        <!-- 관리자 대시보드 로그인 화면 -->
         <div id="admin-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-gray-800 mt-8">
             <button onclick="goMainHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">← Back to Home</button>
             <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Administrator Login</h2>
@@ -289,7 +302,7 @@
             </form>
         </div>
 
-        <!-- ================= 대시보드 ================= -->
+        <!-- 대시보드 -->
         <div id="dashboard-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-8 border-t-4 border-gray-800 mt-8">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-bold text-gray-900">📊 Admin Dashboard</h2>
@@ -350,7 +363,6 @@
     <!-- (주)케이엔인터내셔널 (KN INTERNATIONAL) 저작권 및 KN 로고 표기 Footer -->
     <footer class="mt-16 mb-10 text-center space-y-3 border-t pt-6 max-w-6xl mx-auto px-4">
         <div class="flex justify-center items-center gap-2">
-            <!-- KN 로고 스타일 뱃지 -->
             <div class="bg-blue-900 text-white font-extrabold text-sm px-3 py-1 rounded tracking-wider shadow">KN</div>
             <span class="font-bold text-gray-800 text-sm sm:text-base">(주)케이엔인터내셔널 (KN INTERNATIONAL)</span>
         </div>
