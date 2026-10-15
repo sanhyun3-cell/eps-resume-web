@@ -19,9 +19,7 @@
             50% { background-color: #ffffff; color: #0b3d91; box-shadow: 0 0 15px rgba(255, 255, 255, 0.9); transform: scale(1.03); }
             100% { background-color: #f3f4f6; color: #1f2937; transform: scale(1); }
         }
-        .country-card-blink {
-            animation: white-pulse 3s infinite ease-in-out;
-        }
+        .country-card-blink { animation: white-pulse 3s infinite ease-in-out; }
     </style>
 </head>
 <body>
@@ -95,7 +93,7 @@
             </div>
         </div>
 
-        <!-- 아시아 지도 및 17개국 선택 페이지 (SVG 국기 적용) -->
+        <!-- 아시아 지도 및 17개국 선택 페이지 -->
         <div id="asia-map-screen" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <button onclick="goMainHome()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1">← 메인 홈으로 돌아가기</button>
@@ -105,7 +103,7 @@
             <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 rounded-2xl p-6 sm:p-8 shadow-xl text-white space-y-6 border border-blue-900">
                 <div class="text-center">
                     <h2 class="text-xl sm:text-2xl font-extrabold">🌏 Asia Map & Country Selection</h2>
-                    <p class="text-xs sm:text-sm text-gray-300 mt-1">회색 바탕에서 흰색으로 반짝이는 국가 카드(선명한 국기 포함)를 클릭하세요.</p>
+                    <p class="text-xs sm:text-sm text-gray-300 mt-1">국가 카드(선명한 국기 포함)를 클릭하여 이력서 메뉴로 진입하세요.</p>
                 </div>
 
                 <div class="space-y-4">
@@ -245,7 +243,7 @@
             <button onclick="goMainHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">← 홈으로 돌아가기</button>
             <div class="max-w-2xl mx-auto">
                 <div class="flex items-center gap-3 mb-4"><span class="text-3xl">📧</span><h2 class="text-2xl font-bold text-gray-900">Direct Management Q&A</h2></div>
-                <p class="text-sm text-gray-600 mb-6 bg-amber-50 p-4 rounded-lg border border-amber-200">운영진 공식 이메일인 <strong class="text-amber-800">lgkmanager3@gmail.com</strong>으로 직접 전송됩니다.</p>
+                <p class="text-sm text-gray-600 mb-6 bg-amber-50 p-4 rounded-lg border border-amber-200">운영진 공식 이메일인 <strong class="text-amber-800">LGK_manager@gmail.com</strong>으로 직접 전송됩니다.</p>
                 <form onsubmit="handleSendMail(event)" class="space-y-4">
                     <div><label class="block text-xs font-semibold text-gray-700">Name</label><input type="text" id="mail-name" class="w-full border rounded-md p-3 text-sm" required></div>
                     <div><label class="block text-xs font-semibold text-gray-700">Country</label><input type="text" id="mail-country" class="w-full border rounded-md p-3 text-sm" required></div>
@@ -306,14 +304,26 @@
         <div id="dashboard-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-8 border-t-4 border-gray-800 mt-8">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-bold text-gray-900">📊 Admin Dashboard</h2>
-                <button onclick="goMainHome()" class="bg-gray-600 text-white px-4 py-2 rounded-md text-sm">Logout</button>
+                <div class="flex gap-2">
+                    <button onclick="showDashboard()" class="bg-blue-600 text-white px-3 py-2 rounded-md text-xs font-semibold">🔄 새로고침</button>
+                    <button onclick="goMainHome()" class="bg-gray-600 text-white px-4 py-2 rounded-md text-sm">Logout</button>
+                </div>
             </div>
             <div class="overflow-x-auto border border-gray-200 rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
                     <thead class="bg-gray-50 text-gray-700">
-                        <tr><th class="px-4 py-3">Date</th><th class="px-4 py-3">Country</th><th class="px-4 py-3">EPS ID</th><th class="px-4 py-3">Name</th><th class="px-4 py-3 text-center">File</th></tr>
+                        <tr>
+                            <th class="px-4 py-3">Date</th>
+                            <th class="px-4 py-3">Country</th>
+                            <th class="px-4 py-3">EPS ID</th>
+                            <th class="px-4 py-3">Name</th>
+                            <th class="px-4 py-3">Phone</th>
+                            <th class="px-4 py-3 text-center">File</th>
+                        </tr>
                     </thead>
-                    <tbody id="resume-table-body" class="bg-white"></tbody>
+                    <tbody id="resume-table-body" class="bg-white divide-y divide-gray-200 text-gray-800">
+                        <tr><td colspan="6" class="px-4 py-6 text-center text-gray-400">데이터를 불러오는 중...</td></tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -549,9 +559,44 @@
         async function showDashboard() {
             hideAllScreens();
             document.getElementById('dashboard-screen').classList.remove('hidden');
-            const { data } = await supabaseClient.from('resumes').select('*').order('created_at', { ascending: false });
+            
             const tbody = document.getElementById('resume-table-body');
-            tbody.innerHTML = (data || []).map(r => `<tr class="border-b"><td class="px-4 py-3 text-xs">${new Date(r.created_at).toLocaleString()}</td><td class="px-4 py-3">${r.country||''}</td><td class="px-4 py-3">${r.eps_id}</td><td class="px-4 py-3">${r.full_name}</td><td class="px-4 py-3 text-center"><a href="${r.file_url}" target="_blank" class="text-blue-600 underline text-xs">Download</a></td></tr>`).join('');
+            tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-gray-500">데이터를 불러오는 중...</td></tr>`;
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('resumes')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-gray-400">등록된 이력서 데이터가 없습니다.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = data.map(r => {
+                    const dateStr = r.created_at ? new Date(r.created_at).toLocaleString() : 'N/A';
+                    return `
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 text-xs text-gray-500">${dateStr}</td>
+                            <td class="px-4 py-3 font-semibold text-blue-900">${r.country || 'N/A'}</td>
+                            <td class="px-4 py-3 font-medium">${r.eps_id}</td>
+                            <td class="px-4 py-3">${r.full_name}</td>
+                            <td class="px-4 py-3 text-gray-600 text-xs">${r.phone || 'N/A'}</td>
+                            <td class="px-4 py-3 text-center">
+                                <a href="${r.file_url}" target="_blank" class="bg-blue-100 text-blue-800 px-3 py-1.5 rounded text-xs font-semibold hover:bg-blue-200">
+                                    📥 Download
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error(err);
+                tbody.innerHTML = `<tr><td colspan="6" class="px-4 py-6 text-center text-red-500">데이터 로드 중 오류가 발생했습니다.</td></tr>`;
+            }
         }
 
         async function handleUpload(e) {
