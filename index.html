@@ -599,16 +599,39 @@
             }
         }
 
-        async function handleUpload(e) {
+       async function handleUpload(e) {
             e.preventDefault();
-            const file = document.getElementById('file-upload').files[0];
-            const epsId = document.getElementById('eps-id').value;
-            const path = `${currentCountry}_${epsId}_${Date.now()}.${file.name.split('.').pop()}`;
-            await supabaseClient.storage.from('resume_files').upload(path, file);
-            const { data } = supabaseClient.storage.from('resume_files').getPublicUrl(path);
-            await supabaseClient.from('resumes').insert([{ country: currentCountry, eps_id: epsId, full_name: document.getElementById('full-name').value, phone: document.getElementById('phone').value, password: document.getElementById('upload-password').value, file_url: data.publicUrl }]);
-            alert('제출 완료!'); goMainHome();
+            try {
+                const file = document.getElementById('file-upload').files[0];
+                const epsId = document.getElementById('eps-id').value;
+                const path = `${currentCountry}_${epsId}_${Date.now()}.${file.name.split('.').pop()}`;
+                
+                // 1. 파일 업로드 시도
+                const { error: uploadError } = await supabaseClient.storage.from('resume_files').upload(path, file);
+                if (uploadError) {
+                    throw new Error('파일 업로드 실패 (Supabase Storage 권한을 확인하세요)');
+                }
+                
+                const { data } = supabaseClient.storage.from('resume_files').getPublicUrl(path);
+                
+                // 2. DB 테이블에 데이터 삽입 시도
+                const { error: insertError } = await supabaseClient.from('resumes').insert([{ 
+                    country: currentCountry, 
+                    eps_id: epsId, 
+                    full_name: document.getElementById('full-name').value, 
+                    phone: document.getElementById('phone').value, 
+                    password: document.getElementById('upload-password').value, 
+                    file_url: data.publicUrl 
+                }]);
+                
+                if (insertError) {
+                    throw new Error('데이터베이스 저장 실패 (Table INSERT 권한을 확인하세요)');
+                }
+                
+                alert('제출이 완벽하게 완료되었습니다!'); 
+                goMainHome();
+            } catch (err) {
+                alert('❌ 제출 중 에러 발생: ' + err.message);
+                console.error(err);
+            }
         }
-    </script>
-</body>
-</html>
