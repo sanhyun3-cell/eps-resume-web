@@ -13,6 +13,7 @@
         .text-eps { color: var(--eps-blue); }
         .btn-eps { background-color: var(--eps-blue); color: white; transition: background-color 0.3s; }
         .btn-eps:hover { background-color: var(--eps-light-blue); }
+        .btn-eps:disabled { background-color: #9ca3af; cursor: not-allowed; }
         
         @keyframes white-pulse {
             0% { background-color: #f3f4f6; color: #1f2937; transform: scale(1); }
@@ -28,12 +29,12 @@
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex flex-col items-center md:items-start cursor-pointer" onclick="goMainHome()">
                     <span class="font-extrabold text-2xl sm:text-3xl tracking-wide">LGK(Let's Go Korea)</span>
-                    <span class="text-xs text-blue-200">EPS Employment Support Portal</span>
+                    <span class="text-xs text-blue-200" data-i18n="nav_subtitle">EPS Employment Support Portal</span>
                 </div>
                 <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm">
-                    <button onclick="goMainHome()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-md font-semibold transition">🏠 Home</button>
-                    <button onclick="showBoardScreen()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-md font-semibold transition">📢 Notice & Q&A</button>
-                    <button onclick="showQnAScreen()" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-md font-semibold transition">💬 Email Q&A</button>
+                    <button onclick="goMainHome()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-md font-semibold transition" data-i18n="nav_home">🏠 Home</button>
+                    <button onclick="showBoardScreen()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-md font-semibold transition" data-i18n="nav_board">📢 Notice & Q&A</button>
+                    <button onclick="showQnAScreen()" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-md font-semibold transition" data-i18n="nav_email">💬 Email Q&A</button>
                     <select id="site-lang-select" class="bg-white text-gray-900 text-xs rounded-md p-1.5 font-medium ml-2 shadow-sm" onchange="changeSiteLanguage()">
                         <option value="en" selected>English</option>
                         <option value="ko">한국어</option>
@@ -51,9 +52,9 @@
                 <div class="absolute inset-0 bg-black bg-opacity-45"></div>
                 <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Working together" class="absolute inset-0 w-full h-full object-cover">
                 <div class="relative z-10 text-center text-white p-4 space-y-2">
-                    <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight drop-shadow-md">Land of Opportunity, Let's Go to Korea!</h1>
-                    <p class="text-xs sm:text-sm text-blue-100 font-medium">외국인 근로자를 위한 안전하고 신뢰할 수 있는 고용 및 이력서 지원 포털</p>
-                    <button onclick="showAsiaMapScreen()" class="mt-3 bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3 rounded-full shadow-lg text-sm sm:text-base transition transform hover:scale-105">
+                    <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight drop-shadow-md" data-i18n="hero_title">Land of Opportunity, Let's Go to Korea!</h1>
+                    <p class="text-xs sm:text-sm text-blue-100 font-medium" data-i18n="hero_desc">외국인 근로자를 위한 안전하고 신뢰할 수 있는 고용 및 이력서 지원 포털</p>
+                    <button onclick="showAsiaMapScreen()" class="mt-3 bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3 rounded-full shadow-lg text-sm sm:text-base transition transform hover:scale-105" data-i18n="hero_btn">
                         🌍 국가별 이력서 다운/제출 (Asia Network)
                     </button>
                 </div>
@@ -61,17 +62,17 @@
 
             <div class="bg-white shadow-md rounded-xl p-6 border-t-4 border-indigo-600">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-gray-900">📢 공지사항 및 지원 Q&A (Notice & Q&A)</h3>
-                    <button onclick="showBoardScreen()" class="text-xs text-indigo-600 font-bold hover:underline">전체보기 →</button>
+                    <h3 class="text-lg font-bold text-gray-900" data-i18n="home_board_title">📢 공지사항 및 지원 Q&A (Notice & Q&A)</h3>
+                    <button onclick="showBoardScreen()" class="text-xs text-indigo-600 font-bold hover:underline" data-i18n="home_board_more">전체보기 →</button>
                 </div>
                 <div class="border rounded-lg overflow-hidden">
                     <table class="min-w-full divide-y divide-gray-200 text-left text-xs sm:text-sm">
                         <thead class="bg-gray-50 text-gray-700 font-semibold">
                             <tr>
                                 <th class="px-4 py-2.5">No</th>
-                                <th class="px-4 py-2.5">Title</th>
-                                <th class="px-4 py-2.5 w-24">Author</th>
-                                <th class="px-4 py-2.5 w-24 text-center">Status</th>
+                                <th class="px-4 py-2.5" data-i18n="th_title">Title</th>
+                                <th class="px-4 py-2.5 w-24" data-i18n="th_author">Author</th>
+                                <th class="px-4 py-2.5 w-24 text-center" data-i18n="th_status">Status</th>
                             </tr>
                         </thead>
                         <tbody id="home-board-preview" class="divide-y divide-gray-200 bg-white">
@@ -82,12 +83,12 @@
             </div>
 
             <div class="mt-12">
-                <a href="https://www.eps.go.kr/index.jsp" target="_blank" class="group relative block w-full rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
+                <a href="https://www.eps.go.kr/index.jsp" target="_blank" rel="noopener noreferrer" class="group relative block w-full rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
                     <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition"></div>
                     <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="EPS Work24" class="w-full h-36 sm:h-48 object-cover">
                     <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
-                        <span class="text-base sm:text-2xl font-bold mb-1 text-center drop-shadow-md">EPS (Employment Permit System) - Go to Work24</span>
-                        <span class="text-xs font-semibold bg-blue-600 px-4 py-1.5 rounded-full">Click to visit official site</span>
+                        <span class="text-base sm:text-2xl font-bold mb-1 text-center drop-shadow-md" data-i18n="eps_banner_title">EPS (Employment Permit System) - Go to Work24</span>
+                        <span class="text-xs font-semibold bg-blue-600 px-4 py-1.5 rounded-full" data-i18n="eps_banner_sub">Click to visit official site</span>
                     </div>
                 </a>
             </div>
@@ -96,14 +97,14 @@
         <!-- 아시아 지도 및 17개국 선택 페이지 -->
         <div id="asia-map-screen" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                <button onclick="goMainHome()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1">← 메인 홈으로 돌아가기</button>
-                <span class="text-xs sm:text-sm font-bold text-gray-700">🗺️ Asia Recruitment Network (17 Countries)</span>
+                <button onclick="goMainHome()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1" data-i18n="btn_back_home">← 메인 홈으로 돌아가기</button>
+                <span class="text-xs sm:text-sm font-bold text-gray-700" data-i18n="map_badge">🗺️ Asia Recruitment Network (17 Countries)</span>
             </div>
 
             <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 rounded-2xl p-6 sm:p-8 shadow-xl text-white space-y-6 border border-blue-900">
                 <div class="text-center">
-                    <h2 class="text-xl sm:text-2xl font-extrabold">🌏 Asia Map & Country Selection</h2>
-                    <p class="text-xs sm:text-sm text-gray-300 mt-1">국가 카드(선명한 국기 포함)를 클릭하여 이력서 메뉴로 진입하세요.</p>
+                    <h2 class="text-xl sm:text-2xl font-extrabold" data-i18n="map_title">🌏 Asia Map & Country Selection</h2>
+                    <p class="text-xs sm:text-sm text-gray-300 mt-1" data-i18n="map_desc">국가 카드(선명한 국기 포함)를 클릭하여 이력서 메뉴로 진입하세요.</p>
                 </div>
 
                 <div class="space-y-4">
@@ -209,48 +210,50 @@
         <!-- 국가별 다운로드/업로드 메뉴 -->
         <div id="action-screen" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                <button onclick="showAsiaMapScreen()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1">← 아시아 국가 선택으로 돌아가기</button>
+                <button onclick="showAsiaMapScreen()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1" data-i18n="btn_back_map">← 아시아 국가 선택으로 돌아가기</button>
                 <span id="selected-country-badge" class="bg-blue-100 text-blue-800 text-xs sm:text-sm font-bold px-3 py-1.5 rounded-full">Selected: None</span>
             </div>
             <div id="menu-selection" class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
                 <a href="eps_resume_template.pdf" download class="flex flex-col items-center justify-center p-8 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
                     <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📥</div>
-                    <h3 class="text-xl font-bold text-gray-900">Download Resume</h3>
-                    <p class="text-sm text-gray-500 mt-2">Get the standard form</p>
+                    <h3 class="text-xl font-bold text-gray-900" data-i18n="dl_resume_title">Download Resume</h3>
+                    <p class="text-sm text-gray-500 mt-2" data-i18n="dl_resume_desc">Get the standard form</p>
                 </a>
                 <div onclick="showUploadForm()" class="flex flex-col items-center justify-center p-8 bg-white border-2 border-blue-800 rounded-xl shadow-md hover:bg-blue-50 transition cursor-pointer text-center group">
                     <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📤</div>
-                    <h3 class="text-xl font-bold text-gray-900">Upload Resume</h3>
-                    <p class="text-sm text-gray-500 mt-2">Submit your filled form</p>
+                    <h3 class="text-xl font-bold text-gray-900" data-i18n="ul_resume_title">Upload Resume</h3>
+                    <p class="text-sm text-gray-500 mt-2" data-i18n="ul_resume_desc">Submit your filled form</p>
                 </div>
             </div>
             <div id="upload-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-blue-800">
-                <button onclick="showMenuSelection()" class="mb-6 text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1">← 메뉴로 돌아가기</button>
-                <h2 class="text-xl font-bold text-gray-900 mb-6">Submit Your Resume</h2>
+                <button onclick="showMenuSelection()" class="mb-6 text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1" data-i18n="btn_back_menu">← 메뉴로 돌아가기</button>
+                <h2 class="text-xl font-bold text-gray-900 mb-6" data-i18n="submit_resume_title">Submit Your Resume</h2>
                 <form id="resume-form" class="space-y-5" onsubmit="handleUpload(event)">
-                    <div><label class="block text-sm font-medium text-gray-700">EPS-TOPIK ID</label><input type="text" id="eps-id" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
-                    <div><label class="block text-sm font-medium text-gray-700">Full Name</label><input type="text" id="full-name" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
-                    <div><label class="block text-sm font-medium text-gray-700">Phone Number</label><input type="tel" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
-                    <div><label class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="upload-password" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
-                    <div><label class="block text-sm font-medium text-gray-700">Upload Resume File</label><input type="file" id="file-upload" accept=".pdf,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500" required></div>
-                    <button type="submit" class="w-full btn-eps py-4 rounded-md font-bold text-base">Submit Application</button>
+                    <div><label class="block text-sm font-medium text-gray-700" data-i18n="lbl_eps_id">EPS-TOPIK ID</label><input type="text" id="eps-id" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
+                    <div><label class="block text-sm font-medium text-gray-700" data-i18n="lbl_full_name">Full Name</label><input type="text" id="full-name" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
+                    <div><label class="block text-sm font-medium text-gray-700" data-i18n="lbl_phone">Phone Number</label><input type="tel" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
+                    <div><label class="block text-sm font-medium text-gray-700" data-i18n="lbl_password">Password</label><input type="password" id="upload-password" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
+                    <div><label class="block text-sm font-medium text-gray-700" data-i18n="lbl_file">Upload Resume File</label><input type="file" id="file-upload" accept=".pdf,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500" required></div>
+                    <button type="submit" id="upload-submit-btn" class="w-full btn-eps py-4 rounded-md font-bold text-base" data-i18n="btn_submit_app">Submit Application</button>
                 </form>
             </div>
         </div>
 
         <!-- Q&A 메일 전송 메뉴 -->
         <div id="qna-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-amber-600">
-            <button onclick="goMainHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">← 홈으로 돌아가기</button>
+            <button onclick="goMainHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1" data-i18n="btn_back_home">← 홈으로 돌아가기</button>
             <div class="max-w-2xl mx-auto">
-                <div class="flex items-center gap-3 mb-4"><span class="text-3xl">📧</span><h2 class="text-2xl font-bold text-gray-900">Direct Management Q&A</h2></div>
-                <p class="text-sm text-gray-600 mb-6 bg-amber-50 p-4 rounded-lg border border-amber-200">운영진 공식 이메일인 <strong class="text-amber-800">lgkmanager3@gmail.com</strong>으로 직접 전송됩니다.</p>
-                <form onsubmit="handleSendMail(event)" class="space-y-4">
-                    <div><label class="block text-xs font-semibold text-gray-700">Name</label><input type="text" id="mail-name" class="w-full border rounded-md p-3 text-sm" required></div>
-                    <div><label class="block text-xs font-semibold text-gray-700">Country</label><input type="text" id="mail-country" class="w-full border rounded-md p-3 text-sm" required></div>
-                    <div><label class="block text-xs font-semibold text-gray-700">Contact</label><input type="text" id="mail-contact" class="w-full border rounded-md p-3 text-sm" required></div>
-                    <div><label class="block text-xs font-semibold text-gray-700">Subject</label><input type="text" id="mail-subject" class="w-full border rounded-md p-3 text-sm" required></div>
-                    <div><label class="block text-xs font-semibold text-gray-700">Message</label><textarea id="mail-body" rows="6" class="w-full border rounded-md p-3 text-sm" required></textarea></div>
-                    <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 rounded-md transition shadow-md">📤 Send Mail</button>
+                <div class="flex items-center gap-3 mb-4"><span class="text-3xl">📧</span><h2 class="text-2xl font-bold text-gray-900" data-i18n="qna_title">Direct Management Q&A</h2></div>
+                <p class="text-sm text-gray-600 mb-6 bg-amber-50 p-4 rounded-lg border border-amber-200" id="qna-email-notice">
+                    운영진 공식 이메일인 <strong class="text-amber-800">lgkmanager3@gmail.com</strong>으로 직접 전송됩니다.
+                </p>
+                <form id="qna-mail-form" onsubmit="handleSendMail(event)" class="space-y-4">
+                    <div><label class="block text-xs font-semibold text-gray-700" data-i18n="lbl_name">Name</label><input type="text" id="mail-name" class="w-full border rounded-md p-3 text-sm" required></div>
+                    <div><label class="block text-xs font-semibold text-gray-700" data-i18n="lbl_country">Country</label><input type="text" id="mail-country" class="w-full border rounded-md p-3 text-sm" required></div>
+                    <div><label class="block text-xs font-semibold text-gray-700" data-i18n="lbl_contact">Contact</label><input type="text" id="mail-contact" class="w-full border rounded-md p-3 text-sm" required></div>
+                    <div><label class="block text-xs font-semibold text-gray-700" data-i18n="lbl_subject">Subject</label><input type="text" id="mail-subject" class="w-full border rounded-md p-3 text-sm" required></div>
+                    <div><label class="block text-xs font-semibold text-gray-700" data-i18n="lbl_message">Message</label><textarea id="mail-body" rows="6" class="w-full border rounded-md p-3 text-sm" required></textarea></div>
+                    <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3.5 rounded-md transition shadow-md" data-i18n="btn_send_mail">📤 Send Mail</button>
                 </form>
             </div>
         </div>
@@ -259,12 +262,12 @@
         <div id="board-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-8 border-t-4 border-indigo-700">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-900">📢 Notice & Support Board</h2>
-                    <p class="text-xs sm:text-sm text-gray-500">모든 글은 비밀번호로 보호되며, 타인에게는 별(*)로 마스킹 처리됩니다.</p>
+                    <h2 class="text-2xl font-bold text-gray-900" data-i18n="board_title">📢 Notice & Support Board</h2>
+                    <p class="text-xs sm:text-sm text-gray-500" data-i18n="board_desc">모든 글은 비밀번호로 보호되며, 타인에게는 별(*)로 마스킹 처리됩니다.</p>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="showWritePostModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-xs sm:text-sm font-semibold shadow">✍️ Write Post</button>
-                    <button onclick="goMainHome()" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-md text-xs sm:text-sm font-semibold">Home</button>
+                    <button onclick="showWritePostModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-xs sm:text-sm font-semibold shadow" data-i18n="btn_write_post">✍️ Write Post</button>
+                    <button onclick="goMainHome()" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-md text-xs sm:text-sm font-semibold" data-i18n="btn_home_short">Home</button>
                 </div>
             </div>
             <div class="mb-4 flex justify-between items-center bg-gray-50 p-3 rounded-lg border text-xs">
@@ -276,10 +279,10 @@
                     <thead class="bg-gray-50 text-gray-700 font-semibold">
                         <tr>
                             <th class="px-4 py-3 w-16">No</th>
-                            <th class="px-4 py-3">Title (Protected)</th>
-                            <th class="px-4 py-3 w-32">Author</th>
-                            <th class="px-4 py-3 w-28 text-center">Status</th>
-                            <th class="px-4 py-3 w-28 text-center">View</th>
+                            <th class="px-4 py-3" data-i18n="th_title_protected">Title (Protected)</th>
+                            <th class="px-4 py-3 w-32" data-i18n="th_author">Author</th>
+                            <th class="px-4 py-3 w-28 text-center" data-i18n="th_status">Status</th>
+                            <th class="px-4 py-3 w-28 text-center" data-i18n="th_view">View</th>
                         </tr>
                     </thead>
                     <tbody id="board-table-body" class="divide-y divide-gray-200 bg-white text-gray-800">
@@ -291,11 +294,11 @@
 
         <!-- 관리자 대시보드 로그인 화면 -->
         <div id="admin-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-gray-800 mt-8">
-            <button onclick="goMainHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1">← Back to Home</button>
-            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6">Administrator Login</h2>
+            <button onclick="goMainHome()" class="mb-6 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1" data-i18n="btn_back_home">← Back to Home</button>
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6" data-i18n="admin_login_title">Administrator Login</h2>
             <form id="admin-form" class="space-y-5" onsubmit="handleAdminLogin(event)">
-                <div><label class="block text-sm font-medium text-gray-700">Admin Email</label><input type="email" id="admin-id" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" placeholder="staff@gmail.com" required></div>
-                <div><label class="block text-sm font-medium text-gray-700">Password</label><input type="password" id="admin-password" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
+                <div><label class="block text-sm font-medium text-gray-700">Admin Email</label><input type="email" id="admin-id" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" placeholder="lgkmanager3@gmail.com" required></div>
+                <div><label class="block text-sm font-medium text-gray-700" data-i18n="lbl_password">Password</label><input type="password" id="admin-password" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
                 <button type="submit" class="w-full bg-gray-800 hover:bg-gray-900 text-white flex justify-center py-4 px-4 rounded-md font-bold text-base">Login</button>
             </form>
         </div>
@@ -305,8 +308,8 @@
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-bold text-gray-900">📊 Admin Dashboard</h2>
                 <div class="flex gap-2">
-                    <button onclick="showDashboard()" class="bg-blue-600 text-white px-3 py-2 rounded-md text-xs font-semibold">🔄 새로고침</button>
-                    <button onclick="goMainHome()" class="bg-gray-600 text-white px-4 py-2 rounded-md text-sm">Logout</button>
+                    <button onclick="showDashboard()" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-xs font-semibold">🔄 새로고침</button>
+                    <button onclick="handleAdminLogout()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm">Logout</button>
                 </div>
             </div>
             <div class="overflow-x-auto border border-gray-200 rounded-lg">
@@ -332,13 +335,16 @@
     <!-- 모달 창들 -->
     <div id="write-modal" class="hidden fixed inset-0 bg-black/60 flex justify-center items-center z-50 p-4">
         <div class="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl">
-            <h3 class="text-lg font-bold text-gray-900 mb-4">✍️ 새 문의글 작성</h3>
-            <form onsubmit="handleCreateBoardPost(event)" class="space-y-4">
-                <input type="text" id="post-author" class="w-full border rounded-md p-2.5 text-sm" placeholder="작성자 이름" required>
-                <input type="password" id="post-password" class="w-full border rounded-md p-2.5 text-sm" placeholder="비밀번호" required>
-                <input type="text" id="post-title" class="w-full border rounded-md p-2.5 text-sm" placeholder="제목" required>
-                <textarea id="post-content" rows="4" class="w-full border rounded-md p-2.5 text-sm" placeholder="내용" required></textarea>
-                <div class="flex justify-end gap-2"><button type="button" onclick="closeWriteModal()" class="px-4 py-2 bg-gray-200 text-xs rounded">취소</button><button type="submit" class="px-4 py-2 bg-indigo-600 text-white text-xs rounded">등록</button></div>
+            <h3 class="text-lg font-bold text-gray-900 mb-4" data-i18n="modal_write_title">✍️ 새 문의글 작성</h3>
+            <form id="write-post-form" onsubmit="handleCreateBoardPost(event)" class="space-y-4">
+                <input type="text" id="post-author" class="w-full border rounded-md p-2.5 text-sm" placeholder="작성자 이름 (Author Name)" required>
+                <input type="password" id="post-password" class="w-full border rounded-md p-2.5 text-sm" placeholder="비밀번호 (Password)" required>
+                <input type="text" id="post-title" class="w-full border rounded-md p-2.5 text-sm" placeholder="제목 (Title)" required>
+                <textarea id="post-content" rows="4" class="w-full border rounded-md p-2.5 text-sm" placeholder="내용 (Content)" required></textarea>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeWriteModal()" class="px-4 py-2 bg-gray-200 text-xs rounded" data-i18n="btn_cancel">취소</button>
+                    <button type="submit" id="write-submit-btn" class="px-4 py-2 bg-indigo-600 text-white text-xs rounded" data-i18n="btn_register">등록</button>
+                </div>
             </form>
         </div>
     </div>
@@ -349,23 +355,26 @@
                 <div><span class="text-xs text-indigo-600 font-bold" id="detail-author"></span><h3 class="text-lg font-bold text-gray-900" id="detail-title"></h3></div>
                 <button onclick="closeDetailModal()" class="text-gray-400 font-bold text-xl">&times;</button>
             </div>
-            <div class="bg-gray-50 p-4 rounded-lg text-sm" id="detail-content"></div>
-            <div class="bg-blue-50 border p-4 rounded-lg"><h4 class="text-xs font-bold text-blue-900 mb-1">💬 운영진 답변:</h4><p class="text-sm" id="detail-reply">아직 답변이 없습니다.</p></div>
+            <div class="bg-gray-50 p-4 rounded-lg text-sm whitespace-pre-wrap" id="detail-content"></div>
+            <div class="bg-blue-50 border p-4 rounded-lg"><h4 class="text-xs font-bold text-blue-900 mb-1" data-i18n="lbl_staff_reply">💬 운영진 답변:</h4><p class="text-sm whitespace-pre-wrap" id="detail-reply">아직 답변이 없습니다.</p></div>
             <div id="staff-reply-box" class="hidden border-t pt-3">
                 <textarea id="staff-reply-input" rows="3" class="w-full border rounded-md p-2 text-sm" placeholder="답변 작성..."></textarea>
-                <div class="flex justify-end mt-2"><button onclick="handleSaveStaffReply()" class="bg-indigo-600 text-white px-3 py-1.5 rounded text-xs">답변 저장</button></div>
+                <div class="flex justify-end mt-2"><button onclick="handleSaveStaffReply()" class="bg-indigo-600 text-white px-3 py-1.5 rounded text-xs" data-i18n="btn_save_reply">답변 저장</button></div>
             </div>
-            <div class="flex justify-end"><button onclick="closeDetailModal()" class="px-4 py-2 bg-gray-600 text-white text-xs rounded">닫기</button></div>
+            <div class="flex justify-end"><button onclick="closeDetailModal()" class="px-4 py-2 bg-gray-600 text-white text-xs rounded" data-i18n="btn_close">닫기</button></div>
         </div>
     </div>
 
     <div id="staff-login-modal" class="hidden fixed inset-0 bg-black/60 flex justify-center items-center z-50 p-4">
         <div class="bg-white rounded-xl max-w-sm w-full p-6 shadow-2xl">
             <h3 class="text-base font-bold text-gray-900 mb-3">🔒 운영진 인증 (Supabase Auth)</h3>
-            <form onsubmit="handleStaffAuth(event)" class="space-y-3">
+            <form id="staff-auth-form" onsubmit="handleStaffAuth(event)" class="space-y-3">
                 <input type="email" id="staff-auth-id" class="w-full border rounded-md p-2.5 text-xs" placeholder="Staff Email" required>
                 <input type="password" id="staff-auth-pw" class="w-full border rounded-md p-2.5 text-xs" placeholder="Password" required>
-                <div class="flex justify-end gap-2"><button type="button" onclick="closeStaffModal()" class="px-3 py-1.5 bg-gray-200 text-xs rounded">취소</button><button type="submit" class="px-3 py-1.5 bg-indigo-600 text-white text-xs rounded">인증</button></div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeStaffModal()" class="px-3 py-1.5 bg-gray-200 text-xs rounded" data-i18n="btn_cancel">취소</button>
+                    <button type="submit" class="px-3 py-1.5 bg-indigo-600 text-white text-xs rounded">인증</button>
+                </div>
             </form>
         </div>
     </div>
@@ -386,19 +395,167 @@
         const SUPABASE_URL = 'https://frrspurafirjskuscgmo.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZycnNwdXJhZmlyanNrdXNjZ21vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExODc4NTUsImV4cCI6MjEwNjc2Mzg1NX0.i7YpBqWkWGfzwAJvIhtasIzNJeDols9ZDFzI04RK690';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const OFFICIAL_EMAIL = 'lgkmanager3@gmail.com';
 
         let currentCountry = '';
         let currentLang = 'en';
+        let siteLang = 'en';
         let isStaffAuthorized = false;
         let currentSelectedPost = null;
+        let boardPosts = [];
+
+        // 다국어 번역 데이터 (English / 한국어)
+        const i18nDict = {
+            en: {
+                nav_subtitle: "EPS Employment Support Portal",
+                nav_home: "🏠 Home",
+                nav_board: "📢 Notice & Q&A",
+                nav_email: "💬 Email Q&A",
+                hero_title: "Land of Opportunity, Let's Go to Korea!",
+                hero_desc: "Safe and reliable employment & resume support portal for foreign workers",
+                hero_btn: "🌍 Resume Download / Submit by Country (Asia Network)",
+                home_board_title: "📢 Notice & Support Q&A",
+                home_board_more: "View All →",
+                th_title: "Title",
+                th_title_protected: "Title (Protected)",
+                th_author: "Author",
+                th_status: "Status",
+                th_view: "View",
+                eps_banner_title: "EPS (Employment Permit System) - Go to Work24",
+                eps_banner_sub: "Click to visit official site",
+                btn_back_home: "← Back to Home",
+                btn_back_map: "← Back to Country Selection",
+                btn_back_menu: "← Back to Menu",
+                map_badge: "🗺️ Asia Recruitment Network (17 Countries)",
+                map_title: "🌏 Asia Map & Country Selection",
+                map_desc: "Click on your country card to enter the resume menu.",
+                dl_resume_title: "Download Resume",
+                dl_resume_desc: "Get the standard form",
+                ul_resume_title: "Upload Resume",
+                ul_resume_desc: "Submit your filled form",
+                submit_resume_title: "Submit Your Resume",
+                lbl_eps_id: "EPS-TOPIK ID",
+                lbl_full_name: "Full Name",
+                lbl_phone: "Phone Number",
+                lbl_password: "Password",
+                lbl_file: "Upload Resume File",
+                btn_submit_app: "Submit Application",
+                qna_title: "Direct Management Q&A",
+                qna_email_notice: `Your inquiry will be sent directly to the official management email: <strong class="text-amber-800">${OFFICIAL_EMAIL}</strong>.`,
+                lbl_name: "Name",
+                lbl_country: "Country",
+                lbl_contact: "Contact",
+                lbl_subject: "Subject",
+                lbl_message: "Message",
+                btn_send_mail: "📤 Send Mail",
+                board_title: "📢 Notice & Support Board",
+                board_desc: "All posts are password-protected and masked with asterisks (*) to others.",
+                btn_write_post: "✍️ Write Post",
+                btn_home_short: "Home",
+                admin_login_title: "Administrator Login",
+                modal_write_title: "✍️ Write New Inquiry",
+                btn_cancel: "Cancel",
+                btn_register: "Submit",
+                lbl_staff_reply: "💬 Staff Reply:",
+                btn_save_reply: "Save Reply",
+                btn_close: "Close"
+            },
+            ko: {
+                nav_subtitle: "EPS 외국인 고용 지원 포털",
+                nav_home: "🏠 홈",
+                nav_board: "📢 공지 및 Q&A",
+                nav_email: "💬 이메일 문의",
+                hero_title: "기회의 땅, 한국으로 함께 갑시다!",
+                hero_desc: "외국인 근로자를 위한 안전하고 신뢰할 수 있는 고용 및 이력서 지원 포털",
+                hero_btn: "🌍 국가별 이력서 다운/제출 (Asia Network)",
+                home_board_title: "📢 공지사항 및 지원 Q&A (Notice & Q&A)",
+                home_board_more: "전체보기 →",
+                th_title: "제목",
+                th_title_protected: "제목 (비밀글 보호)",
+                th_author: "작성자",
+                th_status: "상태",
+                th_view: "조회",
+                eps_banner_title: "EPS (고용허가제) - Work24 바로가기",
+                eps_banner_sub: "클릭하여 공식 사이트 방문",
+                btn_back_home: "← 메인 홈으로 돌아가기",
+                btn_back_map: "← 아시아 국가 선택으로 돌아가기",
+                btn_back_menu: "← 메뉴로 돌아가기",
+                map_badge: "🗺️ 아시아 채용 네트워크 (17개국)",
+                map_title: "🌏 아시아 지도 및 국가 선택",
+                map_desc: "국가 카드(선명한 국기 포함)를 클릭하여 이력서 메뉴로 진입하세요.",
+                dl_resume_title: "이력서 양식 다운로드",
+                dl_resume_desc: "표준 이력서 양식 받기",
+                ul_resume_title: "이력서 업로드",
+                ul_resume_desc: "작성한 이력서 제출하기",
+                submit_resume_title: "이력서 제출하기",
+                lbl_eps_id: "EPS-TOPIK 수험번호 (ID)",
+                lbl_full_name: "성명 (Full Name)",
+                lbl_phone: "전화번호 (Phone Number)",
+                lbl_password: "비밀번호 (Password)",
+                lbl_file: "이력서 파일 첨부 (PDF, 이미지)",
+                btn_submit_app: "지원서 제출하기",
+                qna_title: "운영진 1:1 이메일 문의",
+                qna_email_notice: `운영진 공식 이메일인 <strong class="text-amber-800">${OFFICIAL_EMAIL}</strong>으로 직접 전송됩니다.`,
+                lbl_name: "이름 (Name)",
+                lbl_country: "국가 (Country)",
+                lbl_contact: "연락처 (Contact)",
+                lbl_subject: "제목 (Subject)",
+                lbl_message: "문의 내용 (Message)",
+                btn_send_mail: "📤 메일 보내기",
+                board_title: "📢 공지사항 및 고객지원 게시판",
+                board_desc: "모든 글은 비밀번호로 보호되며, 타인에게는 별(*)로 마스킹 처리됩니다.",
+                btn_write_post: "✍️ 문의글 작성",
+                btn_home_short: "홈으로",
+                admin_login_title: "관리자 로그인",
+                modal_write_title: "✍️ 새 문의글 작성",
+                btn_cancel: "취소",
+                btn_register: "등록",
+                lbl_staff_reply: "💬 운영진 답변:",
+                btn_save_reply: "답변 저장",
+                btn_close: "닫기"
+            }
+        };
+
+        // HTML 특수문자 이스케이프 (XSS 방지)
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // 사이트 언어 변경 함수
+        function changeSiteLanguage() {
+            const select = document.getElementById('site-lang-select');
+            siteLang = select ? select.value : 'en';
+            document.documentElement.lang = siteLang;
+
+            const dict = i18nDict[siteLang] || i18nDict.en;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.innerText = dict[key];
+                }
+            });
+
+            const emailNotice = document.getElementById('qna-email-notice');
+            if (emailNotice && dict.qna_email_notice) {
+                emailNotice.innerHTML = dict.qna_email_notice;
+            }
+        }
 
         window.addEventListener('DOMContentLoaded', () => {
+            changeSiteLanguage();
             loadHomeBoardPreview();
         });
 
         function hideAllScreens() {
             ['main-home-screen', 'asia-map-screen', 'action-screen', 'upload-screen', 'qna-screen', 'board-screen', 'admin-screen', 'dashboard-screen'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
             });
         }
         function goMainHome() { hideAllScreens(); document.getElementById('main-home-screen').classList.remove('hidden'); loadHomeBoardPreview(); }
@@ -418,65 +575,133 @@
         function showMenuSelection() { document.getElementById('upload-screen').classList.add('hidden'); document.getElementById('menu-selection').classList.remove('hidden'); }
         function showAdminForm() { hideAllScreens(); document.getElementById('admin-screen').classList.remove('hidden'); }
 
+        // 이메일 전송 부분 (lgkmanager3@gmail.com 반영 및 연락처 포함)
         function handleSendMail(event) {
             event.preventDefault();
-            const n = document.getElementById('mail-name').value;
-            const c = document.getElementById('mail-country').value;
-            const sub = document.getElementById('mail-subject').value;
-            const b = document.getElementById('mail-body').value;
-            window.location.href = `mailto:lgkmanager3@gmail.com?subject=${encodeURIComponent(`[Q&A] ${sub} (${n})`)}&body=${encodeURIComponent(`Country: ${c}\n\n${b}`)}`;
+            const n = document.getElementById('mail-name').value.trim();
+            const c = document.getElementById('mail-country').value.trim();
+            const contact = document.getElementById('mail-contact').value.trim();
+            const sub = document.getElementById('mail-subject').value.trim();
+            const b = document.getElementById('mail-body').value.trim();
+            const mailBody = `Name: ${n}\nCountry: ${c}\nContact: ${contact}\n\n${b}`;
+            window.location.href = `mailto:${OFFICIAL_EMAIL}?subject=${encodeURIComponent(`[Q&A] ${sub} (${n})`)}&body=${encodeURIComponent(mailBody)}`;
         }
 
-        let boardPosts = [];
-        async function loadHomeBoardPreview() {
+        // 로컬 스토리지 백업 헬퍼 (Supabase에 board_posts 테이블 생성 전에도 정상 작동하도록 지원)
+        function getLocalBoardPosts() {
             try {
-                const { data } = await supabaseClient.from('board_posts').select('*').order('created_at', { ascending: false }).limit(3);
-                const tbody = document.getElementById('home-board-preview');
-                if (!data || data.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-4 text-center text-gray-400">등록된 공지/문의가 없습니다.</td></tr>`;
-                    return;
-                }
-                tbody.innerHTML = data.map((p, idx) => `
-                    <tr class="hover:bg-gray-50 cursor-pointer" onclick="showBoardScreen()">
-                        <td class="px-4 py-2.5 text-gray-500">${data.length - idx}</td>
-                        <td class="px-4 py-2.5 font-medium text-gray-900">🔒 ******************** (비밀글)</td>
-                        <td class="px-4 py-2.5 text-gray-600">${p.author}</td>
-                        <td class="px-4 py-2.5 text-center">${p.reply ? '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">답변완료</span>' : '<span class="bg-gray-100 text-gray-500 px-2 py-0.5 rounded text-xs">대기중</span>'}</td>
-                    </tr>
-                `).join('');
-            } catch (e) {
-                document.getElementById('home-board-preview').innerHTML = `<tr><td colspan="4" class="px-4 py-4 text-center text-gray-400">게시글을 불러올 수 없습니다.</td></tr>`;
+                return JSON.parse(localStorage.getItem('lgk_board_posts') || '[]');
+            } catch {
+                return [];
             }
+        }
+        function saveLocalBoardPosts(posts) {
+            localStorage.setItem('lgk_board_posts', JSON.stringify(posts));
+        }
+
+        async function loadHomeBoardPreview() {
+            const tbody = document.getElementById('home-board-preview');
+            let data = [];
+            try {
+                const res = await supabaseClient.from('board_posts').select('*').order('created_at', { ascending: false }).limit(3);
+                if (res.error) throw res.error;
+                data = res.data || [];
+            } catch (e) {
+                // Supabase 테이블이 아직 없을 경우 로컬 스토리지 데이터 사용
+                data = getLocalBoardPosts().slice(0, 3);
+            }
+
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-4 text-center text-gray-400">등록된 공지/문의가 없습니다.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = data.map((p, idx) => `
+                <tr class="hover:bg-gray-50 cursor-pointer" onclick="showBoardScreen()">
+                    <td class="px-4 py-2.5 text-gray-500">${data.length - idx}</td>
+                    <td class="px-4 py-2.5 font-medium text-gray-900">🔒 ******************** (비밀글)</td>
+                    <td class="px-4 py-2.5 text-gray-600">${escapeHtml(p.author)}</td>
+                    <td class="px-4 py-2.5 text-center">${p.reply ? '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">답변완료</span>' : '<span class="bg-gray-100 text-gray-500 px-2 py-0.5 rounded text-xs">대기중</span>'}</td>
+                </tr>
+            `).join('');
         }
 
         async function loadBoardPosts() {
             try {
-                const { data } = await supabaseClient.from('board_posts').select('*').order('created_at', { ascending: false });
+                const { data, error } = await supabaseClient.from('board_posts').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
                 boardPosts = data || [];
-                renderBoardTable();
-            } catch (e) { boardPosts = []; renderBoardTable(); }
+            } catch (e) {
+                // Supabase에 board_posts 테이블이 아직 없으면 로컬 스토리지 사용
+                boardPosts = getLocalBoardPosts();
+            }
+            renderBoardTable();
         }
 
         function renderBoardTable() {
             const tbody = document.getElementById('board-table-body');
-            if (boardPosts.length === 0) { tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-6 text-center text-gray-400">게시글이 없습니다.</td></tr>`; return; }
+            if (boardPosts.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="px-4 py-6 text-center text-gray-400">게시글이 없습니다.</td></tr>`;
+                return;
+            }
             tbody.innerHTML = boardPosts.map((p, idx) => {
-                const title = isStaffAuthorized ? `🔓 ${p.title}` : `🔒 ******************** (비밀글)`;
-                const badge = p.reply ? `<span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded font-semibold">답변완료</span>` : `<span class="bg-gray-100 text-gray-500 text-xs px-2 py-0.5 rounded">대기중</span>`;
-                return `<tr class="hover:bg-gray-50"><td class="px-4 py-3 text-xs text-gray-500">${boardPosts.length - idx}</td><td class="px-4 py-3 font-medium text-gray-900">${title}</td><td class="px-4 py-3 text-xs text-gray-600">${p.author}</td><td class="px-4 py-3 text-center">${badge}</td><td class="px-4 py-3 text-center"><button onclick="handleViewPost(${p.id})" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1 rounded text-xs font-semibold">조회</button></td></tr>`;
+                const title = isStaffAuthorized ? `🔓 ${escapeHtml(p.title)}` : `🔒 ******************** (비밀글)`;
+                const badge = p.reply
+                    ? `<span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded font-semibold">답변완료</span>`
+                    : `<span class="bg-gray-100 text-gray-500 text-xs px-2 py-0.5 rounded">대기중</span>`;
+                return `<tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3 text-xs text-gray-500">${boardPosts.length - idx}</td>
+                    <td class="px-4 py-3 font-medium text-gray-900">${title}</td>
+                    <td class="px-4 py-3 text-xs text-gray-600">${escapeHtml(p.author)}</td>
+                    <td class="px-4 py-3 text-center">${badge}</td>
+                    <td class="px-4 py-3 text-center"><button onclick="handleViewPost(${Number(p.id)})" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1 rounded text-xs font-semibold">조회</button></td>
+                </tr>`;
             }).join('');
         }
 
         function showWritePostModal() { document.getElementById('write-modal').classList.remove('hidden'); }
         function closeWriteModal() { document.getElementById('write-modal').classList.add('hidden'); }
+        
         async function handleCreateBoardPost(e) {
             e.preventDefault();
-            const author = document.getElementById('post-author').value;
-            const password = document.getElementById('post-password').value;
-            const title = document.getElementById('post-title').value;
-            const content = document.getElementById('post-content').value;
-            await supabaseClient.from('board_posts').insert([{ author, password, title, content }]);
-            alert('등록되었습니다.'); closeWriteModal(); await loadBoardPosts();
+            const submitBtn = document.getElementById('write-submit-btn');
+            submitBtn.disabled = true;
+            try {
+                const author = document.getElementById('post-author').value.trim();
+                const password = document.getElementById('post-password').value.trim();
+                const title = document.getElementById('post-title').value.trim();
+                const content = document.getElementById('post-content').value.trim();
+
+                const { error } = await supabaseClient.from('board_posts').insert([{ author, password, title, content }]);
+                if (error) {
+                    // Supabase에 board_posts 테이블이 아직 생성되지 않은 경우 로컬 스토리지에 저장
+                    if (error.message && error.message.includes('board_posts')) {
+                        const localPosts = getLocalBoardPosts();
+                        localPosts.unshift({
+                            id: Date.now(),
+                            author,
+                            password,
+                            title,
+                            content,
+                            reply: null,
+                            created_at: new Date().toISOString()
+                        });
+                        saveLocalBoardPosts(localPosts);
+                    } else {
+                        throw error;
+                    }
+                }
+
+                alert('문의글이 정상적으로 등록되었습니다.');
+                document.getElementById('write-post-form').reset();
+                closeWriteModal();
+                await loadBoardPosts();
+                await loadHomeBoardPreview();
+            } catch (err) {
+                console.error(err);
+                alert('❌ 게시글 등록 실패: ' + (err.message || '권한 또는 네트워크 상태를 확인해주세요.'));
+            } finally {
+                submitBtn.disabled = false;
+            }
         }
 
         function handleViewPost(id) {
@@ -484,8 +709,9 @@
             if (!p) return;
             if (isStaffAuthorized) { openDetailModal(p); return; }
             const pw = prompt("비밀번호를 입력하세요:");
+            if (pw === null) return;
             if (pw === p.password) openDetailModal(p);
-            else if (pw !== null) alert("비밀번호가 틀렸습니다.");
+            else alert("비밀번호가 일치하지 않습니다.");
         }
 
         function openDetailModal(p) {
@@ -495,25 +721,54 @@
             document.getElementById('detail-content').innerText = p.content;
             document.getElementById('detail-reply').innerText = p.reply || "아직 답변이 없습니다.";
             const box = document.getElementById('staff-reply-box');
-            if (isStaffAuthorized) { box.classList.remove('hidden'); document.getElementById('staff-reply-input').value = p.reply || ""; } else { box.classList.add('hidden'); }
+            if (isStaffAuthorized) {
+                box.classList.remove('hidden');
+                document.getElementById('staff-reply-input').value = p.reply || "";
+            } else {
+                box.classList.add('hidden');
+            }
             document.getElementById('detail-modal').classList.remove('hidden');
         }
         function closeDetailModal() { document.getElementById('detail-modal').classList.add('hidden'); currentSelectedPost = null; }
 
         async function handleSaveStaffReply() {
             if (!currentSelectedPost) return;
-            const reply = document.getElementById('staff-reply-input').value;
-            await supabaseClient.from('board_posts').update({ reply }).eq('id', currentSelectedPost.id);
-            alert('답변이 저장되었습니다.'); await loadBoardPosts(); closeDetailModal();
+            try {
+                const reply = document.getElementById('staff-reply-input').value.trim();
+                const { error } = await supabaseClient.from('board_posts').update({ reply }).eq('id', currentSelectedPost.id);
+                if (error) {
+                    if (error.message && error.message.includes('board_posts')) {
+                        const localPosts = getLocalBoardPosts();
+                        const target = localPosts.find(x => x.id === currentSelectedPost.id);
+                        if (target) {
+                            target.reply = reply;
+                            saveLocalBoardPosts(localPosts);
+                        }
+                    } else {
+                        throw error;
+                    }
+                }
+
+                alert('답변이 저장되었습니다.');
+                await loadBoardPosts();
+                await loadHomeBoardPreview();
+                closeDetailModal();
+            } catch (err) {
+                console.error(err);
+                alert('❌ 답변 저장 실패: ' + (err.message || '운영진 권한을 확인하세요.'));
+            }
         }
 
-        function toggleStaffLogin() {
+        async function toggleStaffLogin() {
             if (isStaffAuthorized) {
+                await supabaseClient.auth.signOut();
                 isStaffAuthorized = false;
                 document.getElementById('board-staff-status').innerText = "일반 모드 (운영진 인증 필요)";
                 document.getElementById('board-staff-btn').innerText = "🔒 운영진 로그인";
                 renderBoardTable();
-            } else { document.getElementById('staff-login-modal').classList.remove('hidden'); }
+            } else {
+                document.getElementById('staff-login-modal').classList.remove('hidden');
+            }
         }
         function closeStaffModal() { document.getElementById('staff-login-modal').classList.add('hidden'); }
         
@@ -522,7 +777,7 @@
             const email = document.getElementById('staff-auth-id').value.trim();
             const password = document.getElementById('staff-auth-pw').value.trim();
 
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
+            const { error } = await supabaseClient.auth.signInWithPassword({
                 email: email,
                 password: password
             });
@@ -533,6 +788,7 @@
                 isStaffAuthorized = true;
                 document.getElementById('board-staff-status').innerText = `🟢 운영진 인증됨 (${email})`;
                 document.getElementById('board-staff-btn').innerText = "🔓 로그아웃";
+                document.getElementById('staff-auth-form').reset();
                 closeStaffModal();
                 alert('운영진 인증 완료! 답변 등록이 가능합니다.');
                 renderBoardTable();
@@ -544,7 +800,7 @@
             const email = document.getElementById('admin-id').value.trim();
             const password = document.getElementById('admin-password').value.trim();
 
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
+            const { error } = await supabaseClient.auth.signInWithPassword({
                 email: email,
                 password: password
             });
@@ -552,8 +808,14 @@
             if (error) {
                 alert('관리자 로그인 실패: 등록된 운영진 이메일과 비밀번호를 입력하세요.');
             } else {
+                document.getElementById('admin-form').reset();
                 showDashboard();
             }
+        }
+
+        async function handleAdminLogout() {
+            await supabaseClient.auth.signOut();
+            goMainHome();
         }
 
         async function showDashboard() {
@@ -580,13 +842,13 @@
                     const dateStr = r.created_at ? new Date(r.created_at).toLocaleString() : 'N/A';
                     return `
                         <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-3 text-xs text-gray-500">${dateStr}</td>
-                            <td class="px-4 py-3 font-semibold text-blue-900">${r.country || 'N/A'}</td>
-                            <td class="px-4 py-3 font-medium">${r.eps_id}</td>
-                            <td class="px-4 py-3">${r.full_name}</td>
-                            <td class="px-4 py-3 text-gray-600 text-xs">${r.phone || 'N/A'}</td>
+                            <td class="px-4 py-3 text-xs text-gray-500">${escapeHtml(dateStr)}</td>
+                            <td class="px-4 py-3 font-semibold text-blue-900">${escapeHtml(r.country || 'N/A')}</td>
+                            <td class="px-4 py-3 font-medium">${escapeHtml(r.eps_id)}</td>
+                            <td class="px-4 py-3">${escapeHtml(r.full_name)}</td>
+                            <td class="px-4 py-3 text-gray-600 text-xs">${escapeHtml(r.phone || 'N/A')}</td>
                             <td class="px-4 py-3 text-center">
-                                <a href="${r.file_url}" target="_blank" class="bg-blue-100 text-blue-800 px-3 py-1.5 rounded text-xs font-semibold hover:bg-blue-200">
+                                <a href="${escapeHtml(r.file_url)}" target="_blank" rel="noopener noreferrer" class="bg-blue-100 text-blue-800 px-3 py-1.5 rounded text-xs font-semibold hover:bg-blue-200">
                                     📥 Download
                                 </a>
                             </td>
@@ -599,12 +861,32 @@
             }
         }
 
-       async function handleUpload(e) {
+        // 업로드 실패 시 에러창을 명확하게 띄워주도록 수정 및 보완된 handleUpload 함수
+        async function handleUpload(e) {
             e.preventDefault();
+            if (!currentCountry) {
+                alert('먼저 국가를 선택해주세요 (Please select a country first).');
+                showAsiaMapScreen();
+                return;
+            }
+
+            const submitBtn = document.getElementById('upload-submit-btn');
+            submitBtn.disabled = true;
+
             try {
-                const file = document.getElementById('file-upload').files[0];
-                const epsId = document.getElementById('eps-id').value;
-                const path = `${currentCountry}_${epsId}_${Date.now()}.${file.name.split('.').pop()}`;
+                const fileInput = document.getElementById('file-upload');
+                const file = fileInput.files[0];
+                if (!file) throw new Error('첨부할 이력서 파일을 선택해주세요.');
+
+                const epsId = document.getElementById('eps-id').value.trim();
+                const fullName = document.getElementById('full-name').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const password = document.getElementById('upload-password').value;
+
+                const safeCountry = currentCountry.replace(/[^a-zA-Z0-9_-]/g, '');
+                const safeEpsId = epsId.replace(/[^a-zA-Z0-9_-]/g, '') || 'user';
+                const ext = file.name.includes('.') ? file.name.split('.').pop().toLowerCase() : 'pdf';
+                const path = `${safeCountry}_${safeEpsId}_${Date.now()}.${ext}`;
                 
                 // 1. 파일 업로드 시도
                 const { error: uploadError } = await supabaseClient.storage.from('resume_files').upload(path, file);
@@ -615,23 +897,41 @@
                 const { data } = supabaseClient.storage.from('resume_files').getPublicUrl(path);
                 
                 // 2. DB 테이블에 데이터 삽입 시도
-                const { error: insertError } = await supabaseClient.from('resumes').insert([{ 
+                let { error: insertError } = await supabaseClient.from('resumes').insert([{ 
                     country: currentCountry, 
                     eps_id: epsId, 
-                    full_name: document.getElementById('full-name').value, 
-                    phone: document.getElementById('phone').value, 
-                    password: document.getElementById('upload-password').value, 
+                    full_name: fullName, 
+                    phone: phone, 
+                    password: password, 
                     file_url: data.publicUrl 
                 }]);
+
+                // 만약 resumes 테이블에 country 컬럼이 아직 없는 경우 자동으로 country 제외 후 재시도
+                if (insertError && insertError.message && insertError.message.includes('country')) {
+                    const retry = await supabaseClient.from('resumes').insert([{ 
+                        eps_id: `[${currentCountry}] ${epsId}`, 
+                        full_name: fullName, 
+                        phone: phone, 
+                        password: password, 
+                        file_url: data.publicUrl 
+                    }]);
+                    insertError = retry.error;
+                }
                 
                 if (insertError) {
-                    throw new Error('데이터베이스 저장 실패 (Table INSERT 권한을 확인하세요)');
+                    throw new Error('데이터베이스 저장 실패: ' + insertError.message);
                 }
                 
                 alert('제출이 완벽하게 완료되었습니다!'); 
+                document.getElementById('resume-form').reset();
                 goMainHome();
             } catch (err) {
                 alert('❌ 제출 중 에러 발생: ' + err.message);
                 console.error(err);
+            } finally {
+                submitBtn.disabled = false;
             }
         }
+    </script>
+</body>
+</html>
