@@ -37,7 +37,10 @@
                     <button onclick="showNoticeScreen()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-md font-semibold transition" data-i18n="nav_notice">📢 Notice</button>
                     <button onclick="showBoardScreen()" class="bg-indigo-700 hover:bg-indigo-600 px-3 py-1.5 rounded-md font-semibold transition" data-i18n="nav_board">❓ Support Q&A</button>
                     <button onclick="showQnAScreen()" class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-1.5 rounded-md font-semibold transition" data-i18n="nav_email">💬 Email Q&A</button>
-                    <!-- 운영진 로그인 상태일 때 상단 어디서든 즉시 로그아웃할 수 있는 글로벌 버튼 -->
+                    <!-- 운영진 로그인 상태일 때 상단에서 바로 대시보드 이동 및 로그아웃 가능 -->
+                    <button id="nav-staff-dashboard-btn" onclick="showDashboard()" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-md font-bold transition shadow">
+                        📊 Admin Dashboard
+                    </button>
                     <button id="nav-staff-logout-btn" onclick="forceStaffLogout()" class="hidden bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-md font-bold transition shadow">
                         🔓 운영진 로그아웃
                     </button>
@@ -63,6 +66,25 @@
                     <button onclick="showAsiaMapScreen()" class="mt-3 bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3 rounded-full shadow-lg text-sm sm:text-base transition transform hover:scale-105" data-i18n="hero_btn">
                         🌍 국가별 이력서 다운/제출 (Asia Network)
                     </button>
+                </div>
+            </div>
+
+            <!-- 운영진 로그인 시 메인 첫 화면에 표시되는 국가별 이력서 입수 현황 패널 -->
+            <div id="home-staff-country-summary" class="hidden bg-white shadow-lg rounded-xl p-6 border-t-4 border-emerald-600 space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b pb-3">
+                    <div>
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-2.5 py-1 rounded-full">운영진 전용 (Staff Only)</span>
+                        <h3 class="text-lg font-extrabold text-gray-900 mt-1">📊 국가별 이력서 입수 현황 (Resume Count by Country)</h3>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="home-total-resume-badge" class="bg-blue-900 text-white text-xs sm:text-sm font-extrabold px-3.5 py-1.5 rounded-lg shadow">총 0건 입수</span>
+                        <button onclick="showDashboard()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-lg shadow transition">
+                            이력서 관리 대시보드 →
+                        </button>
+                    </div>
+                </div>
+                <div id="home-country-count-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2.5">
+                    <!-- JS에서 17개국 입수 현황 자동 렌더링 -->
                 </div>
             </div>
 
@@ -126,7 +148,7 @@
             </div>
         </div>
 
-        <!-- 아시아 지도 및 17개국 선택 페이지 -->
+        <!-- 아시아 지도 및 17개국 선택 페이지 (운영진 로그인 시 각 국가 카드에 입수 갯수 뱃지 표시) -->
         <div id="asia-map-screen" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <button onclick="goMainHome()" class="text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1" data-i18n="btn_back_home">← 메인 홈으로 돌아가기</button>
@@ -139,42 +161,77 @@
                     <p class="text-xs sm:text-sm text-gray-300 mt-1" data-i18n="map_desc">국가 카드(선명한 국기 포함)를 클릭하여 이력서 메뉴로 진입하세요.</p>
                 </div>
 
+                <!-- 운영진 로그인 시 활성화되는 상단 총 입수 갯수 안내 바 -->
+                <div id="map-staff-summary" class="hidden bg-emerald-900/70 border border-emerald-400/50 rounded-xl p-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="flex items-center gap-2 text-xs sm:text-sm font-bold text-emerald-100">
+                        <span>📊 운영진 모드: 각 국가 카드 우측에 현재 입수된 이력서 건수가 표시됩니다.</span>
+                        <span id="map-total-resume-badge" class="bg-emerald-500 text-white px-2.5 py-0.5 rounded-full text-xs font-extrabold shadow">총 0건</span>
+                    </div>
+                    <button onclick="showDashboard()" class="bg-white text-emerald-900 hover:bg-emerald-50 px-3 py-1.5 rounded-lg text-xs font-extrabold shadow transition">
+                        📋 전체 이력서 대시보드 열기 →
+                    </button>
+                </div>
+
                 <div class="space-y-4">
                     <!-- 동남아시아 -->
                     <div class="bg-black/30 p-4 rounded-xl border border-blue-900">
                         <h4 class="text-xs font-bold text-blue-300 mb-2">🌴 Southeast Asia (동남아시아)</h4>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                            <div onclick="selectCountry('Vietnam', 'vi')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                <img src="https://flagcdn.com/w40/vn.png" alt="Vietnam" class="w-6 h-4 object-cover rounded shadow-sm">
-                                <div class="text-xs font-bold">Vietnam (베트남)</div>
+                            <div onclick="selectCountry('Vietnam', 'vi')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <img src="https://flagcdn.com/w40/vn.png" alt="Vietnam" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                    <div class="text-xs font-bold truncate">Vietnam (베트남)</div>
+                                </div>
+                                <span data-country-count="Vietnam" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                             </div>
-                            <div onclick="selectCountry('Myanmar', 'my')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                <img src="https://flagcdn.com/w40/mm.png" alt="Myanmar" class="w-6 h-4 object-cover rounded shadow-sm">
-                                <div class="text-xs font-bold">Myanmar (미얀마)</div>
+                            <div onclick="selectCountry('Myanmar', 'my')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <img src="https://flagcdn.com/w40/mm.png" alt="Myanmar" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                    <div class="text-xs font-bold truncate">Myanmar (미얀마)</div>
+                                </div>
+                                <span data-country-count="Myanmar" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                             </div>
-                            <div onclick="selectCountry('Thailand', 'th')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                <img src="https://flagcdn.com/w40/th.png" alt="Thailand" class="w-6 h-4 object-cover rounded shadow-sm">
-                                <div class="text-xs font-bold">Thailand (태국)</div>
+                            <div onclick="selectCountry('Thailand', 'th')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <img src="https://flagcdn.com/w40/th.png" alt="Thailand" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                    <div class="text-xs font-bold truncate">Thailand (태국)</div>
+                                </div>
+                                <span data-country-count="Thailand" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                             </div>
-                            <div onclick="selectCountry('Indonesia', 'id')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                <img src="https://flagcdn.com/w40/id.png" alt="Indonesia" class="w-6 h-4 object-cover rounded shadow-sm">
-                                <div class="text-xs font-bold">Indonesia (인도네시아)</div>
+                            <div onclick="selectCountry('Indonesia', 'id')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <img src="https://flagcdn.com/w40/id.png" alt="Indonesia" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                    <div class="text-xs font-bold truncate">Indonesia (인도네시아)</div>
+                                </div>
+                                <span data-country-count="Indonesia" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                             </div>
-                            <div onclick="selectCountry('Cambodia', 'km')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                <img src="https://flagcdn.com/w40/kh.png" alt="Cambodia" class="w-6 h-4 object-cover rounded shadow-sm">
-                                <div class="text-xs font-bold">Cambodia (캄보디아)</div>
+                            <div onclick="selectCountry('Cambodia', 'km')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <img src="https://flagcdn.com/w40/kh.png" alt="Cambodia" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                    <div class="text-xs font-bold truncate">Cambodia (캄보디아)</div>
+                                </div>
+                                <span data-country-count="Cambodia" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                             </div>
-                            <div onclick="selectCountry('Philippines', 'en')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                <img src="https://flagcdn.com/w40/ph.png" alt="Philippines" class="w-6 h-4 object-cover rounded shadow-sm">
-                                <div class="text-xs font-bold">Philippines (필리핀)</div>
+                            <div onclick="selectCountry('Philippines', 'en')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <img src="https://flagcdn.com/w40/ph.png" alt="Philippines" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                    <div class="text-xs font-bold truncate">Philippines (필리핀)</div>
+                                </div>
+                                <span data-country-count="Philippines" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                             </div>
-                            <div onclick="selectCountry('East Timor', 'en')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                <img src="https://flagcdn.com/w40/tl.png" alt="East Timor" class="w-6 h-4 object-cover rounded shadow-sm">
-                                <div class="text-xs font-bold">East Timor (동티모르)</div>
+                            <div onclick="selectCountry('East Timor', 'en')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <img src="https://flagcdn.com/w40/tl.png" alt="East Timor" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                    <div class="text-xs font-bold truncate">East Timor (동티모르)</div>
+                                </div>
+                                <span data-country-count="East Timor" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                             </div>
-                            <div onclick="selectCountry('Laos', 'lo')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                <img src="https://flagcdn.com/w40/la.png" alt="Laos" class="w-6 h-4 object-cover rounded shadow-sm">
-                                <div class="text-xs font-bold">Laos (라오스)</div>
+                            <div onclick="selectCountry('Laos', 'lo')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <img src="https://flagcdn.com/w40/la.png" alt="Laos" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                    <div class="text-xs font-bold truncate">Laos (라오스)</div>
+                                </div>
+                                <span data-country-count="Laos" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                             </div>
                         </div>
                     </div>
@@ -184,30 +241,45 @@
                         <div class="bg-black/30 p-4 rounded-xl border border-blue-900">
                             <h4 class="text-xs font-bold text-indigo-300 mb-2">🏮 East Asia (동아시아)</h4>
                             <div class="grid grid-cols-2 gap-2.5">
-                                <div onclick="selectCountry('Mongolia', 'mn')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                    <img src="https://flagcdn.com/w40/mn.png" alt="Mongolia" class="w-6 h-4 object-cover rounded shadow-sm">
-                                    <div class="text-xs font-bold">Mongolia (몽골)</div>
+                                <div onclick="selectCountry('Mongolia', 'mn')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <img src="https://flagcdn.com/w40/mn.png" alt="Mongolia" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                        <div class="text-xs font-bold truncate">Mongolia (몽골)</div>
+                                    </div>
+                                    <span data-country-count="Mongolia" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                                 </div>
-                                <div onclick="selectCountry('China', 'zh')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                    <img src="https://flagcdn.com/w40/cn.png" alt="China" class="w-6 h-4 object-cover rounded shadow-sm">
-                                    <div class="text-xs font-bold">China (중국)</div>
+                                <div onclick="selectCountry('China', 'zh')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <img src="https://flagcdn.com/w40/cn.png" alt="China" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                        <div class="text-xs font-bold truncate">China (중국)</div>
+                                    </div>
+                                    <span data-country-count="China" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                                 </div>
                             </div>
                         </div>
                         <div class="bg-black/30 p-4 rounded-xl border border-blue-900">
                             <h4 class="text-xs font-bold text-emerald-300 mb-2">🏔️ Central Asia (중앙아시아)</h4>
                             <div class="grid grid-cols-3 gap-2.5">
-                                <div onclick="selectCountry('Uzbekistan', 'uz')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <img src="https://flagcdn.com/w40/uz.png" alt="Uzbekistan" class="w-5 h-3.5 object-cover rounded shadow-sm">
-                                    <div class="text-[11px] font-bold">Uzbekistan</div>
+                                <div onclick="selectCountry('Uzbekistan', 'uz')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-1.5 border border-gray-700 shadow-sm transition">
+                                    <div class="flex items-center gap-1.5 min-w-0">
+                                        <img src="https://flagcdn.com/w40/uz.png" alt="Uzbekistan" class="w-5 h-3.5 object-cover rounded shadow-sm shrink-0">
+                                        <div class="text-[11px] font-bold truncate">Uzbekistan</div>
+                                    </div>
+                                    <span data-country-count="Uzbekistan" class="hidden shrink-0 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">0건</span>
                                 </div>
-                                <div onclick="selectCountry('Kyrgyzstan', 'ky')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <img src="https://flagcdn.com/w40/kg.png" alt="Kyrgyzstan" class="w-5 h-3.5 object-cover rounded shadow-sm">
-                                    <div class="text-[11px] font-bold">Kyrgyzstan</div>
+                                <div onclick="selectCountry('Kyrgyzstan', 'ky')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-1.5 border border-gray-700 shadow-sm transition">
+                                    <div class="flex items-center gap-1.5 min-w-0">
+                                        <img src="https://flagcdn.com/w40/kg.png" alt="Kyrgyzstan" class="w-5 h-3.5 object-cover rounded shadow-sm shrink-0">
+                                        <div class="text-[11px] font-bold truncate">Kyrgyzstan</div>
+                                    </div>
+                                    <span data-country-count="Kyrgyzstan" class="hidden shrink-0 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">0건</span>
                                 </div>
-                                <div onclick="selectCountry('Tajikistan', 'tg')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2 border border-gray-700 shadow-sm transition">
-                                    <img src="https://flagcdn.com/w40/tj.png" alt="Tajikistan" class="w-5 h-3.5 object-cover rounded shadow-sm">
-                                    <div class="text-[11px] font-bold">Tajikistan</div>
+                                <div onclick="selectCountry('Tajikistan', 'tg')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-1.5 border border-gray-700 shadow-sm transition">
+                                    <div class="flex items-center gap-1.5 min-w-0">
+                                        <img src="https://flagcdn.com/w40/tj.png" alt="Tajikistan" class="w-5 h-3.5 object-cover rounded shadow-sm shrink-0">
+                                        <div class="text-[11px] font-bold truncate">Tajikistan</div>
+                                    </div>
+                                    <span data-country-count="Tajikistan" class="hidden shrink-0 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">0건</span>
                                 </div>
                             </div>
                         </div>
@@ -217,21 +289,33 @@
                     <div class="bg-black/30 p-4 rounded-xl border border-blue-900">
                         <h4 class="text-xs font-bold text-amber-300 mb-2">🪷 South Asia (남아시아)</h4>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                            <div onclick="selectCountry('Sri Lanka', 'si')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                <img src="https://flagcdn.com/w40/lk.png" alt="Sri Lanka" class="w-6 h-4 object-cover rounded shadow-sm">
-                                <div class="text-xs font-bold">Sri Lanka (스리랑카)</div>
+                            <div onclick="selectCountry('Sri Lanka', 'si')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <img src="https://flagcdn.com/w40/lk.png" alt="Sri Lanka" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                    <div class="text-xs font-bold truncate">Sri Lanka (스리랑카)</div>
+                                </div>
+                                <span data-country-count="Sri Lanka" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                             </div>
-                            <div onclick="selectCountry('Pakistan', 'ur')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                <img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" class="w-6 h-4 object-cover rounded shadow-sm">
-                                <div class="text-xs font-bold">Pakistan (파키스탄)</div>
+                            <div onclick="selectCountry('Pakistan', 'ur')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                    <div class="text-xs font-bold truncate">Pakistan (파키스탄)</div>
+                                </div>
+                                <span data-country-count="Pakistan" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                             </div>
-                            <div onclick="selectCountry('Bangladesh', 'bn')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                <img src="https://flagcdn.com/w40/bd.png" alt="Bangladesh" class="w-6 h-4 object-cover rounded shadow-sm">
-                                <div class="text-xs font-bold">Bangladesh (방글라)</div>
+                            <div onclick="selectCountry('Bangladesh', 'bn')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <img src="https://flagcdn.com/w40/bd.png" alt="Bangladesh" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                    <div class="text-xs font-bold truncate">Bangladesh (방글라)</div>
+                                </div>
+                                <span data-country-count="Bangladesh" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                             </div>
-                            <div onclick="selectCountry('Nepal', 'ne')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center gap-2.5 border border-gray-700 shadow-sm transition">
-                                <img src="https://flagcdn.com/w40/np.png" alt="Nepal" class="w-6 h-4 object-cover rounded shadow-sm">
-                                <div class="text-xs font-bold">Nepal (네팔)</div>
+                            <div onclick="selectCountry('Nepal', 'ne')" class="country-card-blink p-2.5 rounded-lg cursor-pointer flex items-center justify-between gap-2 border border-gray-700 shadow-sm transition">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <img src="https://flagcdn.com/w40/np.png" alt="Nepal" class="w-6 h-4 object-cover rounded shadow-sm shrink-0">
+                                    <div class="text-xs font-bold truncate">Nepal (네팔)</div>
+                                </div>
+                                <span data-country-count="Nepal" class="hidden shrink-0 text-[11px] font-extrabold px-2 py-0.5 rounded-full">0건</span>
                             </div>
                         </div>
                     </div>
@@ -257,15 +341,35 @@
                     <p class="text-sm text-gray-500 mt-2" data-i18n="ul_resume_desc">Submit your filled form</p>
                 </div>
             </div>
+            <!-- 이력서 제출 화면 (소속 Agency 입력란 추가 및 자동완성 방지) -->
             <div id="upload-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-10 border-t-4 border-blue-800">
                 <button onclick="showMenuSelection()" class="mb-6 text-sm font-semibold text-blue-800 hover:text-blue-600 flex items-center gap-1" data-i18n="btn_back_menu">← 메뉴로 돌아가기</button>
                 <h2 class="text-xl font-bold text-gray-900 mb-6" data-i18n="submit_resume_title">Submit Your Resume</h2>
-                <form id="resume-form" class="space-y-5" onsubmit="handleUpload(event)">
-                    <div><label class="block text-sm font-medium text-gray-700" data-i18n="lbl_eps_id">EPS-TOPIK ID</label><input type="text" id="eps-id" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
-                    <div><label class="block text-sm font-medium text-gray-700" data-i18n="lbl_full_name">Full Name</label><input type="text" id="full-name" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
-                    <div><label class="block text-sm font-medium text-gray-700" data-i18n="lbl_phone">Phone Number</label><input type="tel" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
-                    <div><label class="block text-sm font-medium text-gray-700" data-i18n="lbl_password">Password</label><input type="password" id="upload-password" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required></div>
-                    <div><label class="block text-sm font-medium text-gray-700" data-i18n="lbl_file">Upload Resume File</label><input type="file" id="file-upload" accept=".pdf,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500" required></div>
+                <form id="resume-form" class="space-y-5" onsubmit="handleUpload(event)" autocomplete="off">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700" data-i18n="lbl_eps_id">EPS-TOPIK ID</label>
+                        <input type="text" id="eps-id" autocomplete="off" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" placeholder="Enter your EPS-TOPIK ID" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700" data-i18n="lbl_full_name">Full Name</label>
+                        <input type="text" id="full-name" autocomplete="off" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" placeholder="Enter your full name" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700" data-i18n="lbl_agency">Agency (Sending Agency / Affiliation)</label>
+                        <input type="text" id="agency" autocomplete="off" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" placeholder="Enter your affiliated agency (소속 에이전시 / 송출기관명 입력)" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700" data-i18n="lbl_phone">Phone Number</label>
+                        <input type="tel" id="phone" autocomplete="off" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" placeholder="Enter your phone number" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700" data-i18n="lbl_password">Password</label>
+                        <input type="password" id="upload-password" autocomplete="new-password" class="mt-1 block w-full border border-gray-300 rounded-md p-3 text-base" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700" data-i18n="lbl_file">Upload Resume File</label>
+                        <input type="file" id="file-upload" accept=".pdf,.jpg,.jpeg,.png" class="mt-1 block w-full text-sm text-gray-500" required>
+                    </div>
                     <button type="submit" id="upload-submit-btn" class="w-full btn-eps py-4 rounded-md font-bold text-base" data-i18n="btn_submit_app">Submit Application</button>
                 </form>
             </div>
@@ -395,7 +499,7 @@
             </form>
         </div>
 
-        <!-- 대시보드 (필터링 & 일괄 다운로드 기능 포함) -->
+        <!-- 대시보드 (필터링 & 일괄 다운로드 & 소속 Agency 표시) -->
         <div id="dashboard-screen" class="hidden bg-white shadow-lg rounded-xl p-6 sm:p-8 border-t-4 border-gray-800 mt-8 space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
@@ -418,7 +522,7 @@
                 </div>
             </div>
 
-            <!-- 필터 바 (국가별 / 검색어 / 날짜 / 초기화) -->
+            <!-- 필터 바 (국가별 / 검색어(에이전시 포함) / 날짜 / 초기화) -->
             <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">🌍 국가 필터 (Country)</label>
@@ -427,8 +531,8 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">🔍 통합 검색 (이름 / EPS ID / 연락처)</label>
-                    <input type="text" id="filter-keyword" oninput="applyDashboardFilters()" placeholder="검색어 입력..." class="w-full border border-gray-300 rounded-md p-2 text-xs bg-white">
+                    <label class="block text-xs font-bold text-gray-700 mb-1">🔍 통합 검색 (이름 / EPS ID / Agency / 연락처)</label>
+                    <input type="text" id="filter-keyword" oninput="applyDashboardFilters()" placeholder="이름, 에이전시(Agency), ID 검색..." class="w-full border border-gray-300 rounded-md p-2 text-xs bg-white">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-gray-700 mb-1">📅 등록일 필터 (Date)</label>
@@ -451,6 +555,7 @@
                             </th>
                             <th class="px-4 py-3">Date</th>
                             <th class="px-4 py-3">Country</th>
+                            <th class="px-4 py-3">Agency</th>
                             <th class="px-4 py-3">EPS ID</th>
                             <th class="px-4 py-3">Name</th>
                             <th class="px-4 py-3">Phone</th>
@@ -458,7 +563,7 @@
                         </tr>
                     </thead>
                     <tbody id="resume-table-body" class="bg-white divide-y divide-gray-200 text-gray-800">
-                        <tr><td colspan="7" class="px-4 py-6 text-center text-gray-400">데이터를 불러오는 중...</td></tr>
+                        <tr><td colspan="8" class="px-4 py-6 text-center text-gray-400">데이터를 불러오는 중...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -555,6 +660,26 @@
         });
         const OFFICIAL_EMAIL = 'lgkmanager3@gmail.com';
 
+        const ALL_COUNTRIES = [
+            { name: 'Vietnam', ko: '베트남', flag: 'vn' },
+            { name: 'Myanmar', ko: '미얀마', flag: 'mm' },
+            { name: 'Thailand', ko: '태국', flag: 'th' },
+            { name: 'Indonesia', ko: '인도네시아', flag: 'id' },
+            { name: 'Cambodia', ko: '캄보디아', flag: 'kh' },
+            { name: 'Philippines', ko: '필리핀', flag: 'ph' },
+            { name: 'East Timor', ko: '동티모르', flag: 'tl' },
+            { name: 'Laos', ko: '라오스', flag: 'la' },
+            { name: 'Mongolia', ko: '몽골', flag: 'mn' },
+            { name: 'China', ko: '중국', flag: 'cn' },
+            { name: 'Uzbekistan', ko: '우즈베키스탄', flag: 'uz' },
+            { name: 'Kyrgyzstan', ko: '키르기스스탄', flag: 'kg' },
+            { name: 'Tajikistan', ko: '타지키스탄', flag: 'tj' },
+            { name: 'Sri Lanka', ko: '스리랑카', flag: 'lk' },
+            { name: 'Pakistan', ko: '파키스탄', flag: 'pk' },
+            { name: 'Bangladesh', ko: '방글라데시', flag: 'bd' },
+            { name: 'Nepal', ko: '네팔', flag: 'np' }
+        ];
+
         let currentCountry = '';
         let currentLang = 'en';
         let siteLang = 'en';
@@ -600,6 +725,7 @@
                 submit_resume_title: "Submit Your Resume",
                 lbl_eps_id: "EPS-TOPIK ID",
                 lbl_full_name: "Full Name",
+                lbl_agency: "Agency (Sending Agency / Affiliation)",
                 lbl_phone: "Phone Number",
                 lbl_password: "Password",
                 lbl_file: "Upload Resume File",
@@ -660,6 +786,7 @@
                 submit_resume_title: "이력서 제출하기",
                 lbl_eps_id: "EPS-TOPIK 수험번호 (ID)",
                 lbl_full_name: "성명 (Full Name)",
+                lbl_agency: "소속 에이전시 (Agency / 송출기관)",
                 lbl_phone: "전화번호 (Phone Number)",
                 lbl_password: "비밀번호 (Password)",
                 lbl_file: "이력서 파일 첨부 (PDF, 이미지)",
@@ -697,6 +824,22 @@
                 .replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#039;');
+        }
+
+        // 이력서 레코드에서 소속 에이전시(Agency)와 전화번호(Phone) 분리 정규화
+        function normalizeResumeRow(r) {
+            let phoneVal = r.phone || '';
+            let agencyVal = r.agency || '';
+            if (!agencyVal && phoneVal.includes(' ||| ')) {
+                const parts = phoneVal.split(' ||| ');
+                phoneVal = parts[0].trim();
+                agencyVal = parts.slice(1).join(' ||| ').trim();
+            }
+            return {
+                ...r,
+                display_phone: phoneVal,
+                display_agency: agencyVal || '-'
+            };
         }
 
         // 브라우저 로컬 스토리지에 남아있을 수 있는 과거 Supabase 인증 토큰 완전 삭제
@@ -740,7 +883,6 @@
             loadHomeBoardPreview();
         });
 
-        // 창을 닫거나 새로고침할 때 운영진 인증 상태 초기화
         window.addEventListener('beforeunload', () => {
             clearStoredAuthTokens();
         });
@@ -751,8 +893,17 @@
                 if (el) el.classList.add('hidden');
             });
         }
-        function goMainHome() { hideAllScreens(); document.getElementById('main-home-screen').classList.remove('hidden'); loadHomeBoardPreview(); }
-        function showAsiaMapScreen() { hideAllScreens(); document.getElementById('asia-map-screen').classList.remove('hidden'); }
+        function goMainHome() {
+            hideAllScreens();
+            document.getElementById('main-home-screen').classList.remove('hidden');
+            loadHomeBoardPreview();
+            if (isStaffAuthorized) loadStaffCountryResumeCounts();
+        }
+        function showAsiaMapScreen() {
+            hideAllScreens();
+            document.getElementById('asia-map-screen').classList.remove('hidden');
+            if (isStaffAuthorized) loadStaffCountryResumeCounts();
+        }
         function showQnAScreen() { hideAllScreens(); document.getElementById('qna-screen').classList.remove('hidden'); }
         async function showNoticeScreen() { hideAllScreens(); document.getElementById('notice-screen').classList.remove('hidden'); await loadBoardPosts(); }
         async function showBoardScreen() { hideAllScreens(); document.getElementById('board-screen').classList.remove('hidden'); await loadBoardPosts(); }
@@ -765,12 +916,114 @@
             document.getElementById('menu-selection').classList.remove('hidden'); 
             document.getElementById('selected-country-badge').innerText = `Selected: ${c}`; 
         }
-        function showUploadForm() { document.getElementById('menu-selection').classList.add('hidden'); document.getElementById('upload-screen').classList.remove('hidden'); }
+        function showUploadForm() {
+            document.getElementById('resume-form').reset();
+            document.getElementById('menu-selection').classList.add('hidden');
+            document.getElementById('upload-screen').classList.remove('hidden');
+        }
         function showMenuSelection() { document.getElementById('upload-screen').classList.add('hidden'); document.getElementById('menu-selection').classList.remove('hidden'); }
         function showAdminForm() {
+            if (isStaffAuthorized) {
+                showDashboard();
+                return;
+            }
             hideAllScreens();
             document.getElementById('admin-form').reset();
             document.getElementById('admin-screen').classList.remove('hidden');
+        }
+
+        // =========================================================================
+        // 운영진 전용: 국가별 이력서 입수 현황 카운트 로드 및 화면(지도 카드 & 메인 홈) 표시
+        // =========================================================================
+        async function loadStaffCountryResumeCounts() {
+            const homePanel = document.getElementById('home-staff-country-summary');
+            const mapSummary = document.getElementById('map-staff-summary');
+            const badges = document.querySelectorAll('[data-country-count]');
+
+            if (!isStaffAuthorized) {
+                if (homePanel) homePanel.classList.add('hidden');
+                if (mapSummary) mapSummary.classList.add('hidden');
+                badges.forEach(b => b.classList.add('hidden'));
+                return;
+            }
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('resumes')
+                    .select('id, country');
+
+                if (error) throw error;
+
+                const validResumes = (data || []).filter(r => r.country && r.country !== '__BOARD__' && r.country !== '__DELETED__');
+                const countMap = {};
+                ALL_COUNTRIES.forEach(c => { countMap[c.name] = 0; });
+
+                validResumes.forEach(r => {
+                    const cName = (r.country || '').trim();
+                    countMap[cName] = (countMap[cName] || 0) + 1;
+                });
+
+                const totalCount = validResumes.length;
+
+                // 1) 아시아 지도(첫번째 이미지) 17개국 카드 내 입수 건수 뱃지 업데이트
+                badges.forEach(badge => {
+                    const cName = badge.getAttribute('data-country-count');
+                    const cnt = countMap[cName] || 0;
+                    badge.innerText = `${cnt}건`;
+                    badge.classList.remove('hidden', 'bg-emerald-600', 'text-white', 'bg-gray-200', 'text-gray-600', 'shadow');
+                    if (cnt > 0) {
+                        badge.classList.add('bg-emerald-600', 'text-white', 'shadow');
+                    } else {
+                        badge.classList.add('bg-gray-200', 'text-gray-600');
+                    }
+                });
+
+                if (mapSummary) {
+                    mapSummary.classList.remove('hidden');
+                    const mapTotalBadge = document.getElementById('map-total-resume-badge');
+                    if (mapTotalBadge) mapTotalBadge.innerText = `총 ${totalCount}건 입수`;
+                }
+
+                // 2) 메인 홈 첫 화면의 운영진 전용 국가별 요약 그리드 업데이트
+                if (homePanel) {
+                    homePanel.classList.remove('hidden');
+                    const homeTotalBadge = document.getElementById('home-total-resume-badge');
+                    if (homeTotalBadge) homeTotalBadge.innerText = `총 ${totalCount}건 입수`;
+
+                    const grid = document.getElementById('home-country-count-grid');
+                    if (grid) {
+                        grid.innerHTML = ALL_COUNTRIES.map(c => {
+                            const cnt = countMap[c.name] || 0;
+                            const cardStyle = cnt > 0
+                                ? 'border-emerald-500 bg-emerald-50/70 hover:bg-emerald-100'
+                                : 'border-gray-200 bg-gray-50 hover:bg-gray-100';
+                            const badgeStyle = cnt > 0
+                                ? 'bg-emerald-600 text-white'
+                                : 'bg-gray-200 text-gray-600';
+                            return `
+                                <div onclick="openDashboardForCountry('${escapeHtml(c.name)}')" class="p-2.5 rounded-lg border ${cardStyle} cursor-pointer flex items-center justify-between gap-1.5 transition shadow-sm" title="클릭 시 ${escapeHtml(c.name)} 이력서 목록 조회">
+                                    <div class="flex items-center gap-1.5 min-w-0">
+                                        <img src="https://flagcdn.com/w40/${c.flag}.png" alt="${escapeHtml(c.name)}" class="w-5 h-3.5 object-cover rounded shadow-sm shrink-0">
+                                        <span class="text-xs font-bold text-gray-800 truncate">${escapeHtml(c.name)}</span>
+                                    </div>
+                                    <span class="text-[11px] font-extrabold px-2 py-0.5 rounded-full shrink-0 ${badgeStyle}">${cnt}건</span>
+                                </div>
+                            `;
+                        }).join('');
+                    }
+                }
+            } catch (err) {
+                console.error('국가별 이력서 카운트 로드 실패:', err);
+            }
+        }
+
+        async function openDashboardForCountry(countryName) {
+            await showDashboard();
+            const select = document.getElementById('filter-country');
+            if (select) {
+                select.value = countryName;
+                applyDashboardFilters();
+            }
         }
 
         // 이메일 전송 (E-MAIL, MOBILE 분리 반영)
@@ -1182,6 +1435,7 @@
             const boardStatus = document.getElementById('board-staff-status');
             const boardBtn = document.getElementById('board-staff-btn');
             const navLogoutBtn = document.getElementById('nav-staff-logout-btn');
+            const navDashBtn = document.getElementById('nav-staff-dashboard-btn');
             const dashStaffInfo = document.getElementById('dashboard-staff-info');
 
             if (isStaffAuthorized) {
@@ -1190,6 +1444,7 @@
                 if (boardStatus) boardStatus.innerText = `🟢 운영진 인증됨 (${currentStaffEmail}) - 전체 열람/답변/삭제 가능`;
                 if (boardBtn) boardBtn.innerText = "🔓 운영진 로그아웃";
                 if (navLogoutBtn) navLogoutBtn.classList.remove('hidden');
+                if (navDashBtn) navDashBtn.classList.remove('hidden');
                 if (dashStaffInfo) dashStaffInfo.innerText = `🟢 현재 로그인된 관리자: ${currentStaffEmail} (보안을 위해 사용 후 반드시 로그아웃하세요)`;
             } else {
                 if (noticeStatus) noticeStatus.innerText = "일반 모드 (공지 등록/삭제는 운영진 인증 필요)";
@@ -1197,8 +1452,10 @@
                 if (boardStatus) boardStatus.innerText = "일반 모드 (운영진 인증 시 전체 열람/답변/삭제 가능)";
                 if (boardBtn) boardBtn.innerText = "🔒 운영진 로그인";
                 if (navLogoutBtn) navLogoutBtn.classList.add('hidden');
+                if (navDashBtn) navDashBtn.classList.add('hidden');
                 if (dashStaffInfo) dashStaffInfo.innerText = '';
             }
+            loadStaffCountryResumeCounts();
         }
 
         // 어디서든 즉시 운영진 인증 정보를 파기하고 로그아웃하는 함수
@@ -1254,7 +1511,7 @@
                 updateStaffStatusUI();
                 document.getElementById('staff-auth-form').reset();
                 closeStaffModal();
-                alert('운영진 인증 완료! 공지 등록, 답변 작성 및 모든 게시글 삭제가 가능합니다.');
+                alert('운영진 인증 완료! 국가별 이력서 입수 현황 조회, 공지 등록, 답변 작성 및 삭제가 가능합니다.');
                 renderNoticeTable();
                 renderBoardTable();
                 loadHomeBoardPreview();
@@ -1300,7 +1557,7 @@
             document.getElementById('dashboard-screen').classList.remove('hidden');
             
             const tbody = document.getElementById('resume-table-body');
-            tbody.innerHTML = `<tr><td colspan="7" class="px-4 py-6 text-center text-gray-500">데이터를 불러오는 중...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="8" class="px-4 py-6 text-center text-gray-500">데이터를 불러오는 중...</td></tr>`;
 
             try {
                 const { data, error } = await supabaseClient
@@ -1310,28 +1567,37 @@
 
                 if (error) throw error;
 
-                // 게시판 백업용 레코드(__BOARD__) 및 삭제된 레코드(__DELETED__)는 제외
-                allResumes = (data || []).filter(r => r.country !== '__BOARD__' && r.country !== '__DELETED__');
+                // 게시판 백업용 레코드(__BOARD__) 및 삭제된 레코드(__DELETED__) 제외 후 Agency 정규화
+                allResumes = (data || [])
+                    .filter(r => r.country !== '__BOARD__' && r.country !== '__DELETED__')
+                    .map(normalizeResumeRow);
                 populateCountryFilterOptions();
                 applyDashboardFilters();
+                loadStaffCountryResumeCounts();
             } catch (err) {
                 console.error(err);
-                tbody.innerHTML = `<tr><td colspan="7" class="px-4 py-6 text-center text-red-500">데이터 로드 중 오류가 발생했습니다.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" class="px-4 py-6 text-center text-red-500">데이터 로드 중 오류가 발생했습니다.</td></tr>`;
             }
         }
 
         function populateCountryFilterOptions() {
             const select = document.getElementById('filter-country');
             const currentVal = select.value || 'ALL';
-            const defaultCountries = [
-                'Vietnam', 'Myanmar', 'Thailand', 'Indonesia', 'Cambodia', 'Philippines', 'East Timor', 'Laos',
-                'Mongolia', 'China', 'Uzbekistan', 'Kyrgyzstan', 'Tajikistan', 'Sri Lanka', 'Pakistan', 'Bangladesh', 'Nepal'
-            ];
+            const defaultCountries = ALL_COUNTRIES.map(c => c.name);
             const dataCountries = allResumes.map(r => r.country).filter(Boolean);
             const uniqueCountries = Array.from(new Set([...defaultCountries, ...dataCountries]));
 
-            select.innerHTML = `<option value="ALL">전체 국가 (All Countries)</option>` +
-                uniqueCountries.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+            const countByCountry = {};
+            allResumes.forEach(r => {
+                const c = (r.country || '').trim();
+                if (c) countByCountry[c] = (countByCountry[c] || 0) + 1;
+            });
+
+            select.innerHTML = `<option value="ALL">전체 국가 (All Countries - ${allResumes.length}건)</option>` +
+                uniqueCountries.map(c => {
+                    const cnt = countByCountry[c] || 0;
+                    return `<option value="${escapeHtml(c)}">${escapeHtml(c)} (${cnt}건)</option>`;
+                }).join('');
             select.value = uniqueCountries.includes(currentVal) ? currentVal : 'ALL';
         }
 
@@ -1346,9 +1612,9 @@
                     const rCountry = (r.country || '').trim();
                     if (rCountry !== countryVal) return false;
                 }
-                // 2. 검색어 필터 (이름, EPS ID, 전화번호, 국가)
+                // 2. 검색어 필터 (이름, EPS ID, 소속 에이전시, 전화번호, 국가)
                 if (keywordVal) {
-                    const haystack = `${r.full_name || ''} ${r.eps_id || ''} ${r.phone || ''} ${r.country || ''}`.toLowerCase();
+                    const haystack = `${r.full_name || ''} ${r.eps_id || ''} ${r.display_agency || ''} ${r.display_phone || ''} ${r.country || ''}`.toLowerCase();
                     if (!haystack.includes(keywordVal)) return false;
                 }
                 // 3. 등록일 필터
@@ -1386,7 +1652,7 @@
             if (selectAll) selectAll.checked = false;
 
             if (filteredResumes.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7" class="px-4 py-6 text-center text-gray-400">조건에 맞는 이력서 데이터가 없습니다.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" class="px-4 py-6 text-center text-gray-400">조건에 맞는 이력서 데이터가 없습니다.</td></tr>`;
                 return;
             }
 
@@ -1399,9 +1665,10 @@
                         </td>
                         <td class="px-4 py-3 text-xs text-gray-500">${escapeHtml(dateStr)}</td>
                         <td class="px-4 py-3 font-semibold text-blue-900">${escapeHtml(r.country || 'N/A')}</td>
+                        <td class="px-4 py-3 font-semibold text-indigo-700">${escapeHtml(r.display_agency || '-')}</td>
                         <td class="px-4 py-3 font-medium">${escapeHtml(r.eps_id)}</td>
                         <td class="px-4 py-3">${escapeHtml(r.full_name)}</td>
-                        <td class="px-4 py-3 text-gray-600 text-xs">${escapeHtml(r.phone || 'N/A')}</td>
+                        <td class="px-4 py-3 text-gray-600 text-xs">${escapeHtml(r.display_phone || 'N/A')}</td>
                         <td class="px-4 py-3 text-center space-x-1">
                             <a href="${escapeHtml(r.file_url)}" target="_blank" rel="noopener noreferrer" class="bg-blue-100 text-blue-800 px-3 py-1.5 rounded text-xs font-semibold hover:bg-blue-200 inline-block">
                                 📥 Download
@@ -1462,9 +1729,10 @@
                         const urlPath = r.file_url.split('?')[0];
                         const ext = urlPath.includes('.') ? urlPath.split('.').pop() : 'pdf';
                         const safeCountry = (r.country || 'Unknown').replace(/[\\/:*?"<>|]/g, '_');
+                        const safeAgency = (r.display_agency && r.display_agency !== '-' ? r.display_agency : 'NoAgency').replace(/[\\/:*?"<>|]/g, '_');
                         const safeEpsId = (r.eps_id || 'ID').replace(/[\\/:*?"<>|]/g, '_');
                         const safeName = (r.full_name || 'Applicant').replace(/[\\/:*?"<>|]/g, '_');
-                        const fileName = `${safeCountry}_${safeEpsId}_${safeName}_${r.id}.${ext}`;
+                        const fileName = `${safeCountry}_${safeAgency}_${safeEpsId}_${safeName}_${r.id}.${ext}`;
 
                         zip.file(fileName, blob);
                         successCount++;
@@ -1497,7 +1765,7 @@
             }
         }
 
-        // 필터링/선택된 지원자 명단 엑셀(CSV) 다운로드
+        // 필터링/선택된 지원자 명단 엑셀(CSV) 다운로드 (Agency 포함)
         function handleExportCsv() {
             const targets = getTargetResumesForDownload();
             if (targets.length === 0) {
@@ -1505,14 +1773,15 @@
                 return;
             }
 
-            const headers = ['ID', '등록일시(Date)', '국가(Country)', 'EPS-TOPIK ID', '성명(Full Name)', '전화번호(Phone)', '파일링크(File URL)'];
+            const headers = ['ID', '등록일시(Date)', '국가(Country)', '소속 에이전시(Agency)', 'EPS-TOPIK ID', '성명(Full Name)', '전화번호(Phone)', '파일링크(File URL)'];
             const rows = targets.map(r => [
                 r.id,
                 r.created_at ? new Date(r.created_at).toLocaleString() : '',
                 r.country || '',
+                r.display_agency || '-',
                 r.eps_id || '',
                 r.full_name || '',
-                r.phone || '',
+                r.display_phone || '',
                 r.file_url || ''
             ]);
 
@@ -1561,8 +1830,12 @@
 
                 const epsId = document.getElementById('eps-id').value.trim();
                 const fullName = document.getElementById('full-name').value.trim();
+                const agency = document.getElementById('agency').value.trim();
                 const phone = document.getElementById('phone').value.trim();
                 const password = document.getElementById('upload-password').value;
+
+                // 소속 에이전시(Agency)를 별도 스키마 변경 없이도 완벽히 보존하도록 결합 저장
+                const combinedPhoneWithAgency = agency ? `${phone} ||| ${agency}` : phone;
 
                 const safeCountry = currentCountry.replace(/[^a-zA-Z0-9_-]/g, '');
                 const safeEpsId = epsId.replace(/[^a-zA-Z0-9_-]/g, '') || 'user';
@@ -1582,7 +1855,7 @@
                     country: currentCountry, 
                     eps_id: epsId, 
                     full_name: fullName, 
-                    phone: phone, 
+                    phone: combinedPhoneWithAgency, 
                     password: password, 
                     file_url: data.publicUrl 
                 }]);
@@ -1591,7 +1864,7 @@
                     const retry = await supabaseClient.from('resumes').insert([{ 
                         eps_id: `[${currentCountry}] ${epsId}`, 
                         full_name: fullName, 
-                        phone: phone, 
+                        phone: combinedPhoneWithAgency, 
                         password: password, 
                         file_url: data.publicUrl 
                     }]);
@@ -1604,6 +1877,9 @@
                 
                 alert('제출이 완벽하게 완료되었습니다!'); 
                 document.getElementById('resume-form').reset();
+                if (isStaffAuthorized) {
+                    await loadStaffCountryResumeCounts();
+                }
                 goMainHome();
             } catch (err) {
                 alert('❌ 제출 중 에러 발생: ' + err.message);
