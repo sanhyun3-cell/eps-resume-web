@@ -125,44 +125,6 @@
                 </div>
             </div>
 
-            <!-- 운영진 로그인 시 메인 첫 화면에 표시되는 국가별 이력서 입수 현황 + 국가별 일괄 다운로드 + 중복 강제삭제 패널 -->
-            <div id="home-staff-country-summary" class="hidden bg-white shadow-xl rounded-xl p-6 border-t-4 border-emerald-600 space-y-5">
-                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3 border-b pb-4">
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-2.5 py-1 rounded-full">🟢 운영진 전용 관리 메뉴</span>
-                            <span id="home-total-resume-badge" class="bg-blue-900 text-white text-xs font-extrabold px-3 py-1 rounded-full shadow">총 0건 입수</span>
-                            <span id="home-dup-resume-badge" class="hidden bg-red-100 text-red-700 text-xs font-extrabold px-3 py-1 rounded-full">⚠️ 중복 0건</span>
-                        </div>
-                        <h3 class="text-lg font-extrabold text-gray-900 mt-1.5">📊 국가별 이력서 입수 현황 및 일괄 다운로드 / 강제삭제</h3>
-                        <p class="text-xs text-gray-500">국가 카드를 클릭하거나 우측 메뉴에서 국가별 이력서를 한 번에 ZIP으로 다운받고 중복 데이터를 강제삭제할 수 있습니다.</p>
-                    </div>
-                    <!-- 국가별 한번에 다운받기 & 중복 강제삭제 빠른 실행 바 -->
-                    <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto bg-gray-50 p-2.5 rounded-xl border border-gray-200">
-                        <select id="quick-country-dl-select" class="border border-gray-300 rounded-md p-2 text-xs font-bold bg-white text-gray-800">
-                            <option value="ALL">전체 국가 (All Countries)</option>
-                        </select>
-                        <button onclick="handleQuickCountryZipDownload('quick-country-dl-select', this)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-2 rounded-md shadow transition">
-                            📦 선택 국가 한번에 다운 (ZIP)
-                        </button>
-                        <button onclick="handleQuickCountryCsvDownload('quick-country-dl-select')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-2 rounded-md shadow transition">
-                            📋 명단(CSV) 다운
-                        </button>
-                        <button onclick="handleAutoCleanDuplicates()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-2 rounded-md shadow transition">
-                            🧹 중복 이력서 자동 강제삭제
-                        </button>
-                        <button onclick="showDashboard()" class="bg-gray-800 hover:bg-gray-900 text-white text-xs font-bold px-3 py-2 rounded-md shadow transition">
-                            🚨 전체 목록 / 강제삭제 관리 →
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 17개국 국가별 입수 건수 & 개별 국가 ZIP 다운로드 그리드 -->
-                <div id="home-country-count-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
-                    <!-- JS에서 17개국 입수 현황 및 국가별 ZIP 다운 버튼 자동 렌더링 -->
-                </div>
-            </div>
-
             <!-- 분리된 메인 프리뷰 (컴팩트 사이즈): 1) 공지사항(Notice) / 2) 지원 Q&A(Support Q&A) -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <!-- 공지사항 프리뷰 -->
@@ -211,7 +173,7 @@
                 </div>
             </div>
 
-            <div class="mt-12">
+            <div class="mt-10">
                 <a href="https://www.eps.go.kr/index.jsp" target="_blank" rel="noopener noreferrer" class="group relative block w-full rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
                     <div class="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition"></div>
                     <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="EPS Work24" class="w-full h-36 sm:h-48 object-cover">
@@ -220,6 +182,46 @@
                         <span class="text-xs font-semibold bg-blue-600 px-4 py-1.5 rounded-full" data-i18n="eps_banner_sub">Click to visit official site</span>
                     </div>
                 </a>
+            </div>
+        </div>
+
+        <!-- 운영진 전용 독립 화면: 국가별 이력서 입수 현황 + 국가별 일괄 다운로드 + 중복 강제삭제 -->
+        <div id="staff-country-screen" class="hidden space-y-6">
+            <div id="home-staff-country-summary" class="bg-white shadow-xl rounded-xl p-6 border-t-4 border-emerald-600 space-y-5">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3 border-b pb-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-2.5 py-1 rounded-full">🟢 운영진 전용 관리 메뉴</span>
+                            <span id="home-total-resume-badge" class="bg-blue-900 text-white text-xs font-extrabold px-3 py-1 rounded-full shadow">총 0건 입수</span>
+                            <span id="home-dup-resume-badge" class="hidden bg-red-100 text-red-700 text-xs font-extrabold px-3 py-1 rounded-full">⚠️ 중복 0건</span>
+                        </div>
+                        <h3 class="text-lg font-extrabold text-gray-900 mt-1.5">📊 국가별 이력서 입수 현황 및 일괄 다운로드 / 강제삭제</h3>
+                        <p class="text-xs text-gray-500">국가 카드를 클릭하거나 우측 메뉴에서 국가별 이력서를 한 번에 ZIP으로 다운받고 중복 데이터를 강제삭제할 수 있습니다.</p>
+                    </div>
+                    <!-- 국가별 한번에 다운받기 & 중복 강제삭제 빠른 실행 바 -->
+                    <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+                        <select id="quick-country-dl-select" class="border border-gray-300 rounded-md p-2 text-xs font-bold bg-white text-gray-800">
+                            <option value="ALL">전체 국가 (All Countries)</option>
+                        </select>
+                        <button onclick="handleQuickCountryZipDownload('quick-country-dl-select', this)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-2 rounded-md shadow transition">
+                            📦 선택 국가 한번에 다운 (ZIP)
+                        </button>
+                        <button onclick="handleQuickCountryCsvDownload('quick-country-dl-select')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-2 rounded-md shadow transition">
+                            📋 명단(CSV) 다운
+                        </button>
+                        <button onclick="handleAutoCleanDuplicates()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-2 rounded-md shadow transition">
+                            🧹 중복 이력서 자동 강제삭제
+                        </button>
+                        <button onclick="showDashboard()" class="bg-gray-800 hover:bg-gray-900 text-white text-xs font-bold px-3 py-2 rounded-md shadow transition">
+                            🚨 전체 목록 / 강제삭제 관리 →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 17개국 국가별 입수 건수 & 개별 국가 ZIP 다운로드 그리드 -->
+                <div id="home-country-count-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
+                    <!-- JS에서 17개국 입수 현황 및 국가별 ZIP 다운 버튼 자동 렌더링 -->
+                </div>
             </div>
         </div>
 
@@ -1042,7 +1044,7 @@
         });
 
         function hideAllScreens() {
-            ['main-home-screen', 'asia-map-screen', 'action-screen', 'upload-screen', 'qna-screen', 'notice-screen', 'board-screen', 'admin-screen', 'dashboard-screen'].forEach(id => {
+            ['main-home-screen', 'staff-country-screen', 'asia-map-screen', 'action-screen', 'upload-screen', 'qna-screen', 'notice-screen', 'board-screen', 'admin-screen', 'dashboard-screen'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.add('hidden');
             });
@@ -1050,8 +1052,8 @@
         function goMainHome() {
             hideAllScreens();
             document.getElementById('main-home-screen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             loadHomeBoardPreview();
-            if (isStaffAuthorized) loadStaffCountryResumeCounts();
         }
         function showAsiaMapScreen() {
             hideAllScreens();
@@ -1752,14 +1754,9 @@
                 return;
             }
             hideAllScreens();
-            document.getElementById('main-home-screen').classList.remove('hidden');
-            loadStaffCountryResumeCounts().then(() => {
-                const el = document.getElementById('home-staff-country-summary');
-                if (el) {
-                    el.classList.remove('hidden');
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
+            document.getElementById('staff-country-screen').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            loadStaffCountryResumeCounts();
         }
 
         function updateStaffStatusUI() {
@@ -1812,7 +1809,8 @@
             renderNoticeTable();
             renderBoardTable();
             loadHomeBoardPreview();
-            if (!document.getElementById('dashboard-screen').classList.contains('hidden')) {
+            if (!document.getElementById('dashboard-screen').classList.contains('hidden') ||
+                !document.getElementById('staff-country-screen').classList.contains('hidden')) {
                 goMainHome();
             }
             if (showAlert) {
@@ -1855,6 +1853,7 @@
                 renderNoticeTable();
                 renderBoardTable();
                 loadHomeBoardPreview();
+                goStaffCountryOverview();
             }
         }
 
