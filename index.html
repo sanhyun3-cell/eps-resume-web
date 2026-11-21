@@ -22,17 +22,59 @@
             100% { background-color: #f3f4f6; color: #1f2937; transform: scale(1); }
         }
         .country-card-blink { animation: white-pulse 3s infinite ease-in-out; }
+
+        /* 이력서 제출 메인 버튼 반짝임 + 시인성 극대화 애니메이션 */
+        @keyframes cta-glow {
+            0%, 100% {
+                box-shadow: 0 0 14px rgba(251, 191, 36, 0.75), 0 0 28px rgba(245, 158, 11, 0.45);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 24px rgba(254, 240, 138, 1), 0 0 46px rgba(251, 191, 36, 0.9);
+                transform: scale(1.045);
+            }
+        }
+        @keyframes cta-shine {
+            0% { left: -75%; }
+            55%, 100% { left: 130%; }
+        }
+        .hero-cta-sparkle {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%);
+            color: #0f172a;
+            border: 2px solid #fef08a;
+            animation: cta-glow 2s infinite ease-in-out;
+        }
+        .hero-cta-sparkle:hover {
+            background: linear-gradient(135deg, #fbbf24 0%, #fde047 50%, #fb923c 100%);
+            transform: scale(1.07);
+        }
+        .hero-cta-sparkle::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            animation: cta-shine 2.4s infinite ease-in-out;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
     <nav class="bg-eps text-white shadow-md py-4 sm:py-5 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex flex-col items-center md:items-start cursor-pointer" onclick="goMainHome()">
-                    <span class="font-extrabold text-2xl sm:text-3xl tracking-wide">LGK(Let's Go Korea)</span>
-                    <span class="text-xs text-blue-200" data-i18n="nav_subtitle">EPS Employment Support Portal</span>
+                <div class="flex flex-col items-center md:items-start cursor-pointer group" onclick="goMainHome()">
+                    <span class="font-black text-2xl sm:text-3xl tracking-wide drop-shadow-sm">
+                        <span class="bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent">LGK</span><span class="text-white/95 font-bold text-xl sm:text-2xl">(Let's Go </span><span class="text-sky-300 font-extrabold text-xl sm:text-2xl">Korea)</span>
+                    </span>
+                    <span class="text-xs text-blue-200 font-medium" data-i18n="nav_subtitle">EPS Employment Support Portal</span>
                 </div>
-                <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm">
+                <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 text-xs sm:text-sm">
                     <button onclick="goMainHome()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-md font-semibold transition" data-i18n="nav_home">🏠 Home</button>
                     <button onclick="showNoticeScreen()" class="bg-blue-800 hover:bg-blue-700 px-3 py-1.5 rounded-md font-semibold transition" data-i18n="nav_notice">📢 Notice</button>
                     <button onclick="showBoardScreen()" class="bg-indigo-700 hover:bg-indigo-600 px-3 py-1.5 rounded-md font-semibold transition" data-i18n="nav_board">❓ Support Q&A</button>
@@ -42,9 +84,12 @@
                     <button id="nav-staff-login-btn" onclick="toggleStaffLogin()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-md font-semibold transition">
                         🔒 운영진 로그인
                     </button>
-                    <!-- 운영진 로그인 상태일 때만 보이는 전용 메뉴 & 로그아웃 버튼 -->
+                    <!-- 운영진 로그인 상태일 때 상단에 바로 표시되는 국가별 입수현황/일괄다운 바로가기 & 강제삭제 관리 & 로그아웃 -->
+                    <button id="nav-staff-country-btn" onclick="goStaffCountryOverview()" class="hidden bg-teal-500 hover:bg-teal-400 text-slate-950 px-3 py-1.5 rounded-md font-extrabold transition shadow">
+                        🌍 국가별 입수현황/일괄다운
+                    </button>
                     <button id="nav-staff-dashboard-btn" onclick="showDashboard()" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-md font-bold transition shadow">
-                        📊 국가별 이력서/삭제 관리
+                        📊 이력서 관리/강제삭제
                     </button>
                     <button id="nav-staff-logout-btn" onclick="forceStaffLogout()" class="hidden bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-md font-bold transition shadow">
                         🔓 운영진 로그아웃
@@ -59,19 +104,24 @@
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto mt-6 sm:mt-8 px-4 sm:px-6 pb-16 space-y-10">
+    <main class="max-w-6xl mx-auto mt-6 sm:mt-8 px-4 sm:px-6 pb-16 space-y-8">
         
         <!-- 메인 홈페이지 -->
-        <div id="main-home-screen" class="space-y-10">
-            <div class="relative w-full rounded-2xl overflow-hidden shadow-xl h-48 sm:h-72 flex items-center justify-center bg-gray-900">
-                <div class="absolute inset-0 bg-black bg-opacity-45"></div>
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Working together" class="absolute inset-0 w-full h-full object-cover">
-                <div class="relative z-10 text-center text-white p-4 space-y-2">
-                    <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight drop-shadow-md" data-i18n="hero_title">Land of Opportunity, Let's Go to Korea!</h1>
-                    <p class="text-xs sm:text-sm text-blue-100 font-medium" data-i18n="hero_desc">외국인 근로자를 위한 안전하고 신뢰할 수 있는 고용 및 이력서 지원 포털</p>
-                    <button onclick="showAsiaMapScreen()" class="mt-3 bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3 rounded-full shadow-lg text-sm sm:text-base transition transform hover:scale-105" data-i18n="hero_btn">
-                        🌍 국가별 이력서 다운/제출 (Asia Network)
-                    </button>
+        <div id="main-home-screen" class="space-y-8">
+            <!-- 메인 히어로 배너 (더 크고 강조된 디자인 + 반짝이는 이력서 제출 버튼) -->
+            <div class="relative w-full rounded-2xl overflow-hidden shadow-2xl h-72 sm:h-96 md:h-[420px] flex items-center justify-center bg-gray-900 border border-blue-900/20">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/65 z-[1]"></div>
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80" alt="Working together" class="absolute inset-0 w-full h-full object-cover">
+                <div class="relative z-10 text-center text-white px-5 py-6 space-y-4 max-w-3xl">
+                    <h1 class="text-3xl sm:text-5xl md:text-5xl font-black tracking-tight drop-shadow-lg leading-tight" data-i18n="hero_title">Land of Opportunity, Let's Go to Korea!</h1>
+                    <p class="text-sm sm:text-lg text-blue-100 font-semibold drop-shadow" data-i18n="hero_desc">외국인 근로자를 위한 안전하고 신뢰할 수 있는 고용 및 이력서 지원 포털</p>
+                    <div class="pt-3">
+                        <button onclick="showAsiaMapScreen()" class="hero-cta-sparkle inline-flex items-center justify-center gap-2 font-black px-7 sm:px-10 py-4 rounded-full text-sm sm:text-lg transition cursor-pointer shadow-2xl">
+                            <span>✨</span>
+                            <span data-i18n="hero_btn">🌍 Resume Download / Submit by Country (Asia Network)</span>
+                            <span>✨</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -113,48 +163,48 @@
                 </div>
             </div>
 
-            <!-- 분리된 메인 프리뷰: 1) 공지사항(Notice) / 2) 지원 Q&A(Support Q&A) -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- 분리된 메인 프리뷰 (컴팩트 사이즈): 1) 공지사항(Notice) / 2) 지원 Q&A(Support Q&A) -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <!-- 공지사항 프리뷰 -->
-                <div class="bg-white shadow-md rounded-xl p-6 border-t-4 border-blue-700">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-bold text-gray-900" data-i18n="home_notice_title">📢 공지사항 (Notice)</h3>
+                <div class="bg-white shadow-sm rounded-xl p-4 border-t-4 border-blue-700">
+                    <div class="flex justify-between items-center mb-2.5">
+                        <h3 class="text-sm sm:text-base font-bold text-gray-900" data-i18n="home_notice_title">📢 공지사항 (Notice)</h3>
                         <button onclick="showNoticeScreen()" class="text-xs text-blue-700 font-bold hover:underline" data-i18n="home_board_more">전체보기 →</button>
                     </div>
                     <div class="border rounded-lg overflow-hidden">
-                        <table class="min-w-full divide-y divide-gray-200 text-left text-xs sm:text-sm">
+                        <table class="min-w-full divide-y divide-gray-200 text-left text-xs">
                             <thead class="bg-gray-50 text-gray-700 font-semibold">
                                 <tr>
-                                    <th class="px-3 py-2.5 w-12">No</th>
-                                    <th class="px-3 py-2.5" data-i18n="th_title">Title</th>
-                                    <th class="px-3 py-2.5 w-24" data-i18n="th_author">Author</th>
+                                    <th class="px-2.5 py-1.5 w-10">No</th>
+                                    <th class="px-2.5 py-1.5" data-i18n="th_title">Title</th>
+                                    <th class="px-2.5 py-1.5 w-24" data-i18n="th_author">Author</th>
                                 </tr>
                             </thead>
                             <tbody id="home-notice-preview" class="divide-y divide-gray-200 bg-white">
-                                <tr><td colspan="3" class="px-4 py-4 text-center text-gray-400">공지사항을 불러오는 중...</td></tr>
+                                <tr><td colspan="3" class="px-3 py-3 text-center text-gray-400">공지사항을 불러오는 중...</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
                 <!-- Support Q&A 프리뷰 -->
-                <div class="bg-white shadow-md rounded-xl p-6 border-t-4 border-indigo-600">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-bold text-gray-900" data-i18n="home_qna_title">❓ 지원 Q&A (Support Q&A)</h3>
+                <div class="bg-white shadow-sm rounded-xl p-4 border-t-4 border-indigo-600">
+                    <div class="flex justify-between items-center mb-2.5">
+                        <h3 class="text-sm sm:text-base font-bold text-gray-900" data-i18n="home_qna_title">❓ 지원 Q&A (Support Q&A)</h3>
                         <button onclick="showBoardScreen()" class="text-xs text-indigo-600 font-bold hover:underline" data-i18n="home_board_more">전체보기 →</button>
                     </div>
                     <div class="border rounded-lg overflow-hidden">
-                        <table class="min-w-full divide-y divide-gray-200 text-left text-xs sm:text-sm">
+                        <table class="min-w-full divide-y divide-gray-200 text-left text-xs">
                             <thead class="bg-gray-50 text-gray-700 font-semibold">
                                 <tr>
-                                    <th class="px-3 py-2.5 w-12">No</th>
-                                    <th class="px-3 py-2.5" data-i18n="th_title">Title</th>
-                                    <th class="px-3 py-2.5 w-20" data-i18n="th_author">Author</th>
-                                    <th class="px-3 py-2.5 w-20 text-center" data-i18n="th_status">Status</th>
+                                    <th class="px-2.5 py-1.5 w-10">No</th>
+                                    <th class="px-2.5 py-1.5" data-i18n="th_title">Title</th>
+                                    <th class="px-2.5 py-1.5 w-24" data-i18n="th_author">Author</th>
+                                    <th class="px-2.5 py-1.5 w-16 text-center" data-i18n="th_status">Status</th>
                                 </tr>
                             </thead>
                             <tbody id="home-board-preview" class="divide-y divide-gray-200 bg-white">
-                                <tr><td colspan="4" class="px-4 py-4 text-center text-gray-400">문의글을 불러오는 중...</td></tr>
+                                <tr><td colspan="4" class="px-3 py-3 text-center text-gray-400">문의글을 불러오는 중...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -1372,20 +1422,20 @@
                 const qnas = getQnaPosts().slice(0, 4);
 
                 if (notices.length === 0) {
-                    noticeTbody.innerHTML = `<tr><td colspan="3" class="px-3 py-4 text-center text-gray-400">등록된 공지사항이 없습니다.</td></tr>`;
+                    noticeTbody.innerHTML = `<tr><td colspan="3" class="px-3 py-3 text-center text-gray-400">등록된 공지사항이 없습니다.</td></tr>`;
                 } else {
                     const totalNotices = getNoticePosts().length;
                     noticeTbody.innerHTML = notices.map((p, idx) => `
                         <tr class="hover:bg-blue-50/50 cursor-pointer" onclick="openNoticeFromHome(${Number(p.id)})">
-                            <td class="px-3 py-2.5 text-gray-500">${totalNotices - idx}</td>
-                            <td class="px-3 py-2.5 font-bold text-blue-900">📢 ${escapeHtml(p.title)}</td>
-                            <td class="px-3 py-2.5 text-gray-600 text-xs">${escapeHtml(p.author)}</td>
+                            <td class="px-2.5 py-1.5 text-gray-500">${totalNotices - idx}</td>
+                            <td class="px-2.5 py-1.5 font-bold text-blue-900 truncate max-w-[200px]">📢 ${escapeHtml(p.title)}</td>
+                            <td class="px-2.5 py-1.5 text-gray-600 text-[11px] truncate">${escapeHtml(p.author)}</td>
                         </tr>
                     `).join('');
                 }
 
                 if (qnas.length === 0) {
-                    qnaTbody.innerHTML = `<tr><td colspan="4" class="px-3 py-4 text-center text-gray-400">등록된 문의글이 없습니다.</td></tr>`;
+                    qnaTbody.innerHTML = `<tr><td colspan="4" class="px-3 py-3 text-center text-gray-400">등록된 문의글이 없습니다.</td></tr>`;
                 } else {
                     const totalQnas = getQnaPosts().length;
                     qnaTbody.innerHTML = qnas.map((p, idx) => {
@@ -1393,14 +1443,14 @@
                             ? `🔓 ${escapeHtml(p.title)}`
                             : `🔒 ******************** (비밀글)`;
                         const statusBadge = p.reply
-                            ? '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-semibold">답변완료</span>'
-                            : '<span class="bg-gray-100 text-gray-500 px-2 py-0.5 rounded text-xs">대기중</span>';
+                            ? '<span class="bg-green-100 text-green-700 px-1.5 py-0.5 rounded text-[10px] font-semibold whitespace-nowrap">답변완료</span>'
+                            : '<span class="bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded text-[10px] whitespace-nowrap">대기중</span>';
                         return `
                             <tr class="hover:bg-gray-50 cursor-pointer" onclick="showBoardScreen()">
-                                <td class="px-3 py-2.5 text-gray-500">${totalQnas - idx}</td>
-                                <td class="px-3 py-2.5 font-medium text-gray-900">${displayTitle}</td>
-                                <td class="px-3 py-2.5 text-gray-600 text-xs">${escapeHtml(p.author)}</td>
-                                <td class="px-3 py-2.5 text-center">${statusBadge}</td>
+                                <td class="px-2.5 py-1.5 text-gray-500">${totalQnas - idx}</td>
+                                <td class="px-2.5 py-1.5 font-medium text-gray-900 truncate max-w-[180px]">${displayTitle}</td>
+                                <td class="px-2.5 py-1.5 text-gray-600 text-[11px] truncate">${escapeHtml(p.author)}</td>
+                                <td class="px-2.5 py-1.5 text-center">${statusBadge}</td>
                             </tr>
                         `;
                     }).join('');
@@ -1696,12 +1746,29 @@
         // =========================================================================
         // 운영진 / 관리자 인증 및 세션 완전 파기 (로그아웃)
         // =========================================================================
+        function goStaffCountryOverview() {
+            if (!isStaffAuthorized) {
+                toggleStaffLogin();
+                return;
+            }
+            hideAllScreens();
+            document.getElementById('main-home-screen').classList.remove('hidden');
+            loadStaffCountryResumeCounts().then(() => {
+                const el = document.getElementById('home-staff-country-summary');
+                if (el) {
+                    el.classList.remove('hidden');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        }
+
         function updateStaffStatusUI() {
             const noticeStatus = document.getElementById('notice-staff-status');
             const noticeBtn = document.getElementById('notice-staff-btn');
             const boardStatus = document.getElementById('board-staff-status');
             const boardBtn = document.getElementById('board-staff-btn');
             const navLoginBtn = document.getElementById('nav-staff-login-btn');
+            const navCountryBtn = document.getElementById('nav-staff-country-btn');
             const navLogoutBtn = document.getElementById('nav-staff-logout-btn');
             const navDashBtn = document.getElementById('nav-staff-dashboard-btn');
             const dashStaffInfo = document.getElementById('dashboard-staff-info');
@@ -1712,6 +1779,7 @@
                 if (boardStatus) boardStatus.innerText = `🟢 운영진 인증됨 (${currentStaffEmail}) - 전체 열람/답변/삭제 가능`;
                 if (boardBtn) boardBtn.innerText = "🔓 운영진 로그아웃";
                 if (navLoginBtn) navLoginBtn.classList.add('hidden');
+                if (navCountryBtn) navCountryBtn.classList.remove('hidden');
                 if (navLogoutBtn) navLogoutBtn.classList.remove('hidden');
                 if (navDashBtn) navDashBtn.classList.remove('hidden');
                 if (dashStaffInfo) dashStaffInfo.innerText = `🟢 현재 로그인된 운영진: ${currentStaffEmail} (국가별 일괄 다운로드 및 중복/불량 데이터 강제삭제 가능)`;
@@ -1721,6 +1789,7 @@
                 if (boardStatus) boardStatus.innerText = "일반 모드 (운영진 인증 시 전체 열람/답변/삭제 가능)";
                 if (boardBtn) boardBtn.innerText = "🔒 운영진 로그인";
                 if (navLoginBtn) navLoginBtn.classList.remove('hidden');
+                if (navCountryBtn) navCountryBtn.classList.add('hidden');
                 if (navLogoutBtn) navLogoutBtn.classList.add('hidden');
                 if (navDashBtn) navDashBtn.classList.add('hidden');
                 if (dashStaffInfo) dashStaffInfo.innerText = '';
