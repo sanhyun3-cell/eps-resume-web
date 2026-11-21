@@ -84,12 +84,9 @@
                     <button id="nav-staff-login-btn" onclick="toggleStaffLogin()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-md font-semibold transition">
                         🔒 운영진 로그인
                     </button>
-                    <!-- 운영진 로그인 상태일 때 상단에 바로 표시되는 국가별 입수현황/일괄다운 바로가기 & 강제삭제 관리 & 로그아웃 -->
-                    <button id="nav-staff-country-btn" onclick="goStaffCountryOverview()" class="hidden bg-teal-500 hover:bg-teal-400 text-slate-950 px-3 py-1.5 rounded-md font-extrabold transition shadow">
-                        🌍 국가별 입수현황/일괄다운
-                    </button>
-                    <button id="nav-staff-dashboard-btn" onclick="showDashboard()" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-md font-bold transition shadow">
-                        📊 이력서 관리/강제삭제
+                    <!-- 운영진 로그인 상태일 때 상단에 바로 표시되는 통합 관리 메뉴 & 로그아웃 버튼 -->
+                    <button id="nav-staff-dashboard-btn" onclick="showDashboard()" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-1.5 rounded-md font-extrabold transition shadow">
+                        📊 운영진 이력서 통합관리
                     </button>
                     <button id="nav-staff-logout-btn" onclick="forceStaffLogout()" class="hidden bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-md font-bold transition shadow">
                         🔓 운영진 로그아웃
@@ -1749,14 +1746,7 @@
         // 운영진 / 관리자 인증 및 세션 완전 파기 (로그아웃)
         // =========================================================================
         function goStaffCountryOverview() {
-            if (!isStaffAuthorized) {
-                toggleStaffLogin();
-                return;
-            }
-            hideAllScreens();
-            document.getElementById('staff-country-screen').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            loadStaffCountryResumeCounts();
+            showDashboard();
         }
 
         function updateStaffStatusUI() {
@@ -1765,7 +1755,6 @@
             const boardStatus = document.getElementById('board-staff-status');
             const boardBtn = document.getElementById('board-staff-btn');
             const navLoginBtn = document.getElementById('nav-staff-login-btn');
-            const navCountryBtn = document.getElementById('nav-staff-country-btn');
             const navLogoutBtn = document.getElementById('nav-staff-logout-btn');
             const navDashBtn = document.getElementById('nav-staff-dashboard-btn');
             const dashStaffInfo = document.getElementById('dashboard-staff-info');
@@ -1776,7 +1765,6 @@
                 if (boardStatus) boardStatus.innerText = `🟢 운영진 인증됨 (${currentStaffEmail}) - 전체 열람/답변/삭제 가능`;
                 if (boardBtn) boardBtn.innerText = "🔓 운영진 로그아웃";
                 if (navLoginBtn) navLoginBtn.classList.add('hidden');
-                if (navCountryBtn) navCountryBtn.classList.remove('hidden');
                 if (navLogoutBtn) navLogoutBtn.classList.remove('hidden');
                 if (navDashBtn) navDashBtn.classList.remove('hidden');
                 if (dashStaffInfo) dashStaffInfo.innerText = `🟢 현재 로그인된 운영진: ${currentStaffEmail} (국가별 일괄 다운로드 및 중복/불량 데이터 강제삭제 가능)`;
@@ -1786,7 +1774,6 @@
                 if (boardStatus) boardStatus.innerText = "일반 모드 (운영진 인증 시 전체 열람/답변/삭제 가능)";
                 if (boardBtn) boardBtn.innerText = "🔒 운영진 로그인";
                 if (navLoginBtn) navLoginBtn.classList.remove('hidden');
-                if (navCountryBtn) navCountryBtn.classList.add('hidden');
                 if (navLogoutBtn) navLogoutBtn.classList.add('hidden');
                 if (navDashBtn) navDashBtn.classList.add('hidden');
                 if (dashStaffInfo) dashStaffInfo.innerText = '';
@@ -1853,7 +1840,7 @@
                 renderNoticeTable();
                 renderBoardTable();
                 loadHomeBoardPreview();
-                goStaffCountryOverview();
+                showDashboard();
             }
         }
 
